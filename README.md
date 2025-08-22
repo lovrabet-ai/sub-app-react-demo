@@ -1,6 +1,8 @@
-# React SPA 应用
+# Vite React SPA 应用
 
-这是一个使用现代化技术栈构建的 React 单页应用（SPA）。
+这是一个使用 Vite 构建的 React 单页应用（SPA）。
+
+演示如何使用 icestark 微前端方案进行最小化改造，使其能够嵌入 Lovrabet 生产的应用中混合使用。
 
 ## 技术栈
 
