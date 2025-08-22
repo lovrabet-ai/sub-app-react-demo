@@ -1,0 +1,100 @@
+import React from "react";
+import { isInIcestark } from "@ice/stark-app";
+import { Outlet, useNavigate, useLocation } from "react-router";
+import { Layout, Menu, theme } from "antd";
+import { HomeOutlined, UserOutlined, SettingOutlined } from "@ant-design/icons";
+
+const { Header, Sider, Content } = Layout;
+
+const MainLayout: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
+  const menuItems = [
+    {
+      key: "/",
+      icon: <HomeOutlined />,
+      label: "首页",
+    },
+    {
+      key: "/about",
+      icon: <UserOutlined />,
+      label: "关于我们",
+    },
+    {
+      key: "/settings",
+      icon: <SettingOutlined />,
+      label: "设置",
+    },
+  ];
+
+  const handleMenuClick = ({ key }: { key: string }) => {
+    navigate(key);
+  };
+
+  // 如果被嵌入在 icestark 应用中, 则直接渲染内容, 不渲染布局导航
+  if (isInIcestark()) {
+    return (
+      <div style={{ padding: "16px 20px" }}>
+        <Outlet />
+      </div>
+    );
+  }
+
+  return (
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="0"
+        style={{
+          background: colorBgContainer,
+        }}
+      >
+        <div
+          style={{
+            height: 32,
+            margin: 16,
+            background: "rgba(255, 255, 255, 0.2)",
+            textAlign: "center",
+          }}
+        >
+          <img src="/vite.svg" alt="logo" />
+        </div>
+        <Menu
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={menuItems}
+          onClick={handleMenuClick}
+          style={{ height: "100%", borderRight: 0 }}
+        />
+      </Sider>
+      <Layout>
+        <Header style={{ padding: 0, background: colorBgContainer }}>
+          <div
+            style={{ padding: "0 24px", fontSize: "18px", fontWeight: "bold" }}
+          >
+            React SPA 应用
+          </div>
+        </Header>
+        <Content style={{ margin: "0 16px" }}>
+          <div
+            style={{
+              padding: 24,
+              minHeight: 360,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+              margin: "16px 0",
+            }}
+          >
+            <Outlet />
+          </div>
+        </Content>
+      </Layout>
+    </Layout>
+  );
+};
+
+export default MainLayout;

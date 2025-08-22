@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "target": "es2017",
+    "module": "es2022",
+    "strict": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ESNext", "DOM"],
+    "jsx": "react",
+    "declaration": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@": ["./src"],
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "types"]
+}
