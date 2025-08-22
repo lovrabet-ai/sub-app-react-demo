@@ -5,7 +5,6 @@ import react from "@vitejs/plugin-react";
 import htmlPlugin from "vite-plugin-index-html";
 import pluginExternal from "vite-plugin-external";
 import pkgJson from "./package.json";
-// import { visualizer } from "rollup-plugin-visualizer";
 
 const version = pkgJson.version;
 const appName = pkgJson.name.split("/").pop();
@@ -13,7 +12,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
-  const isDev = mode === "development";
   const env = loadEnv(mode, __dirname);
   const PORT = Number(env.VITE_APP_PORT) || 5173;
   const isCdn = Boolean(process.env.CDN_DOMAIN);
@@ -23,18 +21,9 @@ export default defineConfig(async ({ mode }) => {
   return {
     base,
     envDir: __dirname,
-    define: {
-      APP_NAME: JSON.stringify(appName),
-      VITE_LOWCODE_PORT: JSON.stringify(env.VITE_LOWCODE_PORT),
-      VERSION: JSON.stringify(version),
-      PUBLISH_DATE: JSON.stringify(
-        new Date()
-          .toLocaleString("sv-SE", { timeZone: "Asia/Shanghai" })
-          .replace(" ", "T") + "+0800",
-      ),
-    },
     plugins: [
       react(),
+      // 关键配置：提供 vite lib 打包 + html plugin 能力
       htmlPlugin({
         input: "src/main.tsx",
         preserveEntrySignatures: "exports-only",
@@ -47,36 +36,29 @@ export default defineConfig(async ({ mode }) => {
           dayjs: "dayjs",
         },
       }),
-      // visualizer({
-      //   filename: "dist/stats.html",
-      //   open: true,
-      //   gzipSize: true,
-      //   brotliSize: true,
-      // }),
     ],
     resolve: {
       alias: {
         "@": "/src",
       },
     },
-    server: isDev
-      ? {
-          port: PORT,
-          open: `https://dev.yuntooai.com:${PORT}`,
-          strictPort: true,
-          host: "dev.yuntooai.com",
-          https: await (
-            await fetch("https://g.yuntooai.com/cert/dev.json")
-          ).json(),
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers":
-              "X-Requested-With, Content-Type, Authorization",
-          },
-        }
-      : undefined,
+    // 可选配置：提供https自签名证书及跨域访问能力
+    // 因为接口域名为 api.yuntooai.com 存在跨域，服务端配置了允许 dev.yuntooai.com 的跨域请求，从而实现本地开发能够正常请求接口
+    // 这些配置不是必须的，你也可以使用 proxy 等任意手段自行处理跨域问题
+    server: {
+      port: PORT,
+      open: `https://dev.yuntooai.com:${PORT}`,
+      strictPort: true,
+      host: "dev.yuntooai.com",
+      https: await (await fetch("https://g.yuntooai.com/cert/dev.json")).json(),
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "X-Requested-With, Content-Type, Authorization",
+      },
+    },
     build: {
       outDir,
       target: "esnext",
@@ -91,34 +73,5 @@ export default defineConfig(async ({ mode }) => {
     optimizeDeps: {
       include: ["react", "react-dom", "antd", "dayjs"],
     },
-    // build: {
-    //   target: "esnext",
-    //   outDir: "dist",
-    //   sourcemap: true,
-    //   lib: {
-    //     entry: "./src/main.tsx",
-    //     formats: ["es"],
-    //     fileName: "index",
-    //   },
-    //   rollupOptions: {
-    //     preserveEntrySignatures: "exports-only",
-    //     output: {
-    //       // manualChunks: {
-    //       //   router: ["react-router"],
-    //       //   icons: ["@ant-design/icons"],
-    //       // },
-    //       // chunkFileNames: `assets/[name].js`,
-    //       entryFileNames: `assets/[name].js`,
-    //       assetFileNames: `assets/[name].css`,
-    //     },
-    //   },
-    // },
-    // css: {
-    //   preprocessorOptions: {
-    //     less: {
-    //       javascriptEnabled: true,
-    //     },
-    //   },
-    // },
   };
 });

@@ -35,7 +35,7 @@ const MainLayout: React.FC = () => {
     navigate(key);
   };
 
-  // 如果被嵌入在 icestark 应用中, 则直接渲染内容, 不渲染布局导航
+  // 可选：根据isInIcestark()判断当前运行环境，被嵌入时，不渲染layout布局
   if (isInIcestark()) {
     return (
       <div style={{ padding: "16px 20px" }}>

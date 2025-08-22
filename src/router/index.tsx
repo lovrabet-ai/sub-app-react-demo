@@ -28,8 +28,9 @@ const router = createBrowserRouter(
     },
   ],
   {
+    // 可选：通过getBasename()获取到微应用运行时的basename并传入
     basename: getBasename() || "/",
-  }
+  },
 );
 
 console.log("MicroAppRouter:", {
