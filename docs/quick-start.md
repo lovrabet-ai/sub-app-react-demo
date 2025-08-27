@@ -370,11 +370,9 @@ export default defineConfig(async ({ mode }) => {
 })
 ```
 
-### Step 2: 直接请求真实接口
+### Step 2: API请求封装（核心配置）
 
-#### 2.2 API请求封装（核心配置）
-
-**🔑 关键点：跨域请求必须配置 `credentials: 'include'` 来携带Cookie**
+**🔑 关键点：直接请求真实接口的跨域问题必须配置 `credentials: 'include'` 来携带Cookie**
 
 ```javascript
 // 简单封装 apiRequest - 这是最简单有效的实现
