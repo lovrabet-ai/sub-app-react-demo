@@ -12,7 +12,12 @@
 
 ### Step 1: 下载GitHub仓库
 ```bash
-git clone https://github.com/lovrabet-ai/sub-app-react-demo.git
+# 推荐使用SSH（需要配置GitHub SSH密钥）
+git clone git@github.com:lovrabet-ai/sub-app-react-demo.git
+
+# 或使用HTTPS（适合快速体验）
+# git clone https://github.com/lovrabet-ai/sub-app-react-demo.git
+
 cd sub-app-react-demo
 git checkout main
 ```
@@ -52,31 +57,39 @@ npm run build
 #### 选项A：使用业务方已有CDN
 ```bash
 # 将 dist/ 目录内容上传到您的CDN
-# 例如：https://your-cdn.com/react-hello-world/
+# 例如：https://your-cdn.com/sub-app-react-demo/
 ```
 
-#### 选项B：使用Lovrabet临时CDN服务（仅供功能体验）
+#### 选项B：使用Lovrabet临时CDN服务
 ```bash
-# 联系Lovrabet的技术支持获取临时CDN上传地址
+# 联系Lovrabet的技术支持 @风月 获取临时CDN上传地址，仅用于功能体验，3天后CDN链接会失效
 ```
 
 **CDN验证**：
-- 确认可访问：`https://your-cdn.com/dist/assets/main.js`
-- 确认可访问：`https://your-cdn.com/dist/assets/main.css`
+- 确认JS文件可访问：
+  - 🔧 **您的CDN格式**：`https://your-cdn.com/sub-app-react-demo/dist/assets/main.js`
+  - 📌 **演示环境示例**：`https://g.yuntooai.com/dist/sub-app-react-demo/202508271755/main.js`
+- 确认CSS文件可访问：
+  - 🔧 **您的CDN格式**：`https://your-cdn.com/sub-app-react-demo/dist/assets/main.css`
+  - 📌 **演示环境示例**：`https://g.yuntooai.com/dist/sub-app-react-demo/202508271755/main.css`
+
+> 💡 **说明**：`your-cdn.com` 需替换为您实际的CDN域名
 
 ### Step 5: 到Lovrabet主应用中集成Hello World页面
 在Lovrabet平台配置页面：
 
-```
+```text
 页面配置：
-├── 页面名称: Hello World Demo
-├── 路由路径: /hello-world
-├── 微应用唯一标识: react-hello-world
-├── 资源加载方式: import
-└── 资源加载列表: 
-  ├── https://your-cdn.com/dist/assets/main.js
-  └── https://your-cdn.com/dist/assets/main.css
+├── 页面名称: Hello World Demo              # 🔧 可自定义：菜单中显示的名称
+├── 路由路径: /hello-world                  # ⚠️ 必须与 src/router/index.tsx 中的 path 保持一致
+├── 微应用唯一标识: react-hello-world       # 🔧 可自定义：用于区分不同微应用
+├── 资源加载方式: import                    # ⚡ 固定值：Vite项目必须选择import
+└── 资源加载列表:                          # 🔧 替换为您的CDN地址
+  ├── https://your-cdn.com/sub-app-react-demo/dist/assets/main.js
+  └── https://your-cdn.com/sub-app-react-demo/dist/assets/main.css
 ```
+
+> ⚠️ **重要提示**：路由路径必须与代码中定义的路径完全对应，否则页面无法正确加载
 
 **集成验证**：
 - 主应用菜单出现"Hello World Demo"
@@ -143,20 +156,23 @@ npm run build
 ### Step 5: 到Lovrabet主应用中集成ChartFetch页面
 
 **页面2：数据图表入口**
-```
-├── 页面名称: 数据图表
-├── 路由路径: /chart-fetch  
-├── 资源加载方式: import
-└── 资源加载列表: 
-  ├── https://your-cdn.com/sub-app-react-demo/assets/main.js
-  └── https://your-cdn.com/sub-app-react-demo/assets/main.css
+
+```text
+页面配置：
+├── 页面名称: 数据图表                      # 🔧 可自定义：菜单中显示的名称
+├── 路由路径: /chart-fetch                  # ⚠️ 必须与 src/router/index.tsx 中的 path 保持一致
+├── 资源加载方式: import                    # ⚡ 固定值：Vite项目必须选择import
+└── 资源加载列表:                          # 🔧 替换为您的CDN地址（与Hello World共享同一构建产物）
+  ├── https://your-cdn.com/sub-app-react-demo/dist/assets/main.js
+  └── https://your-cdn.com/sub-app-react-demo/dist/assets/main.css
 ```
 
+#### 5.1 配置
 访问链接：https://app.yuntooai.com/app/app-f4c03acb/preview
 ![chart-fetch页面集成到主应用中](https://i.yuntooai.com/u/AZjq9nKvcACEawJpHIM4Gg.png)
 
 **集成验证**：
-- 主应用出现两个菜单项
+- 主应用此时又多了一个菜单项，总计出现了2个菜单
 - "Hello World"菜单 → 显示Hello World页面
 - "数据图表"菜单 → 显示图表页面，数据正常加载
 
@@ -185,32 +201,66 @@ npm run build
 根据Lovrabet官方文档，配置页面时需要理解以下关键参数：
 
 #### 1. 路由路径 (path)
+
+```text
+说明：应用实际访问时链接URL中的path部分
+格式：https://${appcode}.app.yuntooai.com/${pagePath}
+
+⚠️ 重要：路由路径必须与 src/router/index.tsx 中定义的路径完全一致
+
+示例对应关系：
 ```
-说明：应用实际访问时链接url中的path部分
-示例：
-  - 配置"/hello-world"，访问链接是 https://app-f4c03acb.app.yuntooai.com/hello-world
-  - 配置 "/chart-fetch"，访问链接是 https://app-f4c03acb.app.yuntooai.com/chart-fetch
-要求：需要保证在整个应用中唯一，配置时会自动生成
-注意：微应用中也存在前端路由的情况需要对应
+
+```typescript
+// src/router/index.tsx 中的配置
+{
+  path: "hello-world",  // <- 这里定义的路径
+  element: <HelloWorld />,
+}
+
+// 平台配置中的路由路径
+路由路径: /hello-world   // <- 必须保持一致（加上/前缀）
+```
+
+```text
+实际访问链接示例：
+  - 配置"/hello-world" → https://app-f4c03acb.app.yuntooai.com/hello-world
+  - 配置"/chart-fetch" → https://app-f4c03acb.app.yuntooai.com/chart-fetch
+  
+其中：
+  - 🔧 appcode: 您的应用编码（创建应用时生成，如：app-f4c03acb）
+  - ⚠️ pagePath: 必须与代码中的路由配置一致
+
+要求：路径需要在整个应用中唯一
 ```
 
 #### 2. 微应用唯一标识
-```
+
+```text
 说明：标记页面所属的源码微应用，多个页面可能属于同一个源码微应用
 默认：如不填写，则实际运行时会将"路由路径（path）"作为应用标识
+
+🔧 建议：使用有意义的名称，如：react-hello-world、customer-management 等
 ```
 
 #### 3. Basename
-```
+
+```text
 说明：指定微应用接收的basename，微应用包含前端路由的场景下需要使用
 默认：如不填写，则默认"路由路径（path）"即作为basename
+
+💡 提示：本示例项目已自动处理 basename，通常无需手动配置
 ```
 
 #### 4. 资源加载方式
-```
-script（默认）：通过HTML <script /> 标签加载微应用脚本资源，使用angular CLI和 vue CLI构建的产品默认选`script`;
-fetch：通过window.fetch 加载并缓存脚本资源，沙箱模式下使用;
-import：加载ES modules 类型微应用的方式，通过vite构建的工程需要使用这种方式;
+
+```text
+可选值：
+  - script（默认）：通过HTML <script /> 标签加载，适用于Angular CLI和Vue CLI
+  - fetch：通过window.fetch 加载并缓存脚本资源，沙箱模式下使用
+  - import：加载ES modules类型微应用
+
+⚡ 重要：Vite构建的项目必须选择 import
 ```
 
 ### Step 1: 改造现有项目结构
@@ -229,6 +279,7 @@ import './style.css'
 
 // 判断是否在微前端环境中运行
 if (!isInIcestark()) {
+  // 获取 index.html 中定义的根容器元素（id="root"）
   const container = document.getElementById('root')
   if (container) {
     const root = createRoot(container)
@@ -265,37 +316,57 @@ export function unmount({ container }) {
 
 #### 1.2 配置Vite构建
 ```javascript
-// vite.config.js - 微前端构建配置
-import { defineConfig } from 'vite'
+// vite.config.ts - 微前端构建配置
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
+import htmlPlugin from 'vite-plugin-index-html'
+import pluginExternal from 'vite-plugin-external'
 
-export default defineConfig({
-plugins: [react()],
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd())
+  const PORT = Number(env.VITE_APP_PORT) || 5173
+  
+  return {
+    plugins: [
+      react(),
+      // 关键配置：提供 vite lib 打包 + html plugin 能力
+      htmlPlugin({
+        input: 'src/main.tsx',
+        preserveEntrySignatures: 'exports-only',
+      }),
+      // 外部化依赖，减小打包体积
+      pluginExternal({
+        externals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+          antd: 'antd',
+          dayjs: 'dayjs',
+        },
+      }),
+    ],
 
-// 开发服务器配置
-server: {
-  port: 5173,
-  cors: true,
-  headers: {
-    'Access-Control-Allow-Origin': '*'
+    // 开发服务器配置
+    server: {
+      port: PORT,
+      host: 'dev.yuntooai.com',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    },
+
+    // 生产构建配置 - ES modules格式
+    build: {
+      outDir: 'dist',
+      target: 'esnext',
+      rollupOptions: {
+        output: {
+          format: 'es',
+          entryFileNames: 'assets/[name].js',
+          assetFileNames: 'assets/[name].css',
+        },
+      },
+    },
   }
-},
-
-// 生产构建配置 - ES modules格式
-build: {
-  lib: {
-    entry: './src/main.jsx',
-    name: 'YourAppName',  // 替换为您的应用名称
-    fileName: 'main',
-    formats: ['es']  // 生成ES modules格式
-  },
-  rollupOptions: {
-    output: {
-      entryFileNames: 'main.js',
-      assetFileNames: 'assets/[name].[ext]'
-    }
-  }
-}
 })
 ```
 
@@ -340,46 +411,50 @@ const fetchUserData = async () => {
 
 ```jsx
 // src/router/index.jsx - 路由配置文件
-import React from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router'
-import { getBasename } from '@ice/stark-app'
-import MainLayout from '../layouts/MainLayout'
-import Dashboard from '../pages/Dashboard'
-import UserManagement from '../pages/UserManagement'
-import OrderList from '../pages/OrderList'
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { getBasename } from "@ice/stark-app";
+import MainLayout from "../layouts/MainLayout";
+import HelloWorld from "../pages/HelloWorld";
+import ChartFetch from "../pages/ChartFetch";
 
 const router = createBrowserRouter(
   [
     {
-      path: '/',
+      path: "/",
       element: <MainLayout />,
       children: [
         {
           index: true,
-          element: <Dashboard />,
+          element: <HelloWorld />,
         },
         {
-          path: 'users',
-          element: <UserManagement />,
+          path: "hello-world",
+          element: <HelloWorld />,
         },
         {
-          path: 'orders',
-          element: <OrderList />,
+          path: "chart-fetch",
+          element: <ChartFetch />,
         },
       ],
     },
   ],
   {
-    // 关键：通过 getBasename() 获取到微应用运行时的 basename 并传入
-    basename: getBasename() || '/',
-  }
-)
+    // 可选：通过getBasename()获取到微应用运行时的basename并传入
+    basename: getBasename() || "/",
+  },
+);
 
-const AppRouter = () => {
-  return <RouterProvider router={router} />
-}
+console.log("MicroAppRouter:", {
+  routes: router.routes,
+  basename: router.basename,
+});
 
-export default AppRouter
+const AppRouter: React.FC = () => {
+  return <RouterProvider router={router} />;
+};
+
+export default AppRouter;
 ```
 
 ### Step 4: 本地开发、测试、集成到主应用
@@ -392,7 +467,7 @@ export default AppRouter
 
 **问题1：现有项目路由冲突**
 **解决**：
-- 确保BrowserRouter使用正确的basename
+- 使用正确的basename，确保在主应用中也是唯一的
 - 检查路由配置与平台配置的路径匹配
 - 使用相对路径而非绝对路径
 

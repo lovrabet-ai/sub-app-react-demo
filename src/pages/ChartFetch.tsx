@@ -4,6 +4,137 @@ import ReactECharts from 'echarts-for-react';
 
 const { Title, Paragraph } = Typography;
 
+
+
+// 简单封装 apiRequest
+const apiRequest = async (path, options = {}) => {
+  const response = await fetch(`https://api.yuntooai.com${path}`, {
+    credentials: 'include', // 关键配置：跨域请求携带Cookie
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    ...options,
+  });
+  return response.json();
+};
+
+function ChartFetch() {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    // 获取客户数据
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // 客户列表接口
+        const data = await apiRequest('/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList', {
+          method: 'POST',
+          body: JSON.stringify({ pageSize: 10, currentPage: 1 })
+        });
+
+        if (data.success) {
+          // 统计客户状态分布
+          const statusMap = {};
+          data.data.tableData.forEach(item => {
+            const statusLabel = item.status_label[0].label;
+            statusMap[statusLabel] = (statusMap[statusLabel] || 0) + 1;
+          });
+
+          // 转换为饼图数据格式
+          const pieData = Object.keys(statusMap).map(key => ({
+            name: key,
+            value: statusMap[key]
+          }));
+
+          setChartData(pieData);
+        }
+      } catch (err) {
+        console.error('数据获取失败:', err);
+        setError(err.message || '数据加载失败');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // 饼图配置
+  const getOption = () => ({
+    title: {
+      text: '客户状态分布',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item',
+      formatter: '{a} <br/>{b}: {c} ({d}%)'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: [
+      {
+        name: '客户状态',
+        type: 'pie',
+        radius: '50%',
+        data: chartData,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }
+    ]
+  });
+
+  return (
+    <div style={{ padding: '24px' }}>
+      <Card>
+        <Title level={2}>数据图表示例</Title>
+        <Paragraph>
+          这是一个从真实API获取数据并展示的饼图示例，展示了客户状态的分布情况。
+        </Paragraph>
+      </Card>
+
+      <Card style={{ marginTop: '24px' }}>
+        {loading ? (
+          <div style={{ textAlign: 'center', padding: '50px' }}>
+            <Spin size="large" tip="正在加载数据..." />
+          </div>
+        ) : error ? (
+          <Alert
+            message="数据加载失败"
+            description={error}
+            type="error"
+            showIcon
+          />
+        ) : (
+          <>
+            <ReactECharts 
+              option={getOption()} 
+              style={{ height: '400px' }}
+              notMerge={true}
+              lazyUpdate={true}
+            />
+            <Paragraph style={{ marginTop: '20px', textAlign: 'center' }}>
+              数据来源：https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
+            </Paragraph>
+          </>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+export default ChartFetch;
+
+
 /*
 https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList 接口返回的内容如下：
 {
@@ -572,131 +703,3 @@ https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa
     "failed": false
 }
 */
-
-// 简单封装 apiRequest
-const apiRequest = async (path, options = {}) => {
-  const response = await fetch(`https://api.yuntooai.com${path}`, {
-    credentials: 'include', // 关键配置：跨域请求携带Cookie
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    ...options,
-  });
-  return response.json();
-};
-
-function ChartFetch() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [chartData, setChartData] = useState([]);
-
-  useEffect(() => {
-    // 获取客户数据
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        // 客户列表接口
-        const data = await apiRequest('/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList', {
-          method: 'POST',
-          body: JSON.stringify({ pageSize: 10, currentPage: 1 })
-        });
-
-        if (data.success) {
-          // 统计客户状态分布
-          const statusMap = {};
-          data.data.tableData.forEach(item => {
-            const statusLabel = item.status_label[0].label;
-            statusMap[statusLabel] = (statusMap[statusLabel] || 0) + 1;
-          });
-
-          // 转换为饼图数据格式
-          const pieData = Object.keys(statusMap).map(key => ({
-            name: key,
-            value: statusMap[key]
-          }));
-
-          setChartData(pieData);
-        }
-      } catch (err) {
-        console.error('数据获取失败:', err);
-        setError(err.message || '数据加载失败');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  // 饼图配置
-  const getOption = () => ({
-    title: {
-      text: '客户状态分布',
-      left: 'center'
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b}: {c} ({d}%)'
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left'
-    },
-    series: [
-      {
-        name: '客户状态',
-        type: 'pie',
-        radius: '50%',
-        data: chartData,
-        emphasis: {
-          itemStyle: {
-            shadowBlur: 10,
-            shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
-  });
-
-  return (
-    <div style={{ padding: '24px' }}>
-      <Card>
-        <Title level={2}>数据图表示例</Title>
-        <Paragraph>
-          这是一个从真实API获取数据并展示的饼图示例，展示了客户状态的分布情况。
-        </Paragraph>
-      </Card>
-
-      <Card style={{ marginTop: '24px' }}>
-        {loading ? (
-          <div style={{ textAlign: 'center', padding: '50px' }}>
-            <Spin size="large" tip="正在加载数据..." />
-          </div>
-        ) : error ? (
-          <Alert
-            message="数据加载失败"
-            description={error}
-            type="error"
-            showIcon
-          />
-        ) : (
-          <>
-            <ReactECharts 
-              option={getOption()} 
-              style={{ height: '400px' }}
-              notMerge={true}
-              lazyUpdate={true}
-            />
-            <Paragraph style={{ marginTop: '20px', textAlign: 'center' }}>
-              数据来源：https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
-            </Paragraph>
-          </>
-        )}
-      </Card>
-    </div>
-  );
-}
-
-export default ChartFetch;
