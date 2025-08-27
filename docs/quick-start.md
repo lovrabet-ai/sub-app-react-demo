@@ -49,7 +49,11 @@ npm run build
 - 确认存在 `dist/assets/main.js` 文件（ES modules格式）
 - 确认存在 `dist/assets/main.css` 样式文件
 
+本地构建成功
 ![本地构建产物](https://i.yuntooai.com/u/AZjq8hJFcACYdK1TnupxaA.png)
+
+本地构建后生成的产物
+![本地构建后生成的产物](https://i.yuntooai.com/u/AZjrffaucACvb0HJGELOAQ.png)
 
 
 ### Step 4: 上传构建产物到CDN
