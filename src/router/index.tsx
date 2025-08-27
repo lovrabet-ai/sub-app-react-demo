@@ -2,9 +2,8 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { getBasename } from "@ice/stark-app";
 import MainLayout from "../layouts/MainLayout";
-import Home from "../pages/Home";
-import About from "../pages/About";
-import Settings from "../pages/Settings";
+import HelloWorld from "../pages/HelloWorld";
+import ChartFetch from "../pages/ChartFetch";
 
 const router = createBrowserRouter(
   [
@@ -14,15 +13,15 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <Home />,
+          element: <HelloWorld />,
         },
         {
-          path: "about",
-          element: <About />,
+          path: "hello-world",
+          element: <HelloWorld />,
         },
         {
-          path: "settings",
-          element: <Settings />,
+          path: "chart-fetch",
+          element: <ChartFetch />,
         },
       ],
     },

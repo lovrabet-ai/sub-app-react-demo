@@ -2,7 +2,7 @@ import React from "react";
 import { isInIcestark } from "@ice/stark-app";
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { Layout, Menu, theme } from "antd";
-import { HomeOutlined, UserOutlined, SettingOutlined } from "@ant-design/icons";
+import {  SmileOutlined, PieChartOutlined } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
 
@@ -15,19 +15,14 @@ const MainLayout: React.FC = () => {
 
   const menuItems = [
     {
-      key: "/",
-      icon: <HomeOutlined />,
-      label: "首页",
+      key: "/hello-world",
+      icon: <SmileOutlined />,
+      label: "Hello World",
     },
     {
-      key: "/about",
-      icon: <UserOutlined />,
-      label: "关于我们",
-    },
-    {
-      key: "/settings",
-      icon: <SettingOutlined />,
-      label: "设置",
+      key: "/chart-fetch",
+      icon: <PieChartOutlined />,
+      label: "数据图表",
     },
   ];
 
