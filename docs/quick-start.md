@@ -122,12 +122,14 @@ helloworld运行时页面: https://app-f4c03acb.app.yuntooai.com/hello-world
 
 **目标**：体验调用真实业务接口、处理跨域请求、展示动态图表的完整功能
 
-### Step 1: 查看图表页面代码
+### Step 1: 更新图表页面代码
 ```bash
 # 项目已包含 ChartFetch.tsx 页面
 # 使用真实 API：https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
 cat src/pages/ChartFetch.tsx
 ```
+[L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
+将接口地址换成业务需要的接口地址，就能运行看效果了，api地址查看 https://app.yuntooai.com/app/${appCode}/admin/dataset 
 
 
 ### Step 2: 本地运行验证
