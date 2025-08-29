@@ -129,7 +129,7 @@ helloworld运行时页面: https://app-f4c03acb.app.yuntooai.com/hello-world
 cat src/pages/ChartFetch.tsx
 ```
 [L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
-将接口地址换成业务需要的接口地址，就能运行看效果了，api地址查看 https://app.yuntooai.com/app/${appCode}/admin/dataset 
+注意：请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.yuntooai.com/app/${appCode}/admin/dataset 
 
 
 ### Step 2: 本地运行验证
