@@ -5,11 +5,11 @@ import ReactECharts from "echarts-for-react";
 const { Title, Paragraph } = Typography;
 
 const API_URL =
-  "/smartapi/runtime/xiaoyou/app-e9ced742/9725f8d5308d456e9a6d4789a0a7be6f/getList";
+  "/dbapi/runtime/yuntoo/app-c4055413/76a873945291498498737bc85677983d/getList";
 
 // API URL 解析组件
 const ApiUrlDisplay = () => {
-  const urlParts = API_URL.split('/');
+  const urlParts = API_URL.split("/");
   const callMethod = urlParts[1]; // smartapi or dbapi
   const runtime = urlParts[2]; // runtime
   const tenant = urlParts[3]; // xiaoyou
@@ -18,41 +18,87 @@ const ApiUrlDisplay = () => {
   const apiName = urlParts[6]; // getList
 
   return (
-    <div style={{ marginTop: "24px", padding: "20px", background: "#f5f5f5", borderRadius: "8px" }}>
-      <Title level={4} style={{ marginBottom: "18px" }}>API 接口解析</Title>
+    <div
+      style={{
+        marginTop: "24px",
+        padding: "20px",
+        background: "#f5f5f5",
+        borderRadius: "8px",
+      }}
+    >
+      <Title level={4} style={{ marginBottom: "18px" }}>
+        API 接口解析
+      </Title>
       <div style={{ marginBottom: "18px", fontSize: "16px" }}>
-        <Tag color="blue" style={{ fontSize: "14px", padding: "4px 8px" }}>{callMethod}</Tag>
+        <Tag color="blue" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {callMethod}
+        </Tag>
         <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="green" style={{ fontSize: "14px", padding: "4px 8px" }}>{runtime}</Tag>
+        <Tag color="green" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {runtime}
+        </Tag>
         <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="orange" style={{ fontSize: "14px", padding: "4px 8px" }}>{tenant}</Tag>
+        <Tag color="orange" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {tenant}
+        </Tag>
         <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="purple" style={{ fontSize: "14px", padding: "4px 8px" }}>{appCode}</Tag>
+        <Tag color="purple" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {appCode}
+        </Tag>
         <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="red" style={{ fontSize: "14px", padding: "4px 8px" }}>{datasetCode}</Tag>
+        <Tag color="red" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {datasetCode}
+        </Tag>
         <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="cyan" style={{ fontSize: "14px", padding: "4px 8px" }}>{apiName}</Tag>
+        <Tag color="cyan" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {apiName}
+        </Tag>
       </div>
       <Divider style={{ margin: "18px 0" }} />
       <div style={{ fontSize: "14px", color: "#666", lineHeight: "1.8" }}>
-        <div style={{ marginBottom: "8px" }}><Tag color="blue">调用方式</Tag> {callMethod} - API调用类型 (smartapi/dbapi)</div>
-        <div style={{ marginBottom: "8px" }}><Tag color="green">固定前缀</Tag> {runtime} - 运行时标识</div>
-        <div style={{ marginBottom: "8px" }}><Tag color="orange">租户名称</Tag> {tenant} - 租户标识</div>
-        <div style={{ marginBottom: "8px" }}><Tag color="purple">应用代码</Tag> {appCode} - 应用唯一标识</div>
-        <div style={{ marginBottom: "8px" }}><Tag color="red">数据集代码</Tag> {datasetCode} - 数据集唯一标识</div>
-        <div style={{ marginBottom: "8px" }}><Tag color="cyan">接口名称</Tag> {apiName} - 具体的API接口名</div>
+        <div style={{ marginBottom: "8px" }}>
+          <Tag color="blue">调用方式</Tag> {callMethod} - API调用类型
+          (smartapi/dbapi)
+        </div>
+        <div style={{ marginBottom: "8px" }}>
+          <Tag color="green">固定前缀</Tag> {runtime} - 运行时标识
+        </div>
+        <div style={{ marginBottom: "8px" }}>
+          <Tag color="orange">租户名称</Tag> {tenant} - 租户标识
+        </div>
+        <div style={{ marginBottom: "8px" }}>
+          <Tag color="purple">应用代码</Tag> {appCode} - 应用唯一标识
+        </div>
+        <div style={{ marginBottom: "8px" }}>
+          <Tag color="red">数据集代码</Tag> {datasetCode} - 数据集唯一标识
+        </div>
+        <div style={{ marginBottom: "8px" }}>
+          <Tag color="cyan">接口名称</Tag> {apiName} - 具体的API接口名
+        </div>
       </div>
-      
+
       <Divider style={{ margin: "20px 0" }} />
-      <div style={{ fontSize: "14px", color: "#d46b08", background: "#fff7e6", padding: "12px", borderRadius: "6px", border: "1px solid #ffd591" }}>
-        <Title level={5} style={{ color: "#d46b08", marginBottom: "12px" }}>⚠️ 常见问题说明</Title>
+      <div
+        style={{
+          fontSize: "14px",
+          color: "#d46b08",
+          background: "#fff7e6",
+          padding: "12px",
+          borderRadius: "6px",
+          border: "1px solid #ffd591",
+        }}
+      >
+        <Title level={5} style={{ color: "#d46b08", marginBottom: "12px" }}>
+          ⚠️ 常见问题说明
+        </Title>
         <div style={{ lineHeight: "1.8" }}>
           <div style={{ marginBottom: "8px" }}>
-            <Tag color="warning" size="small">无权限</Tag>
-            如果接口返回无权限，请先确认是否是自己有权限的应用，在 <code>app.yuntooai.com</code> 是否已经登录
+            <Tag color="warning">无权限</Tag>
+            如果接口返回无权限，请先确认是否是自己有权限的应用，在{" "}
+            <code>app.yuntooai.com</code> 是否已经登录
           </div>
           <div style={{ marginBottom: "8px" }}>
-            <Tag color="error" size="small">跨域问题</Tag>
+            <Tag color="error">跨域问题</Tag>
             出现跨域错误，确保项目运行在 <code>dev.yuntooai.com</code> 域名下
           </div>
         </div>
@@ -91,10 +137,18 @@ function ChartFetch() {
         });
 
         if (data.success) {
+          // 字段类型名称映射
+          const typeNameMap: Record<string, string> = {
+            TEXT: "文本字段",
+            RADIO: "单选字段",
+            SELECT: "下拉选择",
+            NUMBER: "数字字段",
+            DATE: "日期字段",
+          };
+
           // 根据新的API格式，统计tableColumns中的字段类型分布
-          const typeMap = {};
-          data.data.tableColumns.forEach((column) => {
-            const title = column.title || "未知字段";
+          const typeMap: Record<string, number> = {};
+          data.data.tableColumns.forEach((column: any) => {
             const dataIndex = column.dataIndex || "未知类型";
             // 按字段类型前缀分类（如 TEXT_, RADIO_, SELECT_ 等）
             const typePrefix = dataIndex.split("_")[0] || "其他";
@@ -103,18 +157,7 @@ function ChartFetch() {
 
           // 转换为饼图数据格式
           const pieData = Object.keys(typeMap).map((key) => ({
-            name:
-              key === "TEXT"
-                ? "文本字段"
-                : key === "RADIO"
-                  ? "单选字段"
-                  : key === "SELECT"
-                    ? "下拉选择"
-                    : key === "NUMBER"
-                      ? "数字字段"
-                      : key === "DATE"
-                        ? "日期字段"
-                        : key,
+            name: typeNameMap[key] || key,
             value: typeMap[key],
           }));
 
@@ -168,6 +211,10 @@ function ChartFetch() {
         <Title level={2}>数据字段统计图表</Title>
         <Paragraph>
           这是一个从真实API获取数据并展示的饼图示例，展示了数据表字段类型的分布情况。
+        </Paragraph>
+        <Paragraph>数据来源：{API_URL}</Paragraph>
+        <Paragraph>
+          访问请先确保：1. app.yuntooai.com已登录 2.应用有权限 3. 接口有权限
         </Paragraph>
       </Card>
 
