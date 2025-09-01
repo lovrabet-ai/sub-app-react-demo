@@ -126,10 +126,12 @@ helloworld运行时页面: https://app-f4c03acb.app.yuntooai.com/hello-world
 ```bash
 # 项目已包含 ChartFetch.tsx 页面
 # 使用真实 API：https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
+# API地址的结构是：https://api.yuntooai.com/dbapi/runtime/${tenentCode}/${appCode}/${pageCode}/getList
 cat src/pages/ChartFetch.tsx
 ```
 [L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
 注意：请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.yuntooai.com/app/${appCode}/admin/dataset 
+
 
 
 ### Step 2: 本地运行验证
@@ -487,3 +489,7 @@ export default AppRouter;
 - 确保选择import加载方式
 - 检查CDN地址是否正确
 - 验证资源文件是否完整上传
+
+**问题5：我能不能独立运行，调用云兔的api接口**
+**解决**：
+子应用独立运行，不挂载到主应用就可以了；
