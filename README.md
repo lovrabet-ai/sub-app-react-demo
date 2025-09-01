@@ -44,13 +44,13 @@
 ### 安装依赖
 
 ```bash
-pnpm install
+npm install
 ```
 
 ### 开发模式
 
 ```bash
-pnpm run start
+npm run start
 ```
 
 应用将在 `https://dev.yuntooai.com:5173` 启动（配置了HTTPS证书）
@@ -68,13 +68,13 @@ pnpm run start
 ### 构建生产版本
 
 ```bash
-pnpm run build
+npm run build
 ```
 
 ### 预览生产版本
 
 ```bash
-pnpm run preview
+npm run preview
 ```
 
 ## 开发指南
