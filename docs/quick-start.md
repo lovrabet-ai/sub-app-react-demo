@@ -129,11 +129,11 @@ helloworld运行时页面: https://app-f4c03acb.app.yuntooai.com/hello-world
 
 cat src/pages/ChartFetch.tsx
 ```
-[L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
+[https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
 
 注意：
 - API地址的结构说明：https://api.yuntooai.com/${type}/runtime/${tenentCode}/${appCode}/${datasetCode}/getList
-- 请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.yuntooai.com/app/${appCode}/admin/dataset，直接复制接口链接就能使用；
+- 请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.yuntooai.com/app/${appCode}/admin/dataset，直接复制接口链接就能通过浏览器console控制验证接口请求的调用是否成功；
 
 
 
