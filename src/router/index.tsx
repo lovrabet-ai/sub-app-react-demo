@@ -4,6 +4,7 @@ import { getBasename } from "@ice/stark-app";
 import MainLayout from "../layouts/MainLayout";
 import HelloWorld from "../pages/HelloWorld";
 import ChartFetch from "../pages/ChartFetch";
+import TableDisplay from "../pages/TableDisplay";
 
 const router = createBrowserRouter(
   [
@@ -22,6 +23,10 @@ const router = createBrowserRouter(
         {
           path: "chart-fetch",
           element: <ChartFetch />,
+        },
+        {
+          path: "table-display",
+          element: <TableDisplay />,
         },
       ],
     },

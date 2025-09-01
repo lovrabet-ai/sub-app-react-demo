@@ -2,7 +2,11 @@ import React from "react";
 import { isInIcestark } from "@ice/stark-app";
 import { Outlet, useNavigate, useLocation } from "react-router";
 import { Layout, Menu, theme } from "antd";
-import {  SmileOutlined, PieChartOutlined } from "@ant-design/icons";
+import {
+  SmileOutlined,
+  PieChartOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
 
@@ -23,6 +27,11 @@ const MainLayout: React.FC = () => {
       key: "/chart-fetch",
       icon: <PieChartOutlined />,
       label: "数据图表",
+    },
+    {
+      key: "/table-display",
+      icon: <TableOutlined />,
+      label: "数据表格",
     },
   ];
 
