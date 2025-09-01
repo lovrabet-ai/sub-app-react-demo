@@ -54,6 +54,7 @@ npm run start
 ```
 
 应用将在 `https://dev.yuntooai.com:5173` 启动（配置了HTTPS证书）
+说明：https://dev.yuntooai.com:${port} port不限5173端口，任意端口号都支持跨域
 
 ### 微前端核心配置
 
