@@ -113,4 +113,4 @@ npm run preview
 - 腾讯云 COS
 
 ## 开发者手册 quick-start
-![https://github.com/lovrabet-ai/sub-app-react-demo/blob/main/docs/quick-start.md](https://github.com/lovrabet-ai/sub-app-react-demo/blob/main/docs/quick-start.md)
+https://github.com/lovrabet-ai/sub-app-react-demo/blob/main/docs/quick-start.md
