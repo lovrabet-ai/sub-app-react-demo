@@ -11,6 +11,7 @@
 **目标**：下载官方代码，本地运行验证，构建部署，集成到主应用
 
 ### Step 1: 下载GitHub仓库
+
 ```bash
 # 推荐使用SSH（需要配置GitHub SSH密钥）
 git clone git@github.com:lovrabet-ai/sub-app-react-demo.git
@@ -23,6 +24,7 @@ git checkout main
 ```
 
 ### Step 2: 本地安装和运行
+
 ```bash
 # 安装依赖
 npm i
@@ -32,19 +34,22 @@ npm start
 ```
 
 **本地验证**：
-- 浏览器打开 https://dev.yuntooai.com:5173/hello-world
+
+- 浏览器打开 https://dev.lovrabet.com:5173/hello-world
 - 确认Hello World页面正常显示
 - 检查控制台无报错信息
 
 ![本地终端运行](https://i.yuntooai.com/u/AZjq66VncACe2C_z8m9_Qg.png)
 
 ### Step 3: 构建产物
+
 ```bash
 # 构建微前端产物
 npm run build
 ```
 
 **构建验证**：
+
 - 检查 `dist/` 目录生成
 - 确认存在 `dist/assets/main.js` 文件（ES modules格式）
 - 确认存在 `dist/assets/main.css` 样式文件
@@ -55,21 +60,23 @@ npm run build
 本地构建后生成的产物
 ![本地构建后生成的产物](https://i.yuntooai.com/u/AZjrffaucACvb0HJGELOAQ.png)
 
-
 ### Step 4: 上传构建产物到CDN
 
 #### 选项A：使用业务方已有CDN
+
 ```bash
 # 将 dist/ 目录内容上传到您的CDN
 # 例如：https://your-cdn.com/sub-app-react-demo/
 ```
 
 #### 选项B：使用Lovrabet临时CDN服务
+
 ```bash
 # 联系Lovrabet的技术支持 @风月 获取临时CDN上传地址，仅用于功能体验，3天后CDN链接会失效
 ```
 
 **CDN验证**：
+
 - 确认JS文件可访问：
   - 🔧 **您的CDN格式**：`https://your-cdn.com/sub-app-react-demo/dist/assets/main.js`
   - 📌 **演示环境示例**：`https://g.yuntooai.com/dist/sub-app-react-demo/202508271755/main.js`
@@ -80,6 +87,7 @@ npm run build
 > 💡 **说明**：`your-cdn.com` 需替换为您实际的CDN域名
 
 ### Step 5: 到Lovrabet主应用中集成Hello World页面
+
 在Lovrabet平台配置页面：
 
 ```text
@@ -96,24 +104,26 @@ npm run build
 > ⚠️ **重要提示**：路由路径必须与代码中定义的路径完全对应，否则页面无法正确加载
 
 **集成验证**：
+
 - 主应用菜单出现"Hello World Demo"
 - 点击菜单能正常显示页面
 - 页面功能与本地运行效果一致
 
-
-
 #### 5.1 新增页面
-访问菜单配置链接：https://app.yuntooai.com/app/app-f4c03acb/pages/
+
+访问菜单配置链接：https://app.lovrabet.com/app/app-f4c03acb/pages/
 ![](https://i.yuntooai.com/u/AZjrKSOvcACyPcNb4irCUA.png)
 
 #### 5.2 配置路由
+
 ![hello-world页面集成到主应用中](https://i.yuntooai.com/u/AZjq-EX5cACZF-TKk4EvTw.png)
 
 ### step 6：验证页面运行效果
+
 **✅ 场景一完成标志**：主应用中能正常访问Hello World页面
 
-https://app-f4c03acb.app.yuntooai.com/hello-world
-helloworld运行时页面: https://app-f4c03acb.app.yuntooai.com/hello-world
+https://app-f4c03acb.app.lovrabet.com/hello-world
+helloworld运行时页面: https://app-f4c03acb.app.lovrabet.com/hello-world
 ![helloworld运行时页面](https://i.yuntooai.com/u/AZjq_pSDcACOdA8Me_CFFQ.png)
 
 ---
@@ -123,43 +133,48 @@ helloworld运行时页面: https://app-f4c03acb.app.yuntooai.com/hello-world
 **目标**：体验调用真实业务接口、处理跨域请求、展示动态图表的完整功能
 
 ### Step 1: 更新图表页面代码
+
 ```bash
 # 项目已包含 ChartFetch.tsx 页面
-# 使用真实 API：https://api.yuntooai.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
+# 使用真实 API：https://runtime.lovrabet.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
 
 cat src/pages/ChartFetch.tsx
 ```
+
 [https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
 
 注意：
-- API地址的结构说明：https://api.yuntooai.com/${type}/runtime/${tenentCode}/${appCode}/${datasetCode}/getList
-- 请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.yuntooai.com/app/${appCode}/admin/dataset，直接复制接口链接就能通过浏览器console控制验证接口请求的调用是否成功；
 
-
-
+- API地址的结构说明：https://runtime.lovrabet.com/${type}/runtime/${tenentCode}/${appCode}/${datasetCode}/getList
+- 请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.lovrabet.com/app/${appCode}/admin/dataset，直接复制接口链接就能通过浏览器console控制验证接口请求的调用是否成功；
 
 ### Step 2: 本地运行验证
+
 ```bash
 # 项目已安装echarts依赖
 npm start
 ```
 
 **本地验证**：
-- 浏览器访问 https://dev.yuntooai.com:5173/chart-fetch
+
+- 浏览器访问 https://dev.lovrabet.com:5173/chart-fetch
 - 确认饼图显示客户状态分布（活跃、正常、流失）
 
 ### Step 3: 构建更新的产物
+
 ```bash
 # 重新构建包含图表功能的版本
 npm run build
 ```
 
 **构建验证**：
+
 - `dist/assets/main.js` 包含echarts
 - `dist/assets/main.css` 样式文件更新
 - 注意：React、Ant Design已外部化，体积较小
 
 ### Step 4: 重新上传到CDN
+
 ```bash
 # 将更新后的 dist/ 内容重新上传
 # 覆盖之前的文件或使用新的路径
@@ -180,10 +195,12 @@ npm run build
 ```
 
 #### 5.1 配置
-访问链接：https://app.yuntooai.com/app/app-f4c03acb/preview
+
+访问链接：https://app.lovrabet.com/app/app-f4c03acb/preview
 ![chart-fetch页面集成到主应用中](https://i.yuntooai.com/u/AZjq9nKvcACEawJpHIM4Gg.png)
 
 **集成验证**：
+
 - 主应用此时又多了一个菜单项，总计出现了2个菜单
 - "Hello World"菜单 → 显示Hello World页面
 - "数据图表"菜单 → 显示图表页面，数据正常加载
@@ -199,6 +216,7 @@ npm run build
 **目标**：将您现有的React项目改造为微前端，直接请求真实的业务接口，实现无缝集成到Lovrabet平台
 
 ### 改造已有项目流程
+
 1. **分析现有项目** → 确定改造范围和接口依赖
 2. **修改入口文件** → 添加微前端生命周期函数
 3. **配置构建工具** → 修改vite.config.js支持ES modules
@@ -216,7 +234,7 @@ npm run build
 
 ```text
 说明：应用实际访问时链接URL中的path部分
-格式：https://${appcode}.app.yuntooai.com/${pagePath}
+格式：https://${appcode}.app.lovrabet.com/${pagePath}
 
 ⚠️ 重要：路由路径必须与 src/router/index.tsx 中定义的路径完全一致
 
@@ -236,9 +254,9 @@ npm run build
 
 ```text
 实际访问链接示例：
-  - 配置"/hello-world" → https://app-f4c03acb.app.yuntooai.com/hello-world
-  - 配置"/chart-fetch" → https://app-f4c03acb.app.yuntooai.com/chart-fetch
-  
+  - 配置"/hello-world" → https://app-f4c03acb.app.lovrabet.com/hello-world
+  - 配置"/chart-fetch" → https://app-f4c03acb.app.lovrabet.com/chart-fetch
+
 其中：
   - 🔧 appcode: 您的应用编码（创建应用时生成，如：app-f4c03acb）
   - ⚠️ pagePath: 必须与代码中的路由配置一致
@@ -281,78 +299,79 @@ npm run build
 
 ```jsx
 // src/main.jsx - 改造为微前端入口
-import React from 'react'
-import { createRoot } from 'react-dom/client'
-import { isInIcestark } from '@ice/stark-app'
-import { ConfigProvider } from 'antd'
-import zhCN from 'antd/locale/zh_CN'
-import App from './router'  // 注意：App实际上是路由组件
-import './style.css'
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { isInIcestark } from "@ice/stark-app";
+import { ConfigProvider } from "antd";
+import zhCN from "antd/locale/zh_CN";
+import App from "./router"; // 注意：App实际上是路由组件
+import "./style.css";
 
 // 判断是否在微前端环境中运行
 if (!isInIcestark()) {
   // 获取 index.html 中定义的根容器元素（id="root"）
-  const container = document.getElementById('root')
+  const container = document.getElementById("root");
   if (container) {
-    const root = createRoot(container)
+    const root = createRoot(container);
     root.render(
       <ConfigProvider locale={zhCN}>
         <App />
-      </ConfigProvider>
-    )
+      </ConfigProvider>,
+    );
   }
 }
 
 // 关键：暴露 mount 供主应用加载时调用
 export function mount({ container, customProps }) {
-  const root = createRoot(container)
+  const root = createRoot(container);
   root.render(
     <React.StrictMode>
       <ConfigProvider locale={zhCN}>
         <App {...customProps} />
       </ConfigProvider>
-    </React.StrictMode>
-  )
-  return root
+    </React.StrictMode>,
+  );
+  return root;
 }
 
 // 关键：暴露 unmount 供主应用卸载时调用
 export function unmount({ container }) {
   // React 18 中不再需要手动卸载，但为了兼容性保留
-  const root = container._reactRoot
+  const root = container._reactRoot;
   if (root) {
-    root.unmount()
+    root.unmount();
   }
 }
 ```
 
 #### 1.2 配置Vite构建
+
 ```javascript
 // vite.config.ts - 微前端构建配置
-import { defineConfig, loadEnv } from 'vite'
-import react from '@vitejs/plugin-react'
-import htmlPlugin from 'vite-plugin-index-html'
-import pluginExternal from 'vite-plugin-external'
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
+import htmlPlugin from "vite-plugin-index-html";
+import pluginExternal from "vite-plugin-external";
 
 export default defineConfig(async ({ mode }) => {
-  const env = loadEnv(mode, process.cwd())
-  const PORT = Number(env.VITE_APP_PORT) || 5173
-  
+  const env = loadEnv(mode, process.cwd());
+  const PORT = Number(env.VITE_APP_PORT) || 5173;
+
   return {
     plugins: [
       react(),
       // 关键配置：提供 vite lib 打包 + html plugin 能力
       htmlPlugin({
-        input: 'src/main.tsx',
-        preserveEntrySignatures: 'exports-only',
+        input: "src/main.tsx",
+        preserveEntrySignatures: "exports-only",
       }),
       // 外部化依赖，减小打包体积
       pluginExternal({
         externals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-          antd: 'antd',
-          dayjs: 'dayjs',
+          react: "React",
+          "react-dom": "ReactDOM",
+          antd: "antd",
+          dayjs: "dayjs",
         },
       }),
     ],
@@ -360,26 +379,26 @@ export default defineConfig(async ({ mode }) => {
     // 开发服务器配置
     server: {
       port: PORT,
-      host: 'dev.yuntooai.com',
+      host: "dev.lovrabet.com",
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        "Access-Control-Allow-Origin": "*",
       },
     },
 
     // 生产构建配置 - ES modules格式
     build: {
-      outDir: 'dist',
-      target: 'esnext',
+      outDir: "dist",
+      target: "esnext",
       rollupOptions: {
         output: {
-          format: 'es',
-          entryFileNames: 'assets/[name].js',
-          assetFileNames: 'assets/[name].css',
+          format: "es",
+          entryFileNames: "assets/[name].js",
+          assetFileNames: "assets/[name].css",
         },
       },
     },
-  }
-})
+  };
+});
 ```
 
 ### Step 2: API请求封装（核心配置）
@@ -389,10 +408,10 @@ export default defineConfig(async ({ mode }) => {
 ```javascript
 // 简单封装 apiRequest - 这是最简单有效的实现
 const apiRequest = async (path, options = {}) => {
-  const response = await fetch(`https://api.yuntooai.com${path}`, {
-    credentials: 'include', // 关键配置：跨域请求携带Cookie
+  const response = await fetch(`https://runtime.lovrabet.com${path}`, {
+    credentials: "include", // 关键配置：跨域请求携带Cookie
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...options.headers,
     },
     ...options,
@@ -403,16 +422,19 @@ const apiRequest = async (path, options = {}) => {
 // 使用示例
 const fetchUserData = async () => {
   try {
-    const data = await apiRequest('/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList', {
-      method: 'POST',
-      body: JSON.stringify({ pageSize: 10, currentPage: 1 })
-    });
-    
+    const data = await apiRequest(
+      "/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList",
+      {
+        method: "POST",
+        body: JSON.stringify({ pageSize: 10, currentPage: 1 }),
+      },
+    );
+
     if (data.success) {
-      console.log('数据获取成功:', data.data);
+      console.log("数据获取成功:", data.data);
     }
   } catch (error) {
-    console.error('请求失败:', error);
+    console.error("请求失败:", error);
   }
 };
 ```
@@ -477,12 +499,14 @@ export default AppRouter;
 
 **问题1：现有项目路由冲突**
 **解决**：
+
 - 使用正确的basename，确保在主应用中也是唯一的
 - 检查路由配置与平台配置的路径匹配
 - 使用相对路径而非绝对路径
 
 **问题2：接口请求失败**
 **解决**：
+
 - 检查API地址配置是否正确
 - 验证接口的CORS配置
 
@@ -490,12 +514,13 @@ export default AppRouter;
 
 **问题4：构建后资源加载失败**
 **解决**：
+
 - 确保选择import加载方式
 - 检查CDN地址是否正确
 - 验证资源文件是否完整上传
 
 **问题5：我的业务工程能不能独立运行，仅调用Lovrabet的api接口**
 **解决**：
+
 - step1：子应用不挂载到主应用，也是支持独立运行的；
 - step2：联系Lovrabet技术 @fengyue 独立配置业务自有域名来解决cors跨域；
- 

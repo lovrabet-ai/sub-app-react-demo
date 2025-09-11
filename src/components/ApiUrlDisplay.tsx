@@ -8,13 +8,23 @@ interface ApiUrlDisplayProps {
 }
 
 const ApiUrlDisplay: React.FC<ApiUrlDisplayProps> = ({ apiUrl }) => {
-  const urlParts = apiUrl.split("/");
-  const callMethod = urlParts[1]; // smartapi or dbapi
-  const runtime = urlParts[2]; // runtime
-  const tenant = urlParts[3]; // tenant name
-  const appCode = urlParts[4]; // app code
-  const datasetCode = urlParts[5]; // dataset code
-  const apiName = urlParts[6]; // api name
+  let domain = "https://runtime.lovrabet.com";
+  let pathParts: string[];
+
+  try {
+    // 尝试解析为完整URL
+    const fullUrl = new URL(apiUrl);
+    domain = `${fullUrl.protocol}//${fullUrl.host}`;
+    pathParts = fullUrl.pathname.split("/");
+  } catch {
+    // 如果不是完整URL，按相对路径处理
+    pathParts = apiUrl.split("/");
+  }
+
+  const apiPrefix = pathParts[1]; // api (固定开头)
+  const appCode = pathParts[2]; // app-{appCode}
+  const datasetCode = pathParts[3]; // 数据集code
+  const apiName = pathParts[4]; // 接口名称
 
   return (
     <div
@@ -29,16 +39,12 @@ const ApiUrlDisplay: React.FC<ApiUrlDisplayProps> = ({ apiUrl }) => {
         API 接口解析
       </Title>
       <div style={{ marginBottom: "18px", fontSize: "16px" }}>
+        <Tag color="geekblue" style={{ fontSize: "14px", padding: "4px 8px" }}>
+          {domain}
+        </Tag>
+        <span style={{ margin: "0 4px" }}>/</span>
         <Tag color="blue" style={{ fontSize: "14px", padding: "4px 8px" }}>
-          {callMethod}
-        </Tag>
-        <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="green" style={{ fontSize: "14px", padding: "4px 8px" }}>
-          {runtime}
-        </Tag>
-        <span style={{ margin: "0 4px" }}>/</span>
-        <Tag color="orange" style={{ fontSize: "14px", padding: "4px 8px" }}>
-          {tenant}
+          {apiPrefix}
         </Tag>
         <span style={{ margin: "0 4px" }}>/</span>
         <Tag color="purple" style={{ fontSize: "14px", padding: "4px 8px" }}>
@@ -56,14 +62,10 @@ const ApiUrlDisplay: React.FC<ApiUrlDisplayProps> = ({ apiUrl }) => {
       <Divider style={{ margin: "18px 0" }} />
       <div style={{ fontSize: "14px", color: "#666", lineHeight: "1.8" }}>
         <div style={{ marginBottom: "8px" }}>
-          <Tag color="blue">调用方式</Tag> {callMethod} - API调用类型
-          (smartapi/dbapi)
+          <Tag color="geekblue">域名地址</Tag> {domain} - API服务域名
         </div>
         <div style={{ marginBottom: "8px" }}>
-          <Tag color="green">固定前缀</Tag> {runtime} - 运行时标识
-        </div>
-        <div style={{ marginBottom: "8px" }}>
-          <Tag color="orange">租户名称</Tag> {tenant} - 租户标识
+          <Tag color="blue">固定前缀</Tag> {apiPrefix} - API固定开头
         </div>
         <div style={{ marginBottom: "8px" }}>
           <Tag color="purple">应用代码</Tag> {appCode} - 应用唯一标识
@@ -94,11 +96,11 @@ const ApiUrlDisplay: React.FC<ApiUrlDisplayProps> = ({ apiUrl }) => {
           <div style={{ marginBottom: "8px" }}>
             <Tag color="warning">无权限</Tag>
             如果接口返回无权限，请先确认是否是自己有权限的应用，在{" "}
-            <code>app.yuntooai.com</code> 是否已经登录
+            <code>app.lovrabet.com</code> 是否已经登录
           </div>
           <div style={{ marginBottom: "8px" }}>
             <Tag color="error">跨域问题</Tag>
-            出现跨域错误，确保项目运行在 <code>dev.yuntooai.com</code> 域名下
+            出现跨域错误，确保项目运行在 <code>dev.lovrabet.com</code> 域名下
           </div>
         </div>
       </div>

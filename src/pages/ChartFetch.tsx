@@ -6,9 +6,7 @@ import { apiRequest } from "../utils/api";
 
 const { Title, Paragraph } = Typography;
 
-const API_URL =
-  "/dbapi/runtime/yuntoo/app-c4055413/76a873945291498498737bc85677983d/getList";
-
+const API_URL = "/api/app-c4055413/76a873945291498498737bc85677983d/getList";
 
 function ChartFetch() {
   const [loading, setLoading] = useState(true);
@@ -104,7 +102,7 @@ function ChartFetch() {
         </Paragraph>
         <Paragraph>数据来源：{API_URL}</Paragraph>
         <Paragraph>
-          访问请先确保：1. app.yuntooai.com已登录 2.应用有权限 3. 接口有权限
+          访问请先确保：1. app.lovrabet.com已登录 2.应用有权限 3. 接口有权限
         </Paragraph>
       </Card>
 

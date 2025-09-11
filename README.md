@@ -53,8 +53,8 @@ npm install
 npm run start
 ```
 
-应用将在 `https://dev.yuntooai.com:5173` 启动（配置了HTTPS证书）
-说明：https://dev.yuntooai.com:${port} port不限5173端口，任意端口号都支持跨域
+应用将在 `https://dev.lovrabet.com:5173` 启动（配置了HTTPS证书）
+说明：https://dev.lovrabet.com:${port} port不限5173端口，任意端口号都支持跨域
 
 ### 微前端核心配置
 
@@ -113,4 +113,5 @@ npm run preview
 - 腾讯云 COS
 
 ## 开发者手册 quick-start
+
 https://github.com/lovrabet-ai/sub-app-react-demo/blob/main/docs/quick-start.md

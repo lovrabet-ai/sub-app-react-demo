@@ -43,13 +43,13 @@ export default defineConfig(async ({ mode }) => {
       },
     },
     // 可选配置：提供https自签名证书及跨域访问能力
-    // 因为接口域名为 api.yuntooai.com 存在跨域，服务端配置了允许 dev.yuntooai.com 的跨域请求，从而实现本地开发能够正常请求接口
+    // 因为接口域名为 runtime.lovrabet.com 存在跨域，服务端配置了允许 dev.lovrabet.com 的跨域请求，从而实现本地开发能够正常请求接口
     // 这些配置不是必须的，你也可以使用 proxy 等任意手段自行处理跨域问题
     server: {
       port: PORT,
-      open: `https://dev.yuntooai.com:${PORT}`,
+      open: `https://dev.lovrabet.com:${PORT}`,
       strictPort: true,
-      host: "dev.yuntooai.com",
+      host: "dev.lovrabet.com",
       https: await (await fetch("https://g.yuntooai.com/cert/dev.json")).json(),
       headers: {
         "Access-Control-Allow-Origin": "*",
