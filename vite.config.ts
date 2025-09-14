@@ -27,11 +27,11 @@ export default defineConfig(async ({ mode }) => {
       Pages({
         dirs: "src/pages",
         extensions: ["tsx"],
-        routeStyle: "remix",
+        routeStyle: "remix", // 使用 remix 风格，更好兼容 React Router v6
+        importMode: "sync", // 使用同步导入避免 Suspense 问题
       }),
-      // 关键配置：提供 vite lib 打包 + html plugin 能力
       htmlPlugin({
-        input: "src/main.tsx",
+        input: "/src/main.tsx", // 使用绝对路径避免嵌套路由问题
         preserveEntrySignatures: "exports-only",
       }),
       pluginExternal({

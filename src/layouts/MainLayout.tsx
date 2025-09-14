@@ -1,11 +1,12 @@
 import React from "react";
 import { isInIcestark } from "@ice/stark-app";
-import { Outlet, useNavigate, useLocation } from "react-router";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Layout, Menu, theme } from "antd";
 import {
   SmileOutlined,
   PieChartOutlined,
   TableOutlined,
+  FolderOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -32,6 +33,11 @@ const MainLayout: React.FC = () => {
       key: "/table-display",
       icon: <TableOutlined />,
       label: "数据表格",
+    },
+    {
+      key: "/a/b/c",
+      icon: <FolderOutlined />,
+      label: "非常深的路径测试",
     },
   ];
 

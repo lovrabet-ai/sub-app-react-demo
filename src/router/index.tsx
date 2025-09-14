@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { getBasename } from "@ice/stark-app";
 import MainLayout from "../layouts/MainLayout";
 import routes from "~react-pages";

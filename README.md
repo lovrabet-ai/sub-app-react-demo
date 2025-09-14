@@ -1,5 +1,7 @@
 [📝 项目更新记录 CHANGELOG](./CHANGELOG.md)
 
+注意：本项目会阶段性更新，如果git pull以后无法运行，可以删除 node_modules之后重新 npm install
+
 # Vite React 微前端子应用
 
 这是一个使用 Vite 构建的 React 微前端子应用示例。
@@ -119,16 +121,19 @@ npm run preview
 基于 `vite-plugin-pages` 的文件系统路由，支持以下约定：
 
 **文件路由映射**：
+
 - `src/pages/index.tsx` → `/` （首页）
 - `src/pages/table-display.tsx` → `/table-display`
 - `src/pages/chart-fetch/index.tsx` → `/chart-fetch`
 - `src/pages/user/profile.tsx` → `/user/profile`
 
 **动态路由**：
+
 - `src/pages/[id].tsx` → `/:id`
 - `src/pages/user/[userId]/profile.tsx` → `/user/:userId/profile`
 
 **嵌套路由**：
+
 - 使用目录结构创建嵌套路由
 - 支持 `layout.tsx` 文件作为嵌套布局
 

@@ -96,7 +96,7 @@ function TableDisplay() {
           </div>
         ) : error ? (
           <Alert
-            message="表格数据加载失败"
+            message="表格数据加载失败，请检查接口权限，可以替换为自己有权限的接口"
             description={error}
             type="error"
             showIcon
