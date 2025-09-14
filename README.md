@@ -11,7 +11,7 @@
 ## 技术栈
 
 - **React 18** - 稳定的 React 版本，支持并发特性
-- **React Router v7** - 现代化的路由解决方案
+- **React Router v6** - 现代化的路由解决方案
 - **Ant Design v5** - 企业级 UI 设计语言
 - **Vite v7** - 下一代前端构建工具
 - **icestark** - 阿里飞冰微前端框架
