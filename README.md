@@ -112,6 +112,7 @@ npm run preview
 - 阿里云 OSS
 - 腾讯云 COS
 
-## 开发者手册 quick-start
+## 文档链接
 
-https://github.com/lovrabet-ai/sub-app-react-demo/blob/main/docs/quick-start.md
+- [开发者手册 quick-start](./docs/quick-start.md)
+- [更新记录 CHANGELOG](./CHANGELOG.md)

@@ -2,33 +2,14 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { getBasename } from "@ice/stark-app";
 import MainLayout from "../layouts/MainLayout";
-import HelloWorld from "../pages/HelloWorld";
-import ChartFetch from "../pages/ChartFetch";
-import TableDisplay from "../pages/TableDisplay";
+import routes from "~react-pages";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
       element: <MainLayout />,
-      children: [
-        {
-          index: true,
-          element: <HelloWorld />,
-        },
-        {
-          path: "hello-world",
-          element: <HelloWorld />,
-        },
-        {
-          path: "chart-fetch",
-          element: <ChartFetch />,
-        },
-        {
-          path: "table-display",
-          element: <TableDisplay />,
-        },
-      ],
+      children: routes,
     },
   ],
   {

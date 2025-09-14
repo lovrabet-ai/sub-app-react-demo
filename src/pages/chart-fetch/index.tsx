@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, Spin, Alert, Typography } from "antd";
 import ReactECharts from "echarts-for-react";
-import ApiUrlDisplay from "../components/ApiUrlDisplay";
-import { apiRequest } from "../utils/api";
+import ApiUrlDisplay from "../../components/ApiUrlDisplay";
+import { apiRequest } from "../../utils/api";
 
 const { Title, Paragraph } = Typography;
 

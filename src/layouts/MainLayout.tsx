@@ -19,7 +19,7 @@ const MainLayout: React.FC = () => {
 
   const menuItems = [
     {
-      key: "/hello-world",
+      key: "/",
       icon: <SmileOutlined />,
       label: "Hello World",
     },

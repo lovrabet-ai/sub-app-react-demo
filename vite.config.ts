@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import htmlPlugin from "vite-plugin-index-html";
 import pluginExternal from "vite-plugin-external";
+import Pages from "vite-plugin-pages";
 import pkgJson from "./package.json";
 
 const version = pkgJson.version;
@@ -23,6 +24,11 @@ export default defineConfig(async ({ mode }) => {
     envDir: __dirname,
     plugins: [
       react(),
+      Pages({
+        dirs: "src/pages",
+        extensions: ["tsx"],
+        routeStyle: "remix",
+      }),
       // 关键配置：提供 vite lib 打包 + html plugin 能力
       htmlPlugin({
         input: "src/main.tsx",
