@@ -7,6 +7,7 @@ import {
   PieChartOutlined,
   TableOutlined,
   FolderOutlined,
+  RocketOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -35,9 +36,14 @@ const MainLayout: React.FC = () => {
       label: "数据表格",
     },
     {
-      key: "/a/b/c",
+      key: "/sdk-demo",
       icon: <FolderOutlined />,
-      label: "非常深的路径测试",
+      label: "Lovrabet SDK使用案例",
+    },
+    {
+      key: "/new-sdk-demo",
+      icon: <RocketOutlined />,
+      label: "新版 SDK 演示",
     },
   ];
 
