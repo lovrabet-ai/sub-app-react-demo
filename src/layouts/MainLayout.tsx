@@ -40,11 +40,6 @@ const MainLayout: React.FC = () => {
       icon: <FolderOutlined />,
       label: "Lovrabet SDK使用案例",
     },
-    {
-      key: "/new-sdk-demo",
-      icon: <RocketOutlined />,
-      label: "新版 SDK 演示",
-    },
   ];
 
   const handleMenuClick = ({ key }: { key: string }) => {
