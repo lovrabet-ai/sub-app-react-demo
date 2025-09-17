@@ -4,8 +4,6 @@
 
 # Lovrabet SDK React 演示项目
 
-这是一个专门用于演示和测试 **@lovrabet/sdk** 功能的 React 应用示例。
-
 项目展示了如何在现代 React 应用中集成 Lovrabet SDK，以及如何使用 icestark 微前端方案嵌入到 Lovrabet 主应用中。
 
 ## 技术栈
@@ -130,6 +128,7 @@ npm run preview
    - 包含完整的错误处理
 
 **典型使用模式**：
+
 ```typescript
 // 获取数据列表
 const data = await lovrabetClient.models.Requirements.getList({
