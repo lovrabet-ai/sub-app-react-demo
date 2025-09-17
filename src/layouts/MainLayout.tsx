@@ -26,6 +26,11 @@ const MainLayout: React.FC = () => {
       label: "Hello World",
     },
     {
+      key: "/dashboard",
+      icon: <SmileOutlined />,
+      label: "Dashboard静态模板",
+    },
+    {
       key: "/chart-fetch",
       icon: <PieChartOutlined />,
       label: "数据图表",
