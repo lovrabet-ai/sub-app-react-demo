@@ -55,7 +55,7 @@ export default defineConfig(async ({ mode }) => {
       port: PORT,
       open: `https://dev.lovrabet.com:${PORT}`,
       strictPort: true,
-      host: "localhost",
+      host: "0.0.0.0",
       https: await (await fetch("https://g.yuntooai.com/cert/lovrabet-dev.json")).json(),
       headers: {
         "Access-Control-Allow-Origin": "*",
