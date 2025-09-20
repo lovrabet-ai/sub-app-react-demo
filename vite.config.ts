@@ -14,8 +14,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // https://vitejs.dev/config/
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, __dirname);
-  const PORT = Number(env.VITE_APP_PORT) || 5173;
-  const isCdn = Boolean(process.env.CDN_DOMAIN);
+  const isDev = mode === "development";
+  const port = Number(env.PORT) || 5173;
+  const isCdn = !isDev && Boolean(process.env.CDN_DOMAIN);
   const outDir = isCdn ? `dist/${appName}/${version}` : "dist";
   const base = isCdn ? `${process.env.CDN_DOMAIN}${outDir}/` : "/";
 
@@ -51,26 +52,30 @@ export default defineConfig(async ({ mode }) => {
     // 可选配置：提供https自签名证书及跨域访问能力
     // 因为接口域名为 runtime.lovrabet.com 存在跨域，服务端配置了允许 dev.lovrabet.com 的跨域请求，从而实现本地开发能够正常请求接口
     // 这些配置不是必须的，你也可以使用 proxy 等任意手段自行处理跨域问题
-    server: {
-      port: PORT,
-      open: `https://dev.lovrabet.com:${PORT}`,
-      strictPort: true,
-      host: "0.0.0.0",
-      https: await (await fetch("https://g.yuntooai.com/cert/lovrabet-dev.json")).json(),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods":
-          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "X-Requested-With, Content-Type, Authorization",
-      },
-    },
+    server: isDev
+      ? {
+          port,
+          open: `https://dev.lovrabet.com:${port}`,
+          strictPort: true,
+          host: "0.0.0.0",
+          https: await (
+            await fetch("https://g.yuntooai.com/cert/lovrabet-dev.json")
+          ).json(),
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods":
+              "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers":
+              "X-Requested-With, Content-Type, Authorization",
+          },
+        }
+      : undefined,
     build: {
       outDir,
       target: "esnext",
       rollupOptions: {
         output: {
-          format: "es",
+          format: "es" as const,
           entryFileNames: `assets/[name].js`,
           assetFileNames: `assets/[name].css`,
         },
