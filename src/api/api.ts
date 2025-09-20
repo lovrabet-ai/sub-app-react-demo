@@ -16,10 +16,10 @@ export const LOVRABET_APP_CODE = "app-c4c89304";
 export const LOVRABET_MODELS_CONFIG: ModelsConfig = {
   appCode: LOVRABET_APP_CODE,
   models: {
-    ProjectMembers: {
-      tableName: "project_members",
-      datasetId: "71494bcba13f4ec7858abe90794183ad",
-    },
+    // ProjectMembers: {
+    //   tableName: "project_members",
+    //   datasetId: "71494bcba13f4ec7858abe90794183ad",
+    // },
     Requirements: {
       tableName: "requirements",
       datasetId: "d26ed512e878461ca97d287a47606fd3",

@@ -11,7 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
     "@ice/stark-app": "^1.5.0",
-    "@lovrabet/sdk": "^1.0.3",
+    "@lovrabet/sdk": "^1.0.5",
     "antd": "^5.26.7",
     "echarts": "^5.6.0",
     "echarts-for-react": "^3.0.2",

@@ -1,275 +1,182 @@
-import React, { useState, useEffect } from "react";
-import {
-  Card,
-  Button,
-  Space,
-  Typography,
-  Alert,
-  Input,
-  Form,
-  Modal,
-  message,
-  Empty,
-  Table,
-  Tag,
-} from "antd";
-import { PlusOutlined, ReloadOutlined, ApiOutlined } from "@ant-design/icons";
+import React, { useState } from "react";
+import { Button, Table, Card, Typography, Space, message } from "antd";
+import { ApiOutlined } from "@ant-design/icons";
 import { lovrabetClient } from "../../api/client";
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
-interface Requirement {
-  id: string;
-  title: string;
-  description: string;
-  status: string;
-  created_at: string;
-  [key: string]: any;
-}
-
-const SdkDemo: React.FC = () => {
+export default function SdkDemo() {
   const [loading, setLoading] = useState(false);
-  const [requirements, setRequirements] = useState<Requirement[]>([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [form] = Form.useForm();
+  const [data, setData] = useState<any[]>([]);
+  const [columns, setColumns] = useState<any[]>([]);
 
-  useEffect(() => {
-    loadRequirements();
-  }, []);
-
-  // 获取需求列表 - SDK 核心调用
-  const loadRequirements = async () => {
+  /**
+   * 语法糖模式 - 最优雅的调用方式
+   */
+  const loadDataWithSyntaxSugar = async () => {
     setLoading(true);
+
     try {
-      const data = await lovrabetClient.models.Requirements.getList({
+      // 1. 直接通过模型名访问 - 最优雅的方式
+      const response = await lovrabetClient.models.Requirements.getList({
         currentPage: 1,
-        pageSize: 20,
+        pageSize: 10,
       });
-      setRequirements(data.tableData || []);
+
+      processResponse(response, "语法糖模式调用成功！");
     } catch (error: any) {
-      message.error(`获取失败: ${error.message}`);
+      handleError(error, "语法糖模式");
     } finally {
       setLoading(false);
     }
   };
 
-  // 创建新需求 - SDK 核心调用
-  const handleCreateRequirement = async (values: any) => {
+  /**
+   * 正常调用模式 - 编程式调用方式
+   */
+  const loadDataWithNormalMode = async () => {
     setLoading(true);
+
     try {
-      await lovrabetClient.models.Requirements.create({
-        title: values.title,
-        project_id: 6,
-        type_id: 1,
-        creator_id: 81,
-        priority: "low",
-        description: values.description,
-        status: "new",
-        created_at: new Date().toISOString(),
+      // 1. 先获取模型实例
+      const model = lovrabetClient.getModel('Requirements');
+
+      // 2. 调用模型方法
+      const response = await model.getList({
+        currentPage: 1,
+        pageSize: 10,
       });
-      message.success("创建成功！");
-      setModalVisible(false);
-      form.resetFields();
-      loadRequirements();
+
+      processResponse(response, "正常模式调用成功！");
     } catch (error: any) {
-      message.error(`创建失败: ${error.message}`);
+      handleError(error, "正常模式");
     } finally {
       setLoading(false);
     }
   };
 
-  // 表格列定义
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      width: 80,
-    },
-    {
-      title: "标题",
-      dataIndex: "title",
-      key: "title",
-      render: (text: string, record: Requirement) =>
-        text || record.name || record.requirement_name || `需求 ${record.id}`,
-    },
-    {
-      title: "描述",
-      dataIndex: "description",
-      key: "description",
-      render: (text: string, record: Requirement) =>
-        text || record.content || record.details || "暂无描述",
-    },
-    {
-      title: "状态",
-      dataIndex: "status",
-      key: "status",
-      render: (status: string) => (
-        <Tag
-          color={
-            status === "done"
-              ? "green"
-              : status === "pending"
-                ? "orange"
-                : "blue"
-          }
-        >
-          {status || "未知"}
-        </Tag>
-      ),
-    },
-    {
-      title: "创建时间",
-      dataIndex: "created_at",
-      key: "created_at",
-      render: (date: string, record: Requirement) => {
-        const dateStr = date || record.createTime;
-        return dateStr ? new Date(dateStr).toLocaleDateString("zh-CN") : "未知";
-      },
-    },
-  ];
+  /**
+   * 处理响应数据
+   */
+  const processResponse = (response: any, successMessage: string) => {
+    // 处理返回的数据
+    setData(response.tableData || []);
+
+    // 动态生成表格列
+    if (response.tableColumns) {
+      const tableColumns = response.tableColumns.map((column: any) => ({
+        title: column.title || column.dataIndex,
+        dataIndex: column.dataIndex,
+        key: column.dataIndex,
+      }));
+      setColumns(tableColumns);
+    }
+
+    message.success(successMessage);
+  };
+
+  /**
+   * 处理错误
+   */
+  const handleError = (error: any, mode: string) => {
+    console.error(`${mode}加载失败:`, error);
+    message.error(`${mode}加载失败: ${error.message}`);
+  };
 
   return (
     <div style={{ padding: "24px" }}>
+      {/* 标题 */}
       <Title level={2}>
-        <ApiOutlined /> Lovrabet SDK 调用演示
+        <ApiOutlined /> Lovrabet SDK 简单演示
       </Title>
+
       <Paragraph style={{ color: "#666", marginBottom: 24 }}>
-        重点展示 SDK 的核心调用方法，简化 UI 界面突出代码逻辑
+        演示 Lovrabet SDK 的两种调用方式。对比体验语法糖模式和正常模式的差异。
       </Paragraph>
 
-      <Alert
-        message="SDK 核心调用展示"
-        description={
-          <div style={{ margin: "8px 0" }}>
-            <Text code>lovrabetClient.models.Requirements.getList()</Text> -
-            获取数据列表
-            <br />
-            <Text code>lovrabetClient.models.Requirements.create()</Text> -
-            创建新数据
-          </div>
-        }
-        type="info"
-        showIcon
-        style={{ marginBottom: 24 }}
-      />
-
-      <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        {/* 操作按钮 */}
-        <Card title="操作面板" size="small">
-          <Space>
-            <Button
-              type="primary"
-              icon={<ReloadOutlined />}
-              loading={loading}
-              onClick={loadRequirements}
-            >
-              获取数据列表
-            </Button>
-            <Button
-              icon={<PlusOutlined />}
-              onClick={() => setModalVisible(true)}
-            >
-              创建新数据
-            </Button>
-            <Text type="secondary">数据条数: {requirements.length}</Text>
-          </Space>
-        </Card>
-
-        {/* 代码展示 */}
-        <Card title="SDK 调用代码" size="small">
-          <Text strong>1. 获取数据列表：</Text>
-          <pre
-            style={{
-              background: "#f5f5f5",
-              padding: "12px",
-              borderRadius: "4px",
-              margin: "8px 0",
-            }}
-          >
-            {`const data = await lovrabetClient.models.Requirements.getList({
-  currentPage: 1,
-  pageSize: 20,
-});
-setRequirements(data.tableData || []);`}
-          </pre>
-
-          <Text strong>2. 创建新数据：</Text>
-          <pre
-            style={{
-              background: "#f5f5f5",
-              padding: "12px",
-              borderRadius: "4px",
-              margin: "8px 0",
-            }}
-          >
-            {`await lovrabetClient.models.Requirements.create({
-  title: values.title,
-  description: values.description,
-  status: "pending",
-  created_at: new Date().toISOString(),
-});`}
-          </pre>
-        </Card>
-
-        {/* 数据表格 */}
-        <Card title={`数据列表 (${requirements.length} 条)`} size="small">
-          <Table
-            columns={columns}
-            dataSource={requirements}
-            loading={loading}
-            rowKey="id"
-            size="small"
-            pagination={{ pageSize: 10, showSizeChanger: false }}
-            locale={{
-              emptyText: (
-                <Empty
-                  description="暂无数据，点击上方按钮获取数据"
-                  image={Empty.PRESENTED_IMAGE_SIMPLE}
-                />
-              ),
-            }}
-          />
-        </Card>
+      {/* 操作按钮 */}
+      <Space style={{ marginBottom: 16 }}>
+        <Button
+          type="primary"
+          loading={loading}
+          onClick={loadDataWithSyntaxSugar}
+          icon={<ApiOutlined />}
+        >
+          🍬 语法糖模式
+        </Button>
+        <Button
+          loading={loading}
+          onClick={loadDataWithNormalMode}
+          icon={<ApiOutlined />}
+        >
+          🔧 正常模式
+        </Button>
       </Space>
 
-      {/* 简化的创建弹窗 */}
-      <Modal
-        title="创建新数据"
-        open={modalVisible}
-        onCancel={() => {
-          setModalVisible(false);
-          form.resetFields();
-        }}
-        footer={null}
-      >
-        <Form form={form} layout="vertical" onFinish={handleCreateRequirement}>
-          <Form.Item
-            name="title"
-            label="标题"
-            rules={[{ required: true, message: "请输入标题" }]}
-          >
-            <Input placeholder="请输入标题" />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="描述"
-            rules={[{ required: true, message: "请输入描述" }]}
-          >
-            <Input.TextArea rows={3} placeholder="请输入描述" />
-          </Form.Item>
-          <Form.Item style={{ marginBottom: 0, textAlign: "right" }}>
-            <Space>
-              <Button onClick={() => setModalVisible(false)}>取消</Button>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                创建
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </Modal>
+      {/* 代码示例 */}
+      <Card title="两种调用方式对比" size="small" style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', gap: '16px' }}>
+          {/* 语法糖模式 */}
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#1890ff' }}>
+              🍬 语法糖模式（推荐）
+            </div>
+            <pre style={{
+              background: "#f0f8ff",
+              padding: "12px",
+              borderRadius: "4px",
+              margin: 0,
+              fontSize: "13px",
+              border: "1px solid #1890ff"
+            }}>
+              {`// 一行代码搞定！
+const response = await lovrabetClient
+  .models.Requirements.getList({
+    currentPage: 1,
+    pageSize: 10
+  });`}
+            </pre>
+          </div>
+
+          {/* 正常模式 */}
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#666' }}>
+              🔧 正常模式
+            </div>
+            <pre style={{
+              background: "#f5f5f5",
+              padding: "12px",
+              borderRadius: "4px",
+              margin: 0,
+              fontSize: "13px",
+              border: "1px solid #d9d9d9"
+            }}>
+              {`// 分步骤调用
+const model = lovrabetClient
+  .getModel('Requirements');
+
+const response = await model.getList({
+  currentPage: 1,
+  pageSize: 10
+});`}
+            </pre>
+          </div>
+        </div>
+      </Card>
+
+      {/* 数据表格 */}
+      {data.length > 0 && (
+        <Card title="数据结果" size="small">
+          <Table
+            columns={columns}
+            dataSource={data}
+            rowKey={(_, index) => index?.toString() || "0"}
+            pagination={false}
+            size="small"
+            scroll={{ x: true }}
+          />
+        </Card>
+      )}
     </div>
   );
-};
-
-export default SdkDemo;
+}
