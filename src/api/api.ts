@@ -18,27 +18,27 @@ export const LOVRABET_MODELS_CONFIG: ModelsConfig = {
   models: {
     // ProjectMembers: {
     //   tableName: "project_members",
-    //   datasetId: "71494bcba13f4ec7858abe90794183ad",
+    //   datasetCode: "71494bcba13f4ec7858abe90794183ad",
     // },
     Requirements: {
       tableName: "requirements",
-      datasetId: "d26ed512e878461ca97d287a47606fd3",
+      datasetCode: "d26ed512e878461ca97d287a47606fd3",
     },
     Projects: {
       tableName: "projects",
-      datasetId: "c6e55d6720b84ffcb21698b0a04ccd23",
+      datasetCode: "c6e55d6720b84ffcb21698b0a04ccd23",
     },
     Iterations: {
       tableName: "iterations",
-      datasetId: "a60f11c17c5344e7a26d5144212cf366",
+      datasetCode: "a60f11c17c5344e7a26d5144212cf366",
     },
     RequirementTypes: {
       tableName: "requirement_types",
-      datasetId: "f17f1ee941c1468e87e6a0ca655ce00e",
+      datasetCode: "f17f1ee941c1468e87e6a0ca655ce00e",
     },
     CustomerInterviews: {
       tableName: "dataset_3c23",
-      datasetId: "3ff202af07164d0a9c5df7ddd8f83c23",
+      datasetCode: "3ff202af07164d0a9c5df7ddd8f83c23",
     },
   }
 } as const;
