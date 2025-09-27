@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Table, Card, Typography, Space, message } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Table, Card, Typography, Space, message, Select } from "antd";
 import { ApiOutlined } from "@ant-design/icons";
 import { lovrabetClient } from "../../api/client";
 
@@ -9,16 +9,40 @@ export default function SdkDemo() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
+  const [modelList, setModelList] = useState<string[]>([]);
+  const [selectedModel, setSelectedModel] = useState<string>('');
+
+  /**
+   * 加载可用的数据模型列表
+   */
+  useEffect(() => {
+    try {
+      const models = lovrabetClient.getModelList();
+      setModelList(models);
+      // 默认选择第一个模型
+      if (models.length > 0) {
+        setSelectedModel(models[0]);
+      }
+    } catch (error) {
+      console.error('获取模型列表失败:', error);
+      message.error('获取模型列表失败');
+    }
+  }, []);
 
   /**
    * 语法糖模式 - 最优雅的调用方式
    */
   const loadDataWithSyntaxSugar = async () => {
+    if (!selectedModel) {
+      message.warning('请先选择一个数据模型');
+      return;
+    }
+
     setLoading(true);
 
     try {
       // 1. 直接通过模型名访问 - 最优雅的方式
-      const response = await lovrabetClient.models.Requirements.getList({
+      const response = await lovrabetClient.models[selectedModel].getList({
         currentPage: 1,
         pageSize: 10,
       });
@@ -35,11 +59,16 @@ export default function SdkDemo() {
    * 正常调用模式 - 编程式调用方式
    */
   const loadDataWithNormalMode = async () => {
+    if (!selectedModel) {
+      message.warning('请先选择一个数据模型');
+      return;
+    }
+
     setLoading(true);
 
     try {
       // 1. 先获取模型实例
-      const model = lovrabetClient.getModel('Requirements');
+      const model = lovrabetClient.getModel(selectedModel);
 
       // 2. 调用模型方法
       const response = await model.getList({
@@ -92,26 +121,42 @@ export default function SdkDemo() {
 
       <Paragraph style={{ color: "#666", marginBottom: 24 }}>
         演示 Lovrabet SDK 的两种调用方式。对比体验语法糖模式和正常模式的差异。
+        <br />
+        <strong>注意：</strong>代码示例中的 "Requirements" 是假设已经存在的数据模型名称，实际使用时请根据下拉框中的可用模型进行选择。
       </Paragraph>
 
-      {/* 操作按钮 */}
-      <Space style={{ marginBottom: 16 }}>
-        <Button
-          type="primary"
-          loading={loading}
-          onClick={loadDataWithSyntaxSugar}
-          icon={<ApiOutlined />}
-        >
-          🍬 语法糖模式
-        </Button>
-        <Button
-          loading={loading}
-          onClick={loadDataWithNormalMode}
-          icon={<ApiOutlined />}
-        >
-          🔧 正常模式
-        </Button>
-      </Space>
+      {/* 数据模型选择 */}
+      <Card title="选择数据模型" size="small" style={{ marginBottom: 16 }}>
+        <Space>
+          <Select
+            placeholder="选择要查询的数据模型"
+            style={{ width: 250 }}
+            value={selectedModel}
+            onChange={setSelectedModel}
+            options={modelList.map(model => ({
+              label: model,
+              value: model,
+            }))}
+          />
+          <Button
+            type="primary"
+            loading={loading}
+            onClick={loadDataWithSyntaxSugar}
+            icon={<ApiOutlined />}
+            disabled={!selectedModel}
+          >
+            🍬 语法糖模式查询
+          </Button>
+          <Button
+            loading={loading}
+            onClick={loadDataWithNormalMode}
+            icon={<ApiOutlined />}
+            disabled={!selectedModel}
+          >
+            🔧 正常模式查询
+          </Button>
+        </Space>
+      </Card>
 
       {/* 代码示例 */}
       <Card title="两种调用方式对比" size="small" style={{ marginBottom: 16 }}>
@@ -131,7 +176,7 @@ export default function SdkDemo() {
             }}>
               {`// 一行代码搞定！
 const response = await lovrabetClient
-  .models.Requirements.getList({
+  .models.${selectedModel || 'Requirements'}.getList({
     currentPage: 1,
     pageSize: 10
   });`}
@@ -153,7 +198,7 @@ const response = await lovrabetClient
             }}>
               {`// 分步骤调用
 const model = lovrabetClient
-  .getModel('Requirements');
+  .getModel('${selectedModel || 'Requirements'}');
 
 const response = await model.getList({
   currentPage: 1,
