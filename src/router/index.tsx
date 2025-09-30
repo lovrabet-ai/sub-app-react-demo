@@ -18,10 +18,10 @@ const router = createBrowserRouter(
   },
 );
 
-console.log("MicroAppRouter:", {
-  routes: router.routes,
-  basename: router.basename,
-});
+// console.log("MicroAppRouter:", {
+//   routes: router.routes,
+//   basename: router.basename,
+// });
 
 const AppRouter: React.FC = () => {
   return <RouterProvider router={router} />;
