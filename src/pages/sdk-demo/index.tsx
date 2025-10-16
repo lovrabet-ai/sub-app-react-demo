@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Table, Card, Typography, Space, message, Select } from "antd";
 import { ApiOutlined } from "@ant-design/icons";
 import { lovrabetClient } from "../../api/client";
+import { SortOrder } from "@lovrabet/sdk";
 
 const { Title, Paragraph } = Typography;
 
@@ -10,7 +11,7 @@ export default function SdkDemo() {
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
   const [modelList, setModelList] = useState<string[]>([]);
-  const [selectedModel, setSelectedModel] = useState<string>('');
+  const [selectedModel, setSelectedModel] = useState<string>("");
 
   /**
    * 加载可用的数据模型列表
@@ -24,8 +25,8 @@ export default function SdkDemo() {
         setSelectedModel(models[0]);
       }
     } catch (error) {
-      console.error('获取模型列表失败:', error);
-      message.error('获取模型列表失败');
+      console.error("获取模型列表失败:", error);
+      message.error("获取模型列表失败");
     }
   }, []);
 
@@ -34,7 +35,7 @@ export default function SdkDemo() {
    */
   const loadDataWithSyntaxSugar = async () => {
     if (!selectedModel) {
-      message.warning('请先选择一个数据模型');
+      message.warning("请先选择一个数据模型");
       return;
     }
 
@@ -60,7 +61,7 @@ export default function SdkDemo() {
    */
   const loadDataWithNormalMode = async () => {
     if (!selectedModel) {
-      message.warning('请先选择一个数据模型');
+      message.warning("请先选择一个数据模型");
       return;
     }
 
@@ -122,7 +123,8 @@ export default function SdkDemo() {
       <Paragraph style={{ color: "#666", marginBottom: 24 }}>
         演示 Lovrabet SDK 的两种调用方式。对比体验语法糖模式和正常模式的差异。
         <br />
-        <strong>注意：</strong>代码示例中的 "Requirements" 是假设已经存在的数据模型名称，实际使用时请根据下拉框中的可用模型进行选择。
+        <strong>注意：</strong>代码示例中的 "Requirements"
+        是假设已经存在的数据模型名称，实际使用时请根据下拉框中的可用模型进行选择。
       </Paragraph>
 
       {/* 数据模型选择 */}
@@ -133,7 +135,7 @@ export default function SdkDemo() {
             style={{ width: 250 }}
             value={selectedModel}
             onChange={setSelectedModel}
-            options={modelList.map(model => ({
+            options={modelList.map((model) => ({
               label: model,
               value: model,
             }))}
@@ -160,23 +162,31 @@ export default function SdkDemo() {
 
       {/* 代码示例 */}
       <Card title="两种调用方式对比" size="small" style={{ marginBottom: 16 }}>
-        <div style={{ display: 'flex', gap: '16px' }}>
+        <div style={{ display: "flex", gap: "16px" }}>
           {/* 语法糖模式 */}
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#1890ff' }}>
+            <div
+              style={{
+                fontWeight: "bold",
+                marginBottom: "8px",
+                color: "#1890ff",
+              }}
+            >
               🍬 语法糖模式（推荐）
             </div>
-            <pre style={{
-              background: "#f0f8ff",
-              padding: "12px",
-              borderRadius: "4px",
-              margin: 0,
-              fontSize: "13px",
-              border: "1px solid #1890ff"
-            }}>
+            <pre
+              style={{
+                background: "#f0f8ff",
+                padding: "12px",
+                borderRadius: "4px",
+                margin: 0,
+                fontSize: "13px",
+                border: "1px solid #1890ff",
+              }}
+            >
               {`// 一行代码搞定！
 const response = await lovrabetClient
-  .models.${selectedModel || 'Requirements'}.getList({
+  .models.${selectedModel || "Requirements"}.getList({
     currentPage: 1,
     pageSize: 10
   });`}
@@ -185,20 +195,24 @@ const response = await lovrabetClient
 
           {/* 正常模式 */}
           <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: 'bold', marginBottom: '8px', color: '#666' }}>
+            <div
+              style={{ fontWeight: "bold", marginBottom: "8px", color: "#666" }}
+            >
               🔧 正常模式
             </div>
-            <pre style={{
-              background: "#f5f5f5",
-              padding: "12px",
-              borderRadius: "4px",
-              margin: 0,
-              fontSize: "13px",
-              border: "1px solid #d9d9d9"
-            }}>
+            <pre
+              style={{
+                background: "#f5f5f5",
+                padding: "12px",
+                borderRadius: "4px",
+                margin: 0,
+                fontSize: "13px",
+                border: "1px solid #d9d9d9",
+              }}
+            >
               {`// 分步骤调用
 const model = lovrabetClient
-  .getModel('${selectedModel || 'Requirements'}');
+  .getModel('${selectedModel || "Requirements"}');
 
 const response = await model.getList({
   currentPage: 1,
