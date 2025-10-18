@@ -8,6 +8,7 @@ import {
   TableOutlined,
   FolderOutlined,
   RocketOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -29,16 +30,6 @@ const MainLayout: React.FC = () => {
       key: "/dashboard",
       icon: <SmileOutlined />,
       label: "Dashboard静态模板",
-    },
-    {
-      key: "/chart-fetch",
-      icon: <PieChartOutlined />,
-      label: "数据图表",
-    },
-    {
-      key: "/table-display",
-      icon: <TableOutlined />,
-      label: "数据表格",
     },
     {
       key: "/sdk-demo",

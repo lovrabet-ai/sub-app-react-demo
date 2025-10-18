@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Table, Card, Typography, Space, message, Select } from "antd";
+import {
+  Button,
+  Table,
+  Card,
+  Typography,
+  Space,
+  message,
+  Select,
+  Input,
+  Tag,
+} from "antd";
 import { ApiOutlined } from "@ant-design/icons";
 import { lovrabetClient } from "../../api/client";
 import { SortOrder } from "@lovrabet/sdk";
@@ -12,6 +22,9 @@ export default function SdkDemo() {
   const [columns, setColumns] = useState<any[]>([]);
   const [modelList, setModelList] = useState<string[]>([]);
   const [selectedModel, setSelectedModel] = useState<string>("");
+  const [selectOptions, setSelectOptions] = useState<any[]>([]);
+  const [codeField, setCodeField] = useState<string>("id");
+  const [labelField, setLabelField] = useState<string>("");
 
   /**
    * 加载可用的数据模型列表
@@ -103,6 +116,42 @@ export default function SdkDemo() {
     }
 
     message.success(successMessage);
+  };
+
+  /**
+   * 获取下拉选项
+   */
+  const loadSelectOptions = async () => {
+    if (!selectedModel) {
+      message.warning("请先选择一个数据模型");
+      return;
+    }
+
+    if (!codeField || !labelField) {
+      message.warning("请输入 code 和 label 字段名");
+      return;
+    }
+
+    setLoading(true);
+    setSelectOptions([]);
+
+    try {
+      const options = await lovrabetClient.models[
+        selectedModel
+      ].getSelectOptions({
+        code: codeField,
+        label: labelField,
+      });
+
+      setSelectOptions(options);
+      message.success(`成功获取 ${options.length} 个下拉选项`);
+      console.log("下拉选项数据:", options);
+    } catch (error: any) {
+      console.error("获取下拉选项失败:", error);
+      message.error(`获取下拉选项失败: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   /**
@@ -225,7 +274,7 @@ const response = await model.getList({
 
       {/* 数据表格 */}
       {data.length > 0 && (
-        <Card title="数据结果" size="small">
+        <Card title="数据结果" size="small" style={{ marginBottom: 16 }}>
           <Table
             columns={columns}
             dataSource={data}
@@ -234,6 +283,121 @@ const response = await model.getList({
             size="small"
             scroll={{ x: true }}
           />
+        </Card>
+      )}
+
+      {/* 获取下拉选项 */}
+      <Card title="📋 获取下拉选项" size="small" style={{ marginBottom: 16 }}>
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <div style={{ color: "#666" }}>
+            用于获取数据表的下拉选项数据，适用于 Select、Radio、Checkbox
+            等表单组件（仅 WebAPI 模式支持）
+          </div>
+
+          {/* 显示可用字段 */}
+          {columns.length > 0 && (
+            <div style={{ marginBottom: 8 }}>
+              <span style={{ color: "#666", marginRight: 8 }}>
+                可用字段（点击快速填入）：
+              </span>
+              <Space wrap size={[4, 4]}>
+                {columns.map((column: any) => (
+                  <Tag
+                    key={column.dataIndex}
+                    color="blue"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      if (!codeField) {
+                        setCodeField(column.dataIndex);
+                        message.success(
+                          `已填入 Code 字段: ${column.dataIndex}`,
+                        );
+                      } else if (!labelField) {
+                        setLabelField(column.dataIndex);
+                        message.success(
+                          `已填入 Label 字段: ${column.dataIndex}`,
+                        );
+                      } else {
+                        message.info("Code 和 Label 已填写，如需更换请先清空");
+                      }
+                    }}
+                  >
+                    {column.dataIndex}
+                  </Tag>
+                ))}
+              </Space>
+            </div>
+          )}
+
+          <Space wrap>
+            <span>Code 字段：</span>
+            <Input
+              placeholder="用作选项值的字段名"
+              value={codeField}
+              onChange={(e) => setCodeField(e.target.value)}
+              style={{ width: 200 }}
+              allowClear
+            />
+            <span>Label 字段：</span>
+            <Input
+              placeholder="用作显示文本的字段名"
+              value={labelField}
+              onChange={(e) => setLabelField(e.target.value)}
+              style={{ width: 200 }}
+              allowClear
+            />
+            <Button
+              type="primary"
+              loading={loading}
+              onClick={loadSelectOptions}
+              icon={<ApiOutlined />}
+              disabled={!selectedModel || !codeField || !labelField}
+            >
+              获取选项
+            </Button>
+          </Space>
+
+          <pre
+            style={{
+              background: "#f5f5f5",
+              padding: "12px",
+              borderRadius: "4px",
+              margin: "8px 0 0 0",
+              fontSize: "13px",
+              border: "1px solid #d9d9d9",
+            }}
+          >
+            {`// 调用示例
+const options = await lovrabetClient
+  .models.${selectedModel || "Requirements"}.getSelectOptions({
+    code: "${codeField || "id"}",
+    label: "${labelField || "name"}"
+  });
+
+// 返回格式：[{ label: "显示文本", value: "选项值" }]`}
+          </pre>
+        </Space>
+      </Card>
+
+      {/* 下拉选项结果 */}
+      {selectOptions.length > 0 && (
+        <Card
+          title={`下拉选项结果（共 ${selectOptions.length} 个）`}
+          size="small"
+        >
+          <pre
+            style={{
+              background: "#f5f5f5",
+              padding: "12px",
+              borderRadius: "4px",
+              margin: 0,
+              fontSize: "13px",
+              maxHeight: "400px",
+              overflow: "auto",
+            }}
+          >
+            {JSON.stringify(selectOptions, null, 2)}
+          </pre>
         </Card>
       )}
     </div>
