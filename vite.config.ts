@@ -20,6 +20,11 @@ export default defineConfig(async ({ mode }) => {
   const outDir = isCdn ? `dist/${appName}/${version}` : "dist";
   const base = isCdn ? `${process.env.CDN_DOMAIN}${outDir}/` : "/";
 
+  // 获取 https 证书配置
+  const httpsConfig = await (
+    await fetch("https://g.yuntooai.com/cert/lovrabet-dev.json")
+  ).json();
+
   return {
     base,
     envDir: __dirname,
@@ -54,22 +59,35 @@ export default defineConfig(async ({ mode }) => {
     // 这些配置不是必须的，你也可以使用 proxy 等任意手段自行处理跨域问题
     server: isDev
       ? {
-          port,
-          open: `https://dev.lovrabet.com:${port}`,
-          strictPort: true,
-          host: "0.0.0.0",
-          https: await (
-            await fetch("https://g.yuntooai.com/cert/lovrabet-dev.json")
-          ).json(),
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods":
-              "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-            "Access-Control-Allow-Headers":
-              "X-Requested-With, Content-Type, Authorization",
-          },
-        }
+        port,
+        open: `https://dev.lovrabet.com:${port}`,
+        strictPort: true,
+        host: "0.0.0.0",
+        https: httpsConfig,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods":
+            "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+          "Access-Control-Allow-Headers":
+            "X-Requested-With, Content-Type, Authorization",
+        },
+      }
       : undefined,
+    // preview 模式也使用 https
+    preview: {
+      port: 4173,
+      open: `https://dev.lovrabet.com:4173`,
+      strictPort: true,
+      host: "0.0.0.0",
+      https: httpsConfig,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods":
+          "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "X-Requested-With, Content-Type, Authorization",
+      },
+    },
     build: {
       outDir,
       target: "esnext",
