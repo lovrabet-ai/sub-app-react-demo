@@ -12,9 +12,8 @@ import {
 } from "antd";
 import { ApiOutlined } from "@ant-design/icons";
 import { lovrabetClient } from "../../api/client";
-import { SortOrder } from "@lovrabet/sdk";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 export default function SdkDemo() {
   const [loading, setLoading] = useState(false);
@@ -44,9 +43,9 @@ export default function SdkDemo() {
   }, []);
 
   /**
-   * 语法糖模式 - 最优雅的调用方式
+   * 使用 filter 接口查询数据
    */
-  const loadDataWithSyntaxSugar = async () => {
+  const loadData = async () => {
     if (!selectedModel) {
       message.warning("请先选择一个数据模型");
       return;
@@ -55,44 +54,15 @@ export default function SdkDemo() {
     setLoading(true);
 
     try {
-      // 1. 直接通过模型名访问 - 最优雅的方式
-      const response = await lovrabetClient.models[selectedModel].getList({
+      // 使用 filter 接口进行查询
+      const response = await lovrabetClient.models[selectedModel].filter({
         currentPage: 1,
         pageSize: 10,
       });
 
-      processResponse(response, "语法糖模式调用成功！");
+      processResponse(response, "查询成功！");
     } catch (error: any) {
-      handleError(error, "语法糖模式");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  /**
-   * 正常调用模式 - 编程式调用方式
-   */
-  const loadDataWithNormalMode = async () => {
-    if (!selectedModel) {
-      message.warning("请先选择一个数据模型");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      // 1. 先获取模型实例
-      const model = lovrabetClient.getModel(selectedModel);
-
-      // 2. 调用模型方法
-      const response = await model.getList({
-        currentPage: 1,
-        pageSize: 10,
-      });
-
-      processResponse(response, "正常模式调用成功！");
-    } catch (error: any) {
-      handleError(error, "正常模式");
+      handleError(error, "查询");
     } finally {
       setLoading(false);
     }
@@ -102,20 +72,50 @@ export default function SdkDemo() {
    * 处理响应数据
    */
   const processResponse = (response: any, successMessage: string) => {
-    // 处理返回的数据
-    setData(response.tableData || []);
+    try {
+      // filter 接口返回的数据结构
+      const tableData = response?.tableData || response?.data || [];
 
-    // 动态生成表格列
-    if (response.tableColumns) {
-      const tableColumns = response.tableColumns.map((column: any) => ({
-        title: column.title || column.dataIndex,
-        dataIndex: column.dataIndex,
-        key: column.dataIndex,
-      }));
-      setColumns(tableColumns);
+      // 确保 tableData 是数组
+      if (!Array.isArray(tableData)) {
+        console.error("返回的数据不是数组格式:", tableData);
+        message.error("返回数据格式错误，请检查 API 响应");
+        return;
+      }
+
+      setData(tableData);
+
+      // 优先使用 tableColumns 配置
+      if (response?.tableColumns && Array.isArray(response.tableColumns)) {
+        // 如果有 tableColumns，优先使用它
+        const tableColumns = response.tableColumns.map((column: any) => ({
+          title:
+            column.title || column.dataIndex || column.key || String(column),
+          dataIndex: column.dataIndex || column.key || String(column),
+          key: column.dataIndex || column.key || String(column),
+        }));
+        setColumns(tableColumns);
+      } else if (tableData.length > 0) {
+        // 如果没有 tableColumns，从第一条数据中提取字段名作为列
+        const firstRow = tableData[0];
+        if (firstRow && typeof firstRow === "object") {
+          const tableColumns = Object.keys(firstRow).map((key) => ({
+            title: key,
+            dataIndex: key,
+            key: key,
+          }));
+          setColumns(tableColumns);
+        }
+      } else {
+        // 如果没有数据也没有列定义，清空列
+        setColumns([]);
+      }
+
+      message.success(successMessage);
+    } catch (error: any) {
+      console.error("处理响应数据失败:", error);
+      message.error(`处理数据失败: ${error.message}`);
     }
-
-    message.success(successMessage);
   };
 
   /**
@@ -157,9 +157,9 @@ export default function SdkDemo() {
   /**
    * 处理错误
    */
-  const handleError = (error: any, mode: string) => {
-    console.error(`${mode}加载失败:`, error);
-    message.error(`${mode}加载失败: ${error.message}`);
+  const handleError = (error: any, action: string) => {
+    console.error(`${action}失败:`, error);
+    message.error(`${action}失败: ${error.message}`);
   };
 
   return (
@@ -170,7 +170,8 @@ export default function SdkDemo() {
       </Title>
 
       <Paragraph style={{ color: "#666", marginBottom: 24 }}>
-        演示 Lovrabet SDK 的两种调用方式。对比体验语法糖模式和正常模式的差异。
+        演示 Lovrabet SDK 的 <Text strong>filter</Text> 接口使用方法。filter
+        接口支持复杂条件查询、字段选择、多字段排序等功能。
         <br />
         <strong>注意：</strong>代码示例中的 "Requirements"
         是假设已经存在的数据模型名称，实际使用时请根据下拉框中的可用模型进行选择。
@@ -192,84 +193,61 @@ export default function SdkDemo() {
           <Button
             type="primary"
             loading={loading}
-            onClick={loadDataWithSyntaxSugar}
+            onClick={loadData}
             icon={<ApiOutlined />}
             disabled={!selectedModel}
           >
-            🍬 语法糖模式查询
-          </Button>
-          <Button
-            loading={loading}
-            onClick={loadDataWithNormalMode}
-            icon={<ApiOutlined />}
-            disabled={!selectedModel}
-          >
-            🔧 正常模式查询
+            查询数据
           </Button>
         </Space>
       </Card>
 
       {/* 代码示例 */}
-      <Card title="两种调用方式对比" size="small" style={{ marginBottom: 16 }}>
-        <div style={{ display: "flex", gap: "16px" }}>
-          {/* 语法糖模式 */}
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                fontWeight: "bold",
-                marginBottom: "8px",
-                color: "#1890ff",
-              }}
-            >
-              🍬 语法糖模式（推荐）
-            </div>
-            <pre
-              style={{
-                background: "#f0f8ff",
-                padding: "12px",
-                borderRadius: "4px",
-                margin: 0,
-                fontSize: "13px",
-                border: "1px solid #1890ff",
-              }}
-            >
-              {`// 一行代码搞定！
+      <Card title="代码示例" size="small" style={{ marginBottom: 16 }}>
+        <pre
+          style={{
+            background: "#f0f8ff",
+            padding: "16px",
+            borderRadius: "4px",
+            margin: 0,
+            fontSize: "13px",
+            border: "1px solid #1890ff",
+            overflow: "auto",
+          }}
+        >
+          {`// 基础查询（仅分页）
 const response = await lovrabetClient
-  .models.${selectedModel || "Requirements"}.getList({
+  .models.${selectedModel || "Requirements"}.filter({
     currentPage: 1,
     pageSize: 10
-  });`}
-            </pre>
-          </div>
+  });
 
-          {/* 正常模式 */}
-          <div style={{ flex: 1 }}>
-            <div
-              style={{ fontWeight: "bold", marginBottom: "8px", color: "#666" }}
-            >
-              🔧 正常模式
-            </div>
-            <pre
-              style={{
-                background: "#f5f5f5",
-                padding: "12px",
-                borderRadius: "4px",
-                margin: 0,
-                fontSize: "13px",
-                border: "1px solid #d9d9d9",
-              }}
-            >
-              {`// 分步骤调用
-const model = lovrabetClient
-  .getModel('${selectedModel || "Requirements"}');
+// 完整查询示例（所有参数均为可选，根据实际字段使用）
+const response = await lovrabetClient
+  .models.${selectedModel || "Requirements"}.filter({
+    // where: 条件查询（可选）
+    // where: {
+    //   age: { $gte: 18 },
+    //   status: { $eq: 'active' }
+    // },
+    
+    // select: 字段选择（可选）
+    // select: ['id', 'name', 'age'],
+    
+    // orderBy: 排序（可选）
+    // orderBy: [{ createTime: 'desc' }],
+    
+    // 分页参数（必需）
+    currentPage: 1,
+    pageSize: 10
+  });
 
-const response = await model.getList({
-  currentPage: 1,
-  pageSize: 10
-});`}
-            </pre>
-          </div>
-        </div>
+// 其他可用参数（仅示例，以实际字段为准）：
+// - where: 支持 $eq, $ne, $gte, $lte, $in, $contain, $startWith, $endWith 等操作符
+// - where: 支持 $and, $or 逻辑组合
+// - select: 数组形式，指定返回的字段
+// - orderBy: 数组形式，支持多字段排序 [{ field1: 'desc' }, { field2: 'asc' }]`}
+        </pre>
       </Card>
 
       {/* 数据表格 */}
@@ -400,6 +378,23 @@ const options = await lovrabetClient
           </pre>
         </Card>
       )}
+
+      {/* API 参考文档 */}
+      <Card size="small" style={{ marginTop: 24, background: "#f5f5f5" }}>
+        <Paragraph style={{ margin: 0, textAlign: "center" }}>
+          <Text type="secondary">
+            API 详细参考使用手册：{" "}
+            <a
+              href="https://open.lovrabet.com/docs/category/lovrabet-node-sdk/api-usage"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#1890ff" }}
+            >
+              https://open.lovrabet.com/docs/category/lovrabet-node-sdk/api-usage
+            </a>
+          </Text>
+        </Paragraph>
+      </Card>
     </div>
   );
 }

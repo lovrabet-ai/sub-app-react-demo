@@ -37,6 +37,45 @@ body {
   background: #a8a8a8;
 }
 
+/* 自定义菜单样式 - B端专业风格 */
+.custom-menu.ant-menu {
+  background: #fafafa !important;
+}
+
+.custom-menu .ant-menu-item {
+  margin: 4px 8px !important;
+  border-radius: 4px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  color: #262626 !important;
+}
+
+.custom-menu .ant-menu-item-icon {
+  color: #595959 !important;
+}
+
+.custom-menu .ant-menu-item:hover {
+  background: #e6f7ff !important;
+  color: #1890ff !important;
+}
+
+.custom-menu .ant-menu-item:hover .ant-menu-item-icon {
+  color: #1890ff !important;
+}
+
+.custom-menu .ant-menu-item-selected {
+  background: #1890ff !important;
+  color: #fff !important;
+}
+
+.custom-menu .ant-menu-item-selected .ant-menu-item-icon {
+  color: #fff !important;
+}
+
+.custom-menu .ant-menu-item-selected::after {
+  display: none !important;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
   .ant-layout-sider {
