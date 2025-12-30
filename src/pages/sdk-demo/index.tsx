@@ -105,6 +105,16 @@ export default function SdkDemo() {
             column.title || column.dataIndex || column.key || String(column),
           dataIndex: column.dataIndex || column.key || String(column),
           key: column.dataIndex || column.key || String(column),
+          // 处理对象/数组类型的值，避免 React Error #31
+          render: (value: any) => {
+            if (value === null || value === undefined) {
+              return "-";
+            }
+            if (typeof value === "object") {
+              return JSON.stringify(value);
+            }
+            return String(value);
+          },
         }));
         setColumns(tableColumns);
       } else if (tableData.length > 0) {
@@ -115,6 +125,16 @@ export default function SdkDemo() {
             title: key,
             dataIndex: key,
             key: key,
+            // 处理对象/数组类型的值，避免 React Error #31
+            render: (value: any) => {
+              if (value === null || value === undefined) {
+                return "-";
+              }
+              if (typeof value === "object") {
+                return JSON.stringify(value);
+              }
+              return String(value);
+            },
           }));
           setColumns(tableColumns);
         }
