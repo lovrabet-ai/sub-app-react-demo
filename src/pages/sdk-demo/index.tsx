@@ -19,22 +19,34 @@ export default function SdkDemo() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [columns, setColumns] = useState<any[]>([]);
-  const [modelList, setModelList] = useState<string[]>([]);
+  const [modelList, setModelList] = useState<
+    Array<{
+      value: string;
+      label: string;
+      alias?: string;
+      name?: string;
+      datasetCode: string;
+    }>
+  >([]);
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectOptions, setSelectOptions] = useState<any[]>([]);
   const [codeField, setCodeField] = useState<string>("id");
   const [labelField, setLabelField] = useState<string>("");
+
+  // 获取选中模型的信息（用于代码示例展示 alias）
+  const selectedModelInfo = modelList.find((m) => m.value === selectedModel);
 
   /**
    * 加载可用的数据模型列表
    */
   useEffect(() => {
     try {
-      const models = lovrabetClient.getModelList();
+      // 使用 getModelListDetails 获取人类友好的模型列表
+      const models = lovrabetClient.getModelListDetails();
       setModelList(models);
       // 默认选择第一个模型
       if (models.length > 0) {
-        setSelectedModel(models[0]);
+        setSelectedModel(models[0].value);
       }
     } catch (error) {
       console.error("获取模型列表失败:", error);
@@ -182,13 +194,12 @@ export default function SdkDemo() {
         <Space>
           <Select
             placeholder="选择要查询的数据模型"
-            style={{ width: 250 }}
+            style={{ width: 350 }}
             value={selectedModel}
             onChange={setSelectedModel}
-            options={modelList.map((model) => ({
-              label: model,
-              value: model,
-            }))}
+            showSearch
+            optionFilterProp="label"
+            options={modelList}
           />
           <Button
             type="primary"
@@ -215,28 +226,39 @@ export default function SdkDemo() {
             overflow: "auto",
           }}
         >
-          {`// 基础查询（仅分页）
+          {`// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
 const response = await lovrabetClient
-  .models.${selectedModel || "Requirements"}.filter({
+  .models['${selectedModel || "dataset_xxx"}'].filter({
     currentPage: 1,
     pageSize: 10
   });
-
-// 完整查询示例（所有参数均为可选，根据实际字段使用）
+${
+  selectedModelInfo?.alias
+    ? `
+// ========== 方式二：人类友好的 alias 模式 ==========
 const response = await lovrabetClient
-  .models.${selectedModel || "Requirements"}.filter({
+  .models.${selectedModelInfo.alias}.filter({
+    currentPage: 1,
+    pageSize: 10
+  });
+`
+    : ""
+}
+// ========== 完整查询示例（所有参数均为可选）==========
+const response = await lovrabetClient
+  .models['${selectedModel || "dataset_xxx"}'].filter({
     // where: 条件查询（可选）
     // where: {
     //   age: { $gte: 18 },
     //   status: { $eq: 'active' }
     // },
-    
+
     // select: 字段选择（可选）
     // select: ['id', 'name', 'age'],
-    
+
     // orderBy: 排序（可选）
     // orderBy: [{ createTime: 'desc' }],
-    
+
     // 分页参数（必需）
     currentPage: 1,
     pageSize: 10
@@ -345,13 +367,24 @@ const response = await lovrabetClient
               border: "1px solid #d9d9d9",
             }}
           >
-            {`// 调用示例
+            {`// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
 const options = await lovrabetClient
-  .models.${selectedModel || "Requirements"}.getSelectOptions({
+  .models['${selectedModel || "dataset_xxx"}'].getSelectOptions({
     code: "${codeField || "id"}",
     label: "${labelField || "name"}"
   });
-
+${
+  selectedModelInfo?.alias
+    ? `
+// ========== 方式二：人类友好的 alias 模式 ==========
+const options = await lovrabetClient
+  .models.${selectedModelInfo.alias}.getSelectOptions({
+    code: "${codeField || "id"}",
+    label: "${labelField || "name"}"
+  });
+`
+    : ""
+}
 // 返回格式：[{ label: "显示文本", value: "选项值" }]`}
           </pre>
         </Space>
