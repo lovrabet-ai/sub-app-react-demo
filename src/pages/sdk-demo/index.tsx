@@ -11,7 +11,7 @@ import {
   Tag,
 } from "antd";
 import { ApiOutlined } from "@ant-design/icons";
-import { lovrabetClient } from "../../api/client";
+import { lovrabetClient } from "@/api/client";
 
 const { Title, Paragraph, Text } = Typography;
 

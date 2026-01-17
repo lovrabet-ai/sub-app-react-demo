@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+
+.page {
+  font-family: 'Noto Sans SC', system-ui, sans-serif;
+  background: #f5f5f7;
+  padding: 20px;
+  min-height: 100vh;
+  margin: -16px;
+  color: #1d1d1f;
+}
+
+/* 欢迎区域 - 简洁直接 */
+.welcome {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #e5e5e7;
+}
+
+.welcome h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  color: #1d1d1f;
+}
+
+.welcome p {
+  font-size: 14px;
+  color: #86868b;
+  margin: 0;
+}
+
+/* Bento Grid 布局 */
+.bentoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* 统计卡片 */
+.statCard {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e5e5e7;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.statCard:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #86868b;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 4px;
+}
+
+.statTrend {
+  font-size: 12px;
+  color: #34c759;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* 两列布局 */
+.row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* 通用卡片 */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e5e7;
+  overflow: hidden;
+}
+
+.cardHead {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f5f5f7;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.cardBody {
+  padding: 16px 20px;
+}
+
+/* 快捷操作网格 */
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.actionItem {
+  background: #f5f5f7;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.actionItem:hover {
+  background: #fff;
+  border-color: #007aff;
+  transform: scale(1.02);
+  box-shadow: 0 2px 12px rgba(0, 122, 255, 0.1);
+}
+
+.actionIcon {
+  font-size: 28px;
+  color: #007aff;
+  margin-bottom: 10px;
+}
+
+.actionTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1d1f;
+  margin-bottom: 4px;
+}
+
+.actionDesc {
+  font-size: 12px;
+  color: #86868b;
+}
+
+/* 列表项 */
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f7;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  margin: 0 -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.listItem:hover {
+  background: #f5f5f7;
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.listMain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.listAvatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #007aff, #5ac8fa);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 16px;
+}
+
+.listName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1d1f;
+}
+
+.listTime {
+  font-size: 12px;
+  color: #86868b;
+}
+
+/* 待办事项 */
+.todoItem {
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f7;
+}
+
+.todoItem:last-child {
+  border-bottom: none;
+}
+
+.todoHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.todoTitle {
+  font-size: 14px;
+  color: #1d1d1f;
+  flex: 1;
+}
+
+.todoTag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.todoTag.high {
+  background: #ff3b30;
+  color: #fff;
+}
+
+.todoTag.medium {
+  background: #ff9500;
+  color: #fff;
+}
+
+.todoTag.low {
+  background: #32d74b;
+  color: #fff;
+}
+
+.todoDate {
+  font-size: 12px;
+  color: #86868b;
+  padding-left: 28px;
+}
+
+/* 时间线 */
+.timelineItem {
+  padding: 12px 0;
+  border-bottom: 1px solid #f5f5f7;
+}
+
+.timelineItem:last-child {
+  border-bottom: none;
+}
+
+.timelineTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1d1d1f;
+  margin-bottom: 4px;
+}
+
+.timelineContent {
+  font-size: 13px;
+  color: #6e6e73;
+  margin-bottom: 4px;
+  line-height: 1.5;
+}
+
+.timelineTime {
+  font-size: 12px;
+  color: #86868b;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .bentoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .bentoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -4,7 +4,6 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
   Layout,
   Menu,
-  theme,
   Button,
   Breadcrumb,
   Avatar,
@@ -18,12 +17,10 @@ import {
   ApiOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  RocketOutlined,
   UserOutlined,
-  SunOutlined,
-  MoonOutlined,
   BarChartOutlined,
   FileTextOutlined,
+  AuditOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -35,14 +32,12 @@ const routeConfig = [
   { path: "/dashboard", title: "数据看板" },
   { path: "/sdk-demo", title: "SDK 演示" },
   { path: "/data-screen", title: "数据大屏" },
+  { path: "/ceo-audit", title: "CEO 审计" },
 ];
 
 const MainLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {
-    token: { colorBgContainer, colorBgLayout },
-  } = theme.useToken();
 
   // 菜单收起/展开状态
   const [collapsed, setCollapsed] = useState(false);
@@ -53,7 +48,7 @@ const MainLayout: React.FC = () => {
     {
       key: "/",
       icon: <HomeOutlined />,
-      label: "首页（二开说明）",
+      label: "首页",
     },
     {
       key: "/sdk-demo",
@@ -79,33 +74,6 @@ const MainLayout: React.FC = () => {
           key: "/data-screen",
           icon: <BarChartOutlined />,
           label: "数据大屏",
-        },
-      ],
-    },
-    {
-      key: "docs",
-      icon: <FileTextOutlined />,
-      label: "参考文档",
-      children: [
-        {
-          key: "https://open.lovrabet.com/docs/lovrabet-cli/",
-          icon: <FileTextOutlined />,
-          label: "CLI 前端脚手架",
-        },
-        {
-          key: "https://open.lovrabet.com/docs/category/lovrabet-node-sdk",
-          icon: <FileTextOutlined />,
-          label: "TypeScript SDK",
-        },
-        {
-          key: "https://open.lovrabet.com/docs/category/java-opensdk",
-          icon: <FileTextOutlined />,
-          label: "Java SDK",
-        },
-        {
-          key: "https://open.lovrabet.com/docs/category/openapi",
-          icon: <FileTextOutlined />,
-          label: "OpenAPI",
         },
       ],
     },
@@ -165,26 +133,18 @@ const MainLayout: React.FC = () => {
 
   // 可选：根据isInIcestark()判断当前运行环境，被嵌入时，不渲染layout布局
   if (isInIcestark()) {
-    return (
-      <div style={{ padding: "16px 20px" }}>
-        <Outlet />
-      </div>
-    );
+    return <Outlet />;
   }
 
   return (
-    <Layout style={{ minHeight: "100vh", background: "#f5f5f5" }}>
+    <Layout style={{ minHeight: "100vh" }}>
       {!menuHidden && (
         <Sider
           trigger={null}
           collapsible
           collapsed={collapsed}
           width={220}
-          style={{
-            background: "#fafafa",
-            boxShadow: "2px 0 8px 0 rgba(29,35,41,.05)",
-            borderRight: "1px solid #f0f0f0",
-          }}
+          style={{ background: "#fff" }}
         >
           {/* 系统标题 */}
           <div
@@ -194,21 +154,32 @@ const MainLayout: React.FC = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: collapsed ? "center" : "flex-start",
-              borderBottom: "1px solid #f0f0f0",
               background: "#fff",
+              borderBottom: "1px solid #f0f0f0",
             }}
           >
             {!collapsed ? (
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <RocketOutlined style={{ color: "#1890ff", fontSize: 20 }} />
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <img
+                  src="/logo.svg"
+                  alt="Logo"
+                  style={{ height: 28, width: 28 }}
+                />
                 <span
-                  style={{ fontSize: 16, fontWeight: 600, color: "#262626" }}
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 600,
+                  }}
                 >
                   Lovrabet System
                 </span>
               </div>
             ) : (
-              <RocketOutlined style={{ color: "#1890ff", fontSize: 24 }} />
+              <img
+                src="/logo.svg"
+                alt="Logo"
+                style={{ height: 28, width: 28 }}
+              />
             )}
           </div>
           <Menu
@@ -219,9 +190,7 @@ const MainLayout: React.FC = () => {
             style={{
               height: "calc(100vh - 64px)",
               borderRight: 0,
-              background: "#fafafa",
             }}
-            theme="light"
             className="custom-menu"
           />
         </Sider>
@@ -230,13 +199,13 @@ const MainLayout: React.FC = () => {
         <Header
           style={{
             padding: "0 24px",
-            background: "#fff",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             boxShadow: "0 2px 8px 0 rgba(29,35,41,.05)",
-            borderBottom: "1px solid #f0f0f0",
             height: 64,
+            background: "#fff",
+            borderBottom: "1px solid #f0f0f0",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -277,22 +246,26 @@ const MainLayout: React.FC = () => {
             {/* 面包屑导航 */}
             <Breadcrumb
               items={getBreadcrumbItems()}
-              style={{ marginLeft: menuHidden ? 0 : 16 }}
+              style={{
+                marginLeft: menuHidden ? 0 : 16,
+                fontSize: 14,
+              }}
+              itemRender={(route, params, routes, paths) => {
+                const isLast = routes.indexOf(route) === routes.length - 1;
+                return (
+                  <span
+                    style={{
+                      color: isLast ? "#262626" : "#595959",
+                      fontWeight: isLast ? 500 : 400,
+                    }}
+                  >
+                    {route.title}
+                  </span>
+                );
+              }}
             />
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            {/* 主题切换 */}
-            <Button
-              type="text"
-              icon={<SunOutlined />}
-              style={{
-                width: 40,
-                height: 40,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            />
             {/* 用户信息 */}
             <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
               <Space
@@ -303,7 +276,7 @@ const MainLayout: React.FC = () => {
                   transition: "background 0.3s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#f5f5f5";
+                  e.currentTarget.style.background = "rgba(0,0,0,0.06)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
@@ -314,7 +287,7 @@ const MainLayout: React.FC = () => {
                   icon={<UserOutlined />}
                   style={{ background: "#1890ff" }}
                 />
-                <span style={{ fontSize: 14, color: "#262626" }}>管理员</span>
+                <span style={{ fontSize: 14 }}>管理员</span>
               </Space>
             </Dropdown>
           </div>
@@ -324,7 +297,7 @@ const MainLayout: React.FC = () => {
             margin: "16px",
             padding: 24,
             minHeight: 280,
-            background: colorBgContainer,
+            background: "#fff",
             borderRadius: 8,
           }}
         >
