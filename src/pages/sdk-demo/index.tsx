@@ -436,14 +436,14 @@ const options = await lovrabetClient
       <Card size="small" style={{ marginTop: 24, background: "#f5f5f5" }}>
         <Paragraph style={{ margin: 0, textAlign: "center" }}>
           <Text type="secondary">
-            API 详细参考使用手册：{" "}
+            技术开发文档指引：{" "}
             <a
-              href="https://open.lovrabet.com/docs/category/lovrabet-node-sdk/api-usage"
+              href="https://open.lovrabet.com/docs/guides/tutorial"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: "#1890ff" }}
             >
-              https://open.lovrabet.com/docs/category/lovrabet-node-sdk/api-usage
+              https://open.lovrabet.com/docs/guides/tutorial
             </a>
           </Text>
         </Paragraph>
