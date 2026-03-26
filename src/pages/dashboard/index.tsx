@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import ReactECharts from "echarts-for-react";
-import Paragraph from "antd/es/skeleton/Paragraph";
+import DemoPageContainer from "@/components/demo-page-container/DemoPageContainer";
 
 const { Title } = Typography;
 
@@ -256,9 +256,7 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div
-      style={{ padding: "16px", backgroundColor: "#fff", minHeight: "100vh" }}
-    >
+    <DemoPageContainer>
       {/* 顶部提示信息 */}
       <Alert
         message="Dashboard 展示页面"
@@ -565,7 +563,7 @@ const Dashboard: React.FC = () => {
           </div>
         </Col>
       </Row>
-    </div>
+    </DemoPageContainer>
   );
 };
 

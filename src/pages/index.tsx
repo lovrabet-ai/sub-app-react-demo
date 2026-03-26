@@ -2,7 +2,17 @@
  * Title: Rabetbase 开发指南
  */
 import React from "react";
-import { Typography, Card, Row, Col, Button, Tabs, Alert, Space, Tag } from "antd";
+import {
+  Typography,
+  Card,
+  Row,
+  Col,
+  Button,
+  Tabs,
+  Alert,
+  Space,
+  Tag,
+} from "antd";
 import {
   CodeOutlined,
   RobotOutlined,
@@ -14,6 +24,7 @@ import {
   RocketOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import DemoPageContainer from "@/components/demo-page-container/DemoPageContainer";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -134,7 +145,7 @@ lovrabet menu sync`;
       ),
       children: (
         <div>
-          <Paragraph>Claude Desktop 配置：</Paragraph>
+          <Paragraph>claude code 配置：</Paragraph>
           <Paragraph style={{ fontSize: 12, color: "#666" }}>
             配置文件路径：
             <br />
@@ -248,196 +259,215 @@ lovrabet menu sync`;
   ];
 
   return (
-    <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px" }}>
-      {/* 标题区 */}
-      <div style={{ marginBottom: 32 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            flexWrap: "wrap",
-            gap: 16,
-          }}
-        >
-          <div>
-            <Title level={2} style={{ margin: 0 }}>
-              Rabetbase 开发指南
-            </Title>
-            <Paragraph style={{ color: "#666", marginTop: 8, marginBottom: 0 }}>
-              基于 Lovrabet 平台的后端即服务（BaaS）
-            </Paragraph>
-          </div>
-          <Space size="middle">
-            <a
-              href="https://open.lovrabet.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Rabetbase官网
-            </a>
-            <a
-              href="https://open.lovrabet.com/docs/changelog"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              更新日志
-            </a>
-            {!isNotSet && appCode && (
+    <DemoPageContainer maxWidth={1200}>
+      <div>
+        {/* 标题区 */}
+        <div style={{ marginBottom: 32 }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              flexWrap: "wrap",
+              gap: 16,
+            }}
+          >
+            <div>
+              <Title level={2} style={{ margin: 0 }}>
+                Rabetbase 开发指南
+              </Title>
+              <Paragraph
+                style={{ color: "#666", marginTop: 8, marginBottom: 0 }}
+              >
+                基于 Lovrabet 平台的后端即服务（BaaS）
+              </Paragraph>
+            </div>
+            <Space size="middle">
               <a
-                href={`https://app.lovrabet.com/app/${appCode}/data/intro/`}
+                href="https://open.lovrabet.com"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                应用配置后台
+                Rabetbase官网
               </a>
-            )}
-          </Space>
-        </div>
-      </div>
-
-      {/* Rabetbase 介绍卡片 */}
-      <Card style={{ marginBottom: 24 }}>
-        <Row gutter={[24, 16]} align="middle">
-          <Col xs={24} lg={16}>
-            <Title level={3} style={{ marginBottom: 12 }}>
-              什么是 Rabetbase？
-            </Title>
-            <Paragraph style={{ fontSize: 15, marginBottom: 16, color: "#595959" }}>
-              <strong>Rabetbase 是 Lovrabet 面向技术岗位的开发者平台。</strong>
-              <br />
-              Lovrabet 工作台让业务人员用 AI 生成管理系统，但有些个性化需求（如小程序、ERP 对接、复杂业务逻辑）需要开发者介入。
-              Rabetbase 把 Lovrabet 平台的数据能力开放出来，让开发者专注于写业务逻辑。
-            </Paragraph>
-            <Space wrap>
-              <Button
-                size="small"
-                href="https://open.lovrabet.com/docs/category/openapi"
+              <a
+                href="https://open.lovrabet.com/docs/changelog"
                 target="_blank"
+                rel="noopener noreferrer"
               >
-                OpenAPI
-              </Button>
-              <Button
-                size="small"
-                href="https://open.lovrabet.com/docs/category/lovrabet-node-sdk"
-                target="_blank"
-              >
-                TypeScript SDK
-              </Button>
-              <Button
-                size="small"
-                href="https://open.lovrabet.com/docs/category/java-opensdk"
-                target="_blank"
-              >
-                Java SDK
-              </Button>
-              <Button
-                size="small"
-                href="https://open.lovrabet.com/docs/mcp/intro"
-                target="_blank"
-              >
-                MCP
-              </Button>
-              <Button
-                size="small"
-                href="https://open.lovrabet.com/docs/lovrabet-cli/"
-                target="_blank"
-              >
-                CLI 工具
-              </Button>
+                更新日志
+              </a>
+              {!isNotSet && appCode && (
+                <a
+                  href={`https://app.lovrabet.com/app/${appCode}/data/intro/`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  应用配置后台
+                </a>
+              )}
             </Space>
-          </Col>
-          <Col xs={24} lg={8}>
-            <div
-              style={{
-                background: "#f5f5f5",
-                borderRadius: 8,
-                padding: 20,
-              }}
-            >
-              <Text style={{ fontSize: 14, display: "block", marginBottom: 12 }}>
-                <strong>核心价值：</strong>
-              </Text>
-              <ul style={{ color: "#595959", margin: 0, paddingLeft: 20, fontSize: 14 }}>
-                <li style={{ marginBottom: 8 }}>AI 自动理解业务模型</li>
-                <li style={{ marginBottom: 8 }}>现成的 API 和 SDK</li>
-                <li style={{ marginBottom: 8 }}>开发效率提升 2~5 倍</li>
-                <li>你只需要专注写业务逻辑</li>
-              </ul>
-            </div>
-          </Col>
-        </Row>
-      </Card>
+          </div>
+        </div>
 
-      {/* 未配置提示 */}
-      {isNotSet && !loading && (
-        <Alert
-          type="warning"
-          icon={<ExclamationCircleOutlined />}
-          message="项目尚未配置 AppCode"
-          description={
-            <div style={{ marginTop: 8 }}>
-              <Paragraph style={{ marginBottom: 8 }}>
-                请先执行以下命令初始化项目（替换{" "}
-                <code>&lt;your-app-code&gt;</code> 为你的应用代码）：
+        {/* Rabetbase 介绍卡片 */}
+        <Card style={{ marginBottom: 24 }}>
+          <Row gutter={[24, 16]} align="middle">
+            <Col xs={24} lg={16}>
+              <Title level={3} style={{ marginBottom: 12 }}>
+                什么是 Rabetbase？
+              </Title>
+              <Paragraph
+                style={{ fontSize: 15, marginBottom: 16, color: "#595959" }}
+              >
+                <strong>
+                  Rabetbase 是 Lovrabet 面向技术岗位的开发者平台。
+                </strong>
+                <br />
+                Lovrabet 工作台让业务人员用 AI
+                生成管理系统，但有些个性化需求（如小程序、ERP
+                对接、复杂业务逻辑）需要开发者介入。 Rabetbase 把 Lovrabet
+                平台的数据能力开放出来，让开发者专注于写业务逻辑。
               </Paragraph>
-              <CopyableCode
-                code={`# 1. 设置 AppCode
+              <Space wrap>
+                <Button
+                  size="small"
+                  href="https://open.lovrabet.com/docs/category/openapi"
+                  target="_blank"
+                >
+                  OpenAPI
+                </Button>
+                <Button
+                  size="small"
+                  href="https://open.lovrabet.com/docs/category/lovrabet-node-sdk"
+                  target="_blank"
+                >
+                  TypeScript SDK
+                </Button>
+                <Button
+                  size="small"
+                  href="https://open.lovrabet.com/docs/category/java-opensdk"
+                  target="_blank"
+                >
+                  Java SDK
+                </Button>
+                <Button
+                  size="small"
+                  href="https://open.lovrabet.com/docs/mcp/intro"
+                  target="_blank"
+                >
+                  MCP
+                </Button>
+                <Button
+                  size="small"
+                  href="https://open.lovrabet.com/docs/lovrabet-cli/"
+                  target="_blank"
+                >
+                  CLI 工具
+                </Button>
+              </Space>
+            </Col>
+            <Col xs={24} lg={8}>
+              <div
+                style={{
+                  background: "#f5f5f5",
+                  borderRadius: 8,
+                  padding: 20,
+                }}
+              >
+                <Text
+                  style={{ fontSize: 14, display: "block", marginBottom: 12 }}
+                >
+                  <strong>核心价值：</strong>
+                </Text>
+                <ul
+                  style={{
+                    color: "#595959",
+                    margin: 0,
+                    paddingLeft: 20,
+                    fontSize: 14,
+                  }}
+                >
+                  <li style={{ marginBottom: 8 }}>AI 自动理解业务模型</li>
+                  <li style={{ marginBottom: 8 }}>现成的 API 和 SDK</li>
+                  <li style={{ marginBottom: 8 }}>开发效率提升 2~5 倍</li>
+                  <li>你只需要专注写业务逻辑</li>
+                </ul>
+              </div>
+            </Col>
+          </Row>
+        </Card>
+
+        {/* 未配置提示 */}
+        {isNotSet && !loading && (
+          <Alert
+            type="warning"
+            icon={<ExclamationCircleOutlined />}
+            message="项目尚未配置 AppCode"
+            description={
+              <div style={{ marginTop: 8 }}>
+                <Paragraph style={{ marginBottom: 8 }}>
+                  请先执行以下命令初始化项目（替换{" "}
+                  <code>&lt;your-app-code&gt;</code> 为你的应用代码）：
+                </Paragraph>
+                <CopyableCode
+                  code={`# 1. 设置 AppCode
 lovrabet config set app <your-app-code>
 
 # 2. 拉取 API 配置
 lovrabet api pull`}
-                label="初始化命令"
-              />
-              <Paragraph style={{ marginBottom: 0 }}>
-                执行完成后刷新页面即可。
-              </Paragraph>
-            </div>
-          }
-          style={{ marginBottom: 24 }}
-        />
-      )}
-
-      {/* 配置代码 */}
-      <Card style={{ marginBottom: 24 }}>
-        <Tabs items={configTabs} />
-      </Card>
-
-      {/* 文档链接 */}
-      <Row gutter={16}>
-        {docLinks.map((section) => (
-          <Col xs={24} md={12} key={section.title}>
-            <Card style={{ height: "100%" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  marginBottom: 16,
-                }}
-              >
-                {section.icon}
-                <Title level={4} style={{ margin: 0 }}>
-                  {section.title}
-                </Title>
+                  label="初始化命令"
+                />
+                <Paragraph style={{ marginBottom: 0 }}>
+                  执行完成后刷新页面即可。
+                </Paragraph>
               </div>
-              {section.links.map((link) => (
-                <div key={link.label}>
-                  <Button
-                    type="link"
-                    href={link.url}
-                    target="_blank"
-                    style={{ padding: "8px 0" }}
-                  >
-                    {link.label} <ArrowRightOutlined />
-                  </Button>
+            }
+            style={{ marginBottom: 24 }}
+          />
+        )}
+
+        {/* 配置代码 */}
+        <Card style={{ marginBottom: 24 }}>
+          <Tabs items={configTabs} />
+        </Card>
+
+        {/* 文档链接 */}
+        <Row gutter={16}>
+          {docLinks.map((section) => (
+            <Col xs={24} md={12} key={section.title}>
+              <Card style={{ height: "100%" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    marginBottom: 16,
+                  }}
+                >
+                  {section.icon}
+                  <Title level={4} style={{ margin: 0 }}>
+                    {section.title}
+                  </Title>
                 </div>
-              ))}
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </div>
+                {section.links.map((link) => (
+                  <div key={link.label}>
+                    <Button
+                      type="link"
+                      href={link.url}
+                      target="_blank"
+                      style={{ padding: "8px 0" }}
+                    >
+                      {link.label} <ArrowRightOutlined />
+                    </Button>
+                  </div>
+                ))}
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </div>
+    </DemoPageContainer>
   );
 }
 

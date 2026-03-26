@@ -9,6 +9,7 @@ import {
   TrophyOutlined,
 } from "@ant-design/icons";
 import ReactECharts from "echarts-for-react";
+import DemoPageContainer from "@/components/demo-page-container/DemoPageContainer";
 
 const { Title } = Typography;
 
@@ -66,7 +67,9 @@ const mockData = {
       "11月",
       "12月",
     ],
-    values: [3200, 4500, 3800, 5200, 6100, 5800, 7200, 6800, 7900, 8500, 9200, 9800],
+    values: [
+      3200, 4500, 3800, 5200, 6100, 5800, 7200, 6800, 7900, 8500, 9200, 9800,
+    ],
   },
 
   // 地区分布数据
@@ -224,7 +227,9 @@ const DataScreen: React.FC = () => {
           value: item.value,
           name: item.name,
           itemStyle: {
-            color: ["#1890ff", "#52c41a", "#fa8c16", "#eb2f96", "#722ed1"][index],
+            color: ["#1890ff", "#52c41a", "#fa8c16", "#eb2f96", "#722ed1"][
+              index
+            ],
           },
         })),
       },
@@ -356,171 +361,171 @@ const DataScreen: React.FC = () => {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "calc(100vh - 112px)",
-        background: "linear-gradient(135deg, #0a1929 0%, #1a2332 100%)",
-        padding: "24px",
-        color: "#fff",
-        margin: "-24px",
-        borderRadius: 0,
-      }}
-    >
-      {/* 顶部标题栏 */}
+    <DemoPageContainer variant="bleed">
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 24,
+          minHeight: "calc(100vh - 112px)",
+          background: "linear-gradient(135deg, #0a1929 0%, #1a2332 100%)",
+          padding: "24px",
+          color: "#fff",
+          borderRadius: 0,
         }}
       >
-        <Title level={2} style={{ color: "#fff", margin: 0 }}>
-          数据大屏
-        </Title>
-        <div style={{ fontSize: 16, color: "#4a90e2" }}>
-          {currentTime.toLocaleString("zh-CN", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          })}
+        {/* 顶部标题栏 */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 24,
+          }}
+        >
+          <Title level={2} style={{ color: "#fff", margin: 0 }}>
+            数据大屏
+          </Title>
+          <div style={{ fontSize: 16, color: "#4a90e2" }}>
+            {currentTime.toLocaleString("zh-CN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* 统计卡片 */}
-      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        {mockData.statistics.map((stat, index) => (
-          <Col xs={24} sm={12} lg={6} key={index}>
+        {/* 统计卡片 */}
+        <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+          {mockData.statistics.map((stat, index) => (
+            <Col xs={24} sm={12} lg={6} key={index}>
+              <Card
+                style={{
+                  background: "rgba(24, 144, 255, 0.1)",
+                  border: "1px solid rgba(24, 144, 255, 0.3)",
+                  borderRadius: 8,
+                }}
+                bodyStyle={{ padding: 20 }}
+              >
+                <Statistic
+                  title={
+                    <span style={{ color: "#fff", fontSize: 14 }}>
+                      {stat.title}
+                    </span>
+                  }
+                  value={stat.value}
+                  prefix={
+                    <span style={{ color: stat.color, marginRight: 8 }}>
+                      {stat.prefix}
+                    </span>
+                  }
+                  suffix={
+                    <span style={{ color: "#fff", fontSize: 14 }}>
+                      {stat.suffix}
+                    </span>
+                  }
+                  valueStyle={{
+                    color: "#fff",
+                    fontSize: 24,
+                    fontWeight: "bold",
+                  }}
+                />
+                <div style={{ marginTop: 8, fontSize: 12, color: "#4a90e2" }}>
+                  {stat.trend.isUp ? (
+                    <ArrowUpOutlined style={{ color: "#52c41a" }} />
+                  ) : (
+                    <ArrowDownOutlined style={{ color: "#ff4d4f" }} />
+                  )}
+                  <span
+                    style={{
+                      color: stat.trend.isUp ? "#52c41a" : "#ff4d4f",
+                      marginLeft: 4,
+                    }}
+                  >
+                    {stat.trend.value}%
+                  </span>
+                  <span style={{ color: "#8c8c8c", marginLeft: 8 }}>
+                    较上月
+                  </span>
+                </div>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+
+        {/* 图表区域 */}
+        <Row gutter={[16, 16]}>
+          {/* 销售趋势 */}
+          <Col xs={24} lg={16}>
             <Card
               style={{
-                background: "rgba(24, 144, 255, 0.1)",
+                background: "rgba(0, 0, 0, 0.3)",
                 border: "1px solid rgba(24, 144, 255, 0.3)",
                 borderRadius: 8,
               }}
-              bodyStyle={{ padding: 20 }}
+              bodyStyle={{ padding: 16 }}
             >
-              <Statistic
-                title={
-                  <span style={{ color: "#fff", fontSize: 14 }}>
-                    {stat.title}
-                  </span>
-                }
-                value={stat.value}
-                prefix={
-                  <span style={{ color: stat.color, marginRight: 8 }}>
-                    {stat.prefix}
-                  </span>
-                }
-                suffix={
-                  <span style={{ color: "#fff", fontSize: 14 }}>
-                    {stat.suffix}
-                  </span>
-                }
-                valueStyle={{
-                  color: "#fff",
-                  fontSize: 24,
-                  fontWeight: "bold",
-                }}
+              <ReactECharts
+                option={salesTrendOption}
+                style={{ height: "400px", width: "100%" }}
               />
-              <div style={{ marginTop: 8, fontSize: 12, color: "#4a90e2" }}>
-                {stat.trend.isUp ? (
-                  <ArrowUpOutlined style={{ color: "#52c41a" }} />
-                ) : (
-                  <ArrowDownOutlined style={{ color: "#ff4d4f" }} />
-                )}
-                <span
-                  style={{
-                    color: stat.trend.isUp ? "#52c41a" : "#ff4d4f",
-                    marginLeft: 4,
-                  }}
-                >
-                  {stat.trend.value}%
-                </span>
-                <span style={{ color: "#8c8c8c", marginLeft: 8 }}>
-                  较上月
-                </span>
-              </div>
             </Card>
           </Col>
-        ))}
-      </Row>
 
-      {/* 图表区域 */}
-      <Row gutter={[16, 16]}>
-        {/* 销售趋势 */}
-        <Col xs={24} lg={16}>
-          <Card
-            style={{
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(24, 144, 255, 0.3)",
-              borderRadius: 8,
-            }}
-            bodyStyle={{ padding: 16 }}
-          >
-            <ReactECharts
-              option={salesTrendOption}
-              style={{ height: "400px", width: "100%" }}
-            />
-          </Card>
-        </Col>
+          {/* 地区分布 */}
+          <Col xs={24} lg={8}>
+            <Card
+              style={{
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(24, 144, 255, 0.3)",
+                borderRadius: 8,
+              }}
+              bodyStyle={{ padding: 16 }}
+            >
+              <ReactECharts
+                option={regionPieOption}
+                style={{ height: "400px", width: "100%" }}
+              />
+            </Card>
+          </Col>
 
-        {/* 地区分布 */}
-        <Col xs={24} lg={8}>
-          <Card
-            style={{
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(24, 144, 255, 0.3)",
-              borderRadius: 8,
-            }}
-            bodyStyle={{ padding: 16 }}
-          >
-            <ReactECharts
-              option={regionPieOption}
-              style={{ height: "400px", width: "100%" }}
-            />
-          </Card>
-        </Col>
+          {/* 产品分类 */}
+          <Col xs={24} lg={12}>
+            <Card
+              style={{
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(24, 144, 255, 0.3)",
+                borderRadius: 8,
+              }}
+              bodyStyle={{ padding: 16 }}
+            >
+              <ReactECharts
+                option={productBarOption}
+                style={{ height: "350px", width: "100%" }}
+              />
+            </Card>
+          </Col>
 
-        {/* 产品分类 */}
-        <Col xs={24} lg={12}>
-          <Card
-            style={{
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(24, 144, 255, 0.3)",
-              borderRadius: 8,
-            }}
-            bodyStyle={{ padding: 16 }}
-          >
-            <ReactECharts
-              option={productBarOption}
-              style={{ height: "350px", width: "100%" }}
-            />
-          </Card>
-        </Col>
-
-        {/* 实时订单 */}
-        <Col xs={24} lg={12}>
-          <Card
-            style={{
-              background: "rgba(0, 0, 0, 0.3)",
-              border: "1px solid rgba(24, 144, 255, 0.3)",
-              borderRadius: 8,
-            }}
-            bodyStyle={{ padding: 16 }}
-          >
-            <ReactECharts
-              option={realtimeOrderOption}
-              style={{ height: "350px", width: "100%" }}
-            />
-          </Card>
-        </Col>
-      </Row>
-    </div>
+          {/* 实时订单 */}
+          <Col xs={24} lg={12}>
+            <Card
+              style={{
+                background: "rgba(0, 0, 0, 0.3)",
+                border: "1px solid rgba(24, 144, 255, 0.3)",
+                borderRadius: 8,
+              }}
+              bodyStyle={{ padding: 16 }}
+            >
+              <ReactECharts
+                option={realtimeOrderOption}
+                style={{ height: "350px", width: "100%" }}
+              />
+            </Card>
+          </Col>
+        </Row>
+      </div>
+    </DemoPageContainer>
   );
 };
 
 export default DataScreen;
-

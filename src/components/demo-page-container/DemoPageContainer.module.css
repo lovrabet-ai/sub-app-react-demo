@@ -1,0 +1,28 @@
+.root {
+  width: 100%;
+  min-width: 0;
+}
+
+/* 标准演示页的页面级 gutter 只保留这一层。
+   页面自身不要再补外层 padding，避免和容器叠成双层留白。 */
+.standard {
+  padding: 16px 16px 24px;
+}
+
+/* bleed 页面由页面自己决定内部留白，用于数据大屏这类全宽舞台。 */
+.bleed {
+  padding: 0;
+}
+
+.inner {
+  width: 100%;
+  min-width: 0;
+  max-width: var(--demo-page-max-width, 100%);
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .standard {
+    padding: 12px;
+  }
+}

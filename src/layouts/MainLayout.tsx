@@ -33,6 +33,13 @@ const routeConfig = [
   { path: "/sdk-demo", title: "SDK 演示" },
   { path: "/data-screen", title: "数据大屏" },
   { path: "/ceo-audit", title: "CEO 审计" },
+  { path: "/prompt-manage", title: "Prompt 管理" },
+  { path: "/prompt-manage/create", title: "新建 Prompt" },
+  { path: "/prompt-manage/detail", title: "Prompt 详情" },
+  { path: "/prompt-manage/edit", title: "编辑 Prompt" },
+  { path: "/prompt-manage/version-list", title: "版本历史" },
+  { path: "/prompt-manage/version-detail", title: "版本详情" },
+  { path: "/prompt-manage/version-compare", title: "版本对比" },
 ];
 
 const MainLayout: React.FC = () => {
@@ -54,6 +61,21 @@ const MainLayout: React.FC = () => {
       key: "/sdk-demo",
       icon: <ApiOutlined />,
       label: "SDK 演示",
+    },
+    {
+      key: "prompt-manage-group",
+      icon: <AuditOutlined />,
+      label: "Prompt 管理",
+      children: [
+        {
+          key: "/prompt-manage",
+          label: "列表",
+        },
+        {
+          key: "/prompt-manage/create",
+          label: "新建",
+        },
+      ],
     },
     {
       key: "page-examples",
@@ -137,7 +159,7 @@ const MainLayout: React.FC = () => {
   }
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh", background: "#fff" }}>
       {!menuHidden && (
         <Sider
           trigger={null}
@@ -195,7 +217,7 @@ const MainLayout: React.FC = () => {
           />
         </Sider>
       )}
-      <Layout>
+      <Layout style={{ background: "#fff" }}>
         <Header
           style={{
             padding: "0 24px",
@@ -293,15 +315,14 @@ const MainLayout: React.FC = () => {
           </div>
         </Header>
         <Content
+          className="subapp-shell-content"
           style={{
-            margin: "16px",
-            padding: 24,
             minHeight: 280,
-            background: "#fff",
-            borderRadius: 8,
           }}
         >
-          <Outlet />
+          <div className="subapp-shell-stage">
+            <Outlet />
+          </div>
         </Content>
       </Layout>
     </Layout>

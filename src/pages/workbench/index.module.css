@@ -1,12 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap");
 
+/* workbench 的页面级外层 gutter 由 DemoPageContainer 负责。
+   这里不要再加根节点 padding，否则会和共享容器叠出双层间距。 */
 .page {
-  font-family: 'Noto Sans SC', system-ui, sans-serif;
+  font-family: "Noto Sans SC", system-ui, sans-serif;
   background: #f5f5f7;
-  padding: 20px;
-  min-height: 100vh;
-  margin: -16px;
   color: #1d1d1f;
+  border-radius: 16px;
 }
 
 /* 欢迎区域 - 简洁直接 */
@@ -45,7 +45,9 @@
   border-radius: 12px;
   padding: 20px;
   border: 1px solid #e5e5e7;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   cursor: default;
 }
 

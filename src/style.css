@@ -5,16 +5,32 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #fff;
 }
 
 #root {
   width: 100%;
   height: 100vh;
+  background: #fff;
+}
+
+/* 壳层只负责提供子应用舞台和内容承载，不负责业务页的页面级 gutter。
+   页面外层留白只能由 DemoPageContainer / PageScaffold 这类 container 提供，
+   页面内容层不要再通过根节点 padding 或负 margin 抵消壳层 / container。 */
+.subapp-shell-content {
+  min-width: 0;
+  padding: 0;
+  background: transparent !important;
+}
+
+.subapp-shell-stage {
+  width: 100%;
+  min-width: 0;
 }
 
 /* 自定义滚动条样式 */
