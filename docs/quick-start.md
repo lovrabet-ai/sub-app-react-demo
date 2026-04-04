@@ -30,7 +30,7 @@ git checkout main
 npm i
 
 # 本地运行查看效果
-npm start
+rabetbase run start
 ```
 
 **本地验证**：
@@ -45,7 +45,7 @@ npm start
 
 ```bash
 # 构建微前端产物
-npm run build
+rabetbase run build
 ```
 
 **构建验证**：
@@ -152,7 +152,7 @@ cat src/pages/ChartFetch.tsx
 
 ```bash
 # 项目已安装echarts依赖
-npm start
+rabetbase run start
 ```
 
 **本地验证**：
@@ -164,7 +164,7 @@ npm start
 
 ```bash
 # 重新构建包含图表功能的版本
-npm run build
+rabetbase run build
 ```
 
 **构建验证**：

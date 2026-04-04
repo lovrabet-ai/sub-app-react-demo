@@ -129,11 +129,11 @@ function HomePage() {
   }
 }`;
 
-  const cliCode = `# 拉取最新 API 配置
-lovrabet api pull
+  const cliCode = `# 研发态：拉取最新 API 配置
+rabetbase api pull
 
-# 微前端子应用同步菜单
-lovrabet menu sync`;
+# 平台菜单同步
+rabetbase menu sync`;
 
   const configTabs = [
     {
@@ -411,11 +411,11 @@ lovrabet menu sync`;
                   <code>&lt;your-app-code&gt;</code> 为你的应用代码）：
                 </Paragraph>
                 <CopyableCode
-                  code={`# 1. 设置 AppCode
-lovrabet config set app <your-app-code>
+                  code={`# 1. 初始化项目
+rabetbase project init
 
 # 2. 拉取 API 配置
-lovrabet api pull`}
+rabetbase api pull`}
                   label="初始化命令"
                 />
                 <Paragraph style={{ marginBottom: 0 }}>

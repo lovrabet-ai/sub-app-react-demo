@@ -79,16 +79,32 @@
 
 ## 快速开始
 
+### 环境前置
+
+执行 `rabetbase run` 相关命令前，请先确保本机已安装 Node.js 20+ 与 `rabetbase` CLI。
+
+> 说明：本项目 `package.json` 不内置 `rabetbase` 依赖，README 中的 `rabetbase run` 为全局 CLI 调用。
+
+```bash
+npm install -g @lovrabet/rabetbase-cli
+# 或
+bun install -g @lovrabet/rabetbase-cli
+
+rabetbase --help
+```
+
 ### 安装依赖
 
 ```bash
 npm install
 ```
 
+研发态本地脚本统一通过 `rabetbase run` 执行。
+
 ### 开发模式
 
 ```bash
-lovrabet start
+rabetbase run start
 ```
 
 应用将在 `https://dev.lovrabet.com:5173` 启动（配置了HTTPS证书）
@@ -110,13 +126,13 @@ lovrabet start
 ### 构建生产版本
 
 ```bash
-lovrabet build
+rabetbase run build
 ```
 
 ### 预览生产版本
 
 ```bash
-npm run preview
+rabetbase run preview
 ```
 
 ## 开发指南
@@ -126,7 +142,7 @@ npm run preview
 项目展示了如何正确集成和使用 @lovrabet/sdk：
 
 1. **SDK 配置文件** (`src/api/api.ts`)：
-   - 通过 Lovrabet CLI 自动生成
+   - 通过 Rabetbase CLI 自动生成
    - 包含应用代码和模型配置
    - 自动注册到 SDK 的配置管理器
 
@@ -238,7 +254,7 @@ await lovrabetClient.models.Requirements.delete("record-id");
 ### 构建生产版本
 
 ```bash
-lovrabet build
+rabetbase run build
 ```
 
 构建产物会输出到 `dist/` 目录（或根据 `CDN_DOMAIN` 环境变量输出到版本化目录）。
@@ -250,14 +266,14 @@ lovrabet build
 #### 方式一：标准部署
 
 ```bash
-lovrabet build
+rabetbase run build
 # 将 dist/ 目录内容上传到您的 CDN
 ```
 
 #### 方式二：版本化 CDN 部署
 
 ```bash
-CDN_DOMAIN=https://your-cdn.com lovrabet build
+CDN_DOMAIN=https://your-cdn.com rabetbase run build
 # 构建产物会输出到 dist/sub-app-react-demo/1.0.0/
 # 便于多版本管理和回滚
 ```
@@ -292,10 +308,10 @@ CDN_DOMAIN=https://your-cdn.com lovrabet build
 
 ### 常见问题
 
-1. **端口被占用**：修改 `.env` 文件中的 `PORT` 环境变量，或使用 `PORT=3000 npm start`
+1. **端口被占用**：修改 `.env` 文件中的 `PORT` 环境变量，或使用 `PORT=3000 rabetbase run start`
 2. **HTTPS 证书获取失败**：检查网络连接，确保能访问 `https://g.yuntooai.com/cert/lovrabet-dev.json`
 3. **路由不生效**：确保页面文件在 `src/pages/` 目录下，且文件扩展名为 `.tsx`
-4. **SDK 调用失败**：检查 `src/api/api.ts` 是否正确配置，确保已通过 Lovrabet CLI 生成
+4. **SDK 调用失败**：检查 `src/api/api.ts` 是否正确配置，确保已通过 Rabetbase CLI 生成
 
 ### 代码规范
 
