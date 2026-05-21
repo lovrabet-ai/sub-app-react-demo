@@ -27,7 +27,12 @@ export function mount({
   container: HTMLElement;
   customProps: object;
 }) {
-  const root = createRoot(container);
+  let root = (container as any)._reactRoot;
+  if (!root) {
+    root = createRoot(container);
+    (container as any)._reactRoot = root;
+  }
+
   root.render(
     <React.StrictMode>
       <ConfigProvider locale={zhCN}>
