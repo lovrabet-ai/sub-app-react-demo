@@ -47,5 +47,6 @@ export function unmount({ container }: { container: HTMLElement }) {
   const root = (container as any)._reactRoot;
   if (root) {
     root.unmount();
+    delete (container as any)._reactRoot;
   }
 }
