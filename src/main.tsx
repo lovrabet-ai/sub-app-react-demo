@@ -34,11 +34,9 @@ export function mount({
   }
 
   root.render(
-    <React.StrictMode>
-      <ConfigProvider locale={zhCN}>
-        <App {...customProps} />
-      </ConfigProvider>
-    </React.StrictMode>,
+    <ConfigProvider locale={zhCN}>
+      <App {...customProps} />
+    </ConfigProvider>,
   );
   return root;
 }
