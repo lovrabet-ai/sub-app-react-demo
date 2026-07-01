@@ -10,11 +10,106 @@ import {
   Input,
   Tag,
 } from "antd";
-import { ApiOutlined } from "@ant-design/icons";
+import {
+  ApiOutlined,
+  CheckOutlined,
+  CopyOutlined,
+  DownOutlined,
+  UpOutlined,
+} from "@ant-design/icons";
 import { lovrabetClient } from "@/api/client";
 import DemoPageContainer from "@/components/demo-page-container/DemoPageContainer";
 
 const { Title, Paragraph, Text } = Typography;
+
+interface CollapsibleCodeBlockProps {
+  title: string;
+  code: string;
+  accent?: boolean;
+  defaultExpanded?: boolean;
+  maxHeight?: number;
+}
+
+function CollapsibleCodeBlock({
+  title,
+  code,
+  accent = false,
+  defaultExpanded = false,
+  maxHeight,
+}: CollapsibleCodeBlockProps) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(code);
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("复制代码失败:", error);
+      message.error("复制代码失败");
+    }
+  };
+
+  return (
+    <div
+      style={{
+        border: `1px solid ${accent ? "#1890ff" : "#d9d9d9"}`,
+        borderRadius: 6,
+        overflow: "hidden",
+        background: "#fff",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 12,
+          padding: "10px 12px",
+          background: accent ? "#f0f8ff" : "#fafafa",
+          borderBottom: expanded
+            ? `1px solid ${accent ? "#1890ff" : "#d9d9d9"}`
+            : "none",
+        }}
+      >
+        <Text strong>{title}</Text>
+        <Space size={8}>
+          <Button
+            size="small"
+            icon={copied ? <CheckOutlined /> : <CopyOutlined />}
+            onClick={handleCopy}
+          >
+            {copied ? "已复制" : "复制"}
+          </Button>
+          <Button
+            size="small"
+            icon={expanded ? <UpOutlined /> : <DownOutlined />}
+            onClick={() => setExpanded((current) => !current)}
+          >
+            {expanded ? "收起" : "展开"}
+          </Button>
+        </Space>
+      </div>
+      {expanded && (
+        <pre
+          style={{
+            background: accent ? "#f0f8ff" : "#f5f5f5",
+            padding: "16px",
+            margin: 0,
+            fontSize: "13px",
+            maxHeight,
+            overflow: "auto",
+          }}
+        >
+          {code}
+        </pre>
+      )}
+    </div>
+  );
+}
 
 export default function SdkDemo() {
   const [loading, setLoading] = useState(false);
@@ -36,6 +131,70 @@ export default function SdkDemo() {
 
   // 获取选中模型的信息（用于代码示例展示 alias）
   const selectedModelInfo = modelList.find((m) => m.value === selectedModel);
+
+  const filterCodeExample = `// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
+const response = await lovrabetClient
+  .models['${selectedModel || "dataset_xxx"}'].filter({
+    currentPage: 1,
+    pageSize: 10
+  });
+${
+  selectedModelInfo?.alias
+    ? `
+// ========== 方式二：人类友好的 alias 模式 ==========
+const response = await lovrabetClient
+  .models.${selectedModelInfo.alias}.filter({
+    currentPage: 1,
+    pageSize: 10
+  });
+`
+    : ""
+}
+// ========== 完整查询示例（所有参数均为可选）==========
+const response = await lovrabetClient
+  .models['${selectedModel || "dataset_xxx"}'].filter({
+    // where: 条件查询（可选）
+    // where: {
+    //   age: { $gte: 18 },
+    //   status: { $eq: 'active' }
+    // },
+
+    // select: 字段选择（可选）
+    // select: ['id', 'name', 'age'],
+
+    // orderBy: 排序（可选）
+    // orderBy: [{ createTime: 'desc' }],
+
+    // 分页参数（必需）
+    currentPage: 1,
+    pageSize: 10
+  });
+
+// 其他可用参数（仅示例，以实际字段为准）：
+// - where: 支持 $eq, $ne, $gte, $lte, $in, $contain, $startWith, $endWith 等操作符
+// - where: 支持 $and, $or 逻辑组合
+// - select: 数组形式，指定返回的字段
+// - orderBy: 数组形式，支持多字段排序 [{ field1: 'desc' }, { field2: 'asc' }]`;
+
+  const selectOptionsCodeExample = `// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
+const options = await lovrabetClient
+  .models['${selectedModel || "dataset_xxx"}'].getSelectOptions({
+    code: "${codeField || "id"}",
+    label: "${labelField || "name"}"
+  });
+${
+  selectedModelInfo?.alias
+    ? `
+// ========== 方式二：人类友好的 alias 模式 ==========
+const options = await lovrabetClient
+  .models.${selectedModelInfo.alias}.getSelectOptions({
+    code: "${codeField || "id"}",
+    label: "${labelField || "name"}"
+  });
+`
+    : ""
+}
+// 返回格式：[{ label: "显示文本", value: "选项值" }]`;
 
   /**
    * 加载可用的数据模型列表
@@ -235,65 +394,6 @@ export default function SdkDemo() {
           </Space>
         </Card>
 
-        {/* 代码示例 */}
-        <Card title="代码示例" size="small" style={{ marginBottom: 16 }}>
-          <pre
-            style={{
-              background: "#f0f8ff",
-              padding: "16px",
-              borderRadius: "4px",
-              margin: 0,
-              fontSize: "13px",
-              border: "1px solid #1890ff",
-              overflow: "auto",
-            }}
-          >
-            {`// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
-const response = await lovrabetClient
-  .models['${selectedModel || "dataset_xxx"}'].filter({
-    currentPage: 1,
-    pageSize: 10
-  });
-${
-  selectedModelInfo?.alias
-    ? `
-// ========== 方式二：人类友好的 alias 模式 ==========
-const response = await lovrabetClient
-  .models.${selectedModelInfo.alias}.filter({
-    currentPage: 1,
-    pageSize: 10
-  });
-`
-    : ""
-}
-// ========== 完整查询示例（所有参数均为可选）==========
-const response = await lovrabetClient
-  .models['${selectedModel || "dataset_xxx"}'].filter({
-    // where: 条件查询（可选）
-    // where: {
-    //   age: { $gte: 18 },
-    //   status: { $eq: 'active' }
-    // },
-
-    // select: 字段选择（可选）
-    // select: ['id', 'name', 'age'],
-
-    // orderBy: 排序（可选）
-    // orderBy: [{ createTime: 'desc' }],
-
-    // 分页参数（必需）
-    currentPage: 1,
-    pageSize: 10
-  });
-
-// 其他可用参数（仅示例，以实际字段为准）：
-// - where: 支持 $eq, $ne, $gte, $lte, $in, $contain, $startWith, $endWith 等操作符
-// - where: 支持 $and, $or 逻辑组合
-// - select: 数组形式，指定返回的字段
-// - orderBy: 数组形式，支持多字段排序 [{ field1: 'desc' }, { field2: 'asc' }]`}
-          </pre>
-        </Card>
-
         {/* 数据表格 */}
         {data.length > 0 && (
           <Card title="数据结果" size="small" style={{ marginBottom: 16 }}>
@@ -307,6 +407,16 @@ const response = await lovrabetClient
             />
           </Card>
         )}
+
+        {/* 代码示例 */}
+        <Card title="代码示例" size="small" style={{ marginBottom: 16 }}>
+          <CollapsibleCodeBlock
+            title="filter 查询代码"
+            code={filterCodeExample}
+            accent
+            defaultExpanded
+          />
+        </Card>
 
         {/* 获取下拉选项 */}
         <Card title="📋 获取下拉选项" size="small" style={{ marginBottom: 16 }}>
@@ -381,36 +491,11 @@ const response = await lovrabetClient
               </Button>
             </Space>
 
-            <pre
-              style={{
-                background: "#f5f5f5",
-                padding: "12px",
-                borderRadius: "4px",
-                margin: "8px 0 0 0",
-                fontSize: "13px",
-                border: "1px solid #d9d9d9",
-              }}
-            >
-              {`// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
-const options = await lovrabetClient
-  .models['${selectedModel || "dataset_xxx"}'].getSelectOptions({
-    code: "${codeField || "id"}",
-    label: "${labelField || "name"}"
-  });
-${
-  selectedModelInfo?.alias
-    ? `
-// ========== 方式二：人类友好的 alias 模式 ==========
-const options = await lovrabetClient
-  .models.${selectedModelInfo.alias}.getSelectOptions({
-    code: "${codeField || "id"}",
-    label: "${labelField || "name"}"
-  });
-`
-    : ""
-}
-// 返回格式：[{ label: "显示文本", value: "选项值" }]`}
-            </pre>
+            <CollapsibleCodeBlock
+              title="getSelectOptions 代码"
+              code={selectOptionsCodeExample}
+              defaultExpanded
+            />
           </Space>
         </Card>
 
@@ -420,19 +505,12 @@ const options = await lovrabetClient
             title={`下拉选项结果（共 ${selectOptions.length} 个）`}
             size="small"
           >
-            <pre
-              style={{
-                background: "#f5f5f5",
-                padding: "12px",
-                borderRadius: "4px",
-                margin: 0,
-                fontSize: "13px",
-                maxHeight: "400px",
-                overflow: "auto",
-              }}
-            >
-              {JSON.stringify(selectOptions, null, 2)}
-            </pre>
+            <CollapsibleCodeBlock
+              title="下拉选项 JSON"
+              code={JSON.stringify(selectOptions, null, 2)}
+              defaultExpanded
+              maxHeight={400}
+            />
           </Card>
         )}
 
@@ -442,12 +520,12 @@ const options = await lovrabetClient
             <Text type="secondary">
               技术开发文档指引：{" "}
               <a
-                href="https://open.lovrabet.com/docs/guides/tutorial"
+                href="https://qizhiyuntu.feishu.cn/wiki/CMfxw6l2li01EVkBTcBcshD3nSe"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ color: "#1890ff" }}
               >
-                https://open.lovrabet.com/docs/guides/tutorial
+                https://qizhiyuntu.feishu.cn/wiki/CMfxw6l2li01EVkBTcBcshD3nSe
               </a>
             </Text>
           </Paragraph>

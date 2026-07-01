@@ -20,7 +20,6 @@ import {
   UserOutlined,
   BarChartOutlined,
   FileTextOutlined,
-  AuditOutlined,
 } from "@ant-design/icons";
 
 const { Header, Sider, Content } = Layout;
@@ -32,14 +31,6 @@ const routeConfig = [
   { path: "/dashboard", title: "数据看板" },
   { path: "/sdk-demo", title: "SDK 演示" },
   { path: "/data-screen", title: "数据大屏" },
-  { path: "/ceo-audit", title: "CEO 审计" },
-  { path: "/prompt-manage", title: "Prompt 管理" },
-  { path: "/prompt-manage/create", title: "新建 Prompt" },
-  { path: "/prompt-manage/detail", title: "Prompt 详情" },
-  { path: "/prompt-manage/edit", title: "编辑 Prompt" },
-  { path: "/prompt-manage/version-list", title: "版本历史" },
-  { path: "/prompt-manage/version-detail", title: "版本详情" },
-  { path: "/prompt-manage/version-compare", title: "版本对比" },
 ];
 
 const MainLayout: React.FC = () => {
@@ -61,21 +52,6 @@ const MainLayout: React.FC = () => {
       key: "/sdk-demo",
       icon: <ApiOutlined />,
       label: "SDK 演示",
-    },
-    {
-      key: "prompt-manage-group",
-      icon: <AuditOutlined />,
-      label: "Prompt 管理",
-      children: [
-        {
-          key: "/prompt-manage",
-          label: "列表",
-        },
-        {
-          key: "/prompt-manage/create",
-          label: "新建",
-        },
-      ],
     },
     {
       key: "page-examples",

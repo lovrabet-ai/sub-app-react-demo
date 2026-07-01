@@ -1,334 +1,248 @@
-[📝 项目更新记录 CHANGELOG](./CHANGELOG.md)
+[项目更新记录](./CHANGELOG.md)
 
-> ⚠️ **注意**：本项目会阶段性更新，如果 `git pull` 以后无法运行，可以删除 `node_modules` 之后重新 `npm install`
+# Rabetbase React 微前端模板
 
-# Lovrabet SDK React 演示项目
+这是 `rabetbase project create` 使用的 React 项目模板，用于演示如何把一个 React 18 + Vite 应用接入 Lovrabet 主应用，并通过 `@lovrabet/sdk` 调用平台数据模型。
 
-这是一个完整的 React 微前端演示项目，展示了如何在现代 React 应用中集成 Lovrabet SDK，以及如何使用 icestark 微前端方案嵌入到 Lovrabet 主应用中。
+这个模板的日常使用方式不是让开发者记住一组命令，而是在 Claude Code、Cursor、Codex 等 Agent 环境里直接描述开发目标。`rabetbase` 提供项目配置、模型同步、构建检查、菜单接入等能力，Agent 根据你的 Prompt 调用这些能力完成开发任务。
+
+这个模板适合以下场景：
+
+- 本地独立开发一个 Lovrabet 子应用；
+- 构建后以 icestark 微前端方式嵌入 Lovrabet 主应用；
+- 让 Agent 基于 `rabetbase` 能力刷新 SDK 模型配置；
+- 基于已有页面案例，用 Prompt 继续二次开发。
+
+## 在线文库
+
+README 只说明模板本地运行方式。完整的 Agent 开发流程、Prompt 示例、SDK 使用方式和发布路径，以飞书文库为准。
+
+- [Rabetbase CLI 文库首页](https://qizhiyuntu.feishu.cn/wiki/EaApwb1Wpi2j0ykAkhNcya0ZnEh)
+- [入门与上手](https://qizhiyuntu.feishu.cn/wiki/T5gJwrcQqixLCikNYO2caZYDnsc)
+- [核心研发能力](https://qizhiyuntu.feishu.cn/wiki/S71hw5c2HiwyoHkLgyecKrI8n3M)
+- [系统页面开发：用 SDK 完成业务页面](https://qizhiyuntu.feishu.cn/wiki/XCdWwnN7ViYOc0knRu8c411uneh)
+- [TypeScript SDK 文档](https://qizhiyuntu.feishu.cn/wiki/B1PLw34AwiDtNmkCAlCcO3T2ngh)
 
 ## 技术栈
 
-- **@lovrabet/sdk** - Lovrabet 官方 SDK，支持现代化客户端实例管理
-- **React 18** - 稳定的 React 版本，支持并发特性
-- **TypeScript** - 类型安全的 JavaScript 超集
-- **React Router v6** - 现代化的路由解决方案
-- **Ant Design v5** - 企业级 UI 设计语言
-- **Vite v7** - 下一代前端构建工具
-- **@ice/stark-app** - 阿里飞冰微前端框架
-- **ECharts** - 数据可视化图表库
-- **vite-plugin-pages** - 基于文件系统的约定式路由
+- `@lovrabet/sdk`：Lovrabet TypeScript SDK 与模型客户端。
+- React 18 + TypeScript：页面开发与类型约束。
+- React Router v6：页面路由。
+- Ant Design v5：企业级 UI 组件。
+- Vite v7：本地开发与生产构建。
+- `@ice/stark-app`：icestark 微前端运行环境识别与 basename 适配。
+- `vite-plugin-pages`：基于 `src/pages` 的文件系统路由。
+- ECharts：图表和数据大屏示例。
 
-## 项目结构
+## 目录结构
 
-```
+```text
+.
 ├── src/
-│   ├── api/            # SDK 配置和客户端
-│   │   ├── api.ts      # CLI 生成的 SDK 配置文件
-│   │   └── client.ts   # SDK 客户端实例
-│   ├── layouts/        # 布局组件
-│   │   └── MainLayout.tsx  # 主布局（包含侧边栏、头部、面包屑等）
-│   ├── pages/          # 页面组件（基于文件系统自动路由）
-│   │   ├── index.tsx           # 首页 - 项目概述和二开说明（/ 路由）
-│   │   ├── intro/              # 介绍页面
-│   │   │   └── index.tsx       # 介绍页（/intro 路由）
-│   │   ├── sdk-demo/           # SDK 演示页面
-│   │   │   └── index.tsx       # SDK 调用演示（/sdk-demo 路由）
-│   │   ├── workbench/          # 工作台页面
-│   │   │   └── index.tsx       # 工作台（/workbench 路由）
-│   │   ├── dashboard/          # 数据看板页面
-│   │   │   └── index.tsx       # 数据看板（/dashboard 路由）
-│   │   └── data-screen/        # 数据大屏页面
-│   │       └── index.tsx       # 数据大屏（/data-screen 路由）
-│   ├── router/         # 路由配置（自动生成）
-│   │   └── index.tsx   # 路由配置，使用 vite-plugin-pages 自动生成
-│   ├── utils/          # 工具函数
-│   │   └── api.ts      # API 请求封装
-│   ├── main.tsx        # 微前端应用入口（导出 mount/unmount）
-│   ├── style.css       # 全局样式
-│   └── vite-env.d.ts   # Vite 类型定义
-├── docs/               # 项目文档
-│   ├── quick-start.md      # 快速开始指南
-│   └── API_RULE_CHANGE.md  # API 变更指南
-├── vite.config.ts      # Vite 配置文件（含微前端配置）
-├── tsconfig.json       # TypeScript 配置
-├── CHANGELOG.md        # 更新记录
-└── package.json        # 项目依赖
+│   ├── api/
+│   │   ├── api.ts        # CLI 生成的 SDK 模型配置
+│   │   └── client.ts     # 统一导出的 Lovrabet SDK 客户端
+│   ├── layouts/
+│   │   └── MainLayout.tsx
+│   ├── pages/
+│   │   ├── index.tsx
+│   │   ├── sdk-demo/index.tsx
+│   │   ├── workbench/index.tsx
+│   │   ├── dashboard/index.tsx
+│   │   └── data-screen/index.tsx
+│   ├── router/index.tsx
+│   ├── utils/api.ts
+│   ├── main.tsx
+│   └── style.css
+├── docs/
+│   ├── quick-start.md
+│   └── API_RULE_CHANGE.md
+├── vite.config.ts
+├── tsconfig.json
+└── package.json
 ```
 
-## 功能特性
+## 内置页面
 
-### 核心功能
+项目使用 `vite-plugin-pages`，路由由 `src/pages` 下的文件自动生成。
 
-- 🎯 **SDK 调用演示** - 展示 @lovrabet/sdk 的核心 CRUD 操作方法，支持动态选择数据模型
-- 🏠 **项目概述页** - 清晰介绍项目目的、功能和技术栈，包含完整的二开说明
-- 💼 **工作台** - 展示工作台页面示例，包含统计卡片、任务列表、进度跟踪等
-- 📊 **数据看板** - 数据可视化看板，展示各类业务指标和图表
-- 📈 **数据大屏** - 大屏数据展示页面，适合数据大屏场景
-- 📖 **介绍页** - 项目介绍和说明页面
+| 文件                              | 路由           | 用途                                       |
+| --------------------------------- | -------------- | ------------------------------------------ |
+| `src/pages/index.tsx`             | `/`            | Prompt 开发入口、项目状态和 Agent 场景示例 |
+| `src/pages/sdk-demo/index.tsx`    | `/sdk-demo`    | `@lovrabet/sdk` 模型列表和数据操作示例     |
+| `src/pages/workbench/index.tsx`   | `/workbench`   | 工作台类业务页面示例                       |
+| `src/pages/dashboard/index.tsx`   | `/dashboard`   | 数据看板示例                               |
+| `src/pages/data-screen/index.tsx` | `/data-screen` | 数据大屏示例                               |
 
-### 技术特性
-
-- 🚀 **自动路由生成** - 基于 `vite-plugin-pages` 的文件系统约定式路由，零配置开发
-- 🔌 **微前端支持** - 通过 `@ice/stark-app` 实现与主应用的无缝集成
-- 📱 **响应式设计** - 支持桌面端和移动端，自适应布局
-- 🎨 **现代化 UI** - 基于 Ant Design v5 的美观界面，包含完整的布局系统
-- ⚡ **极速构建** - Vite v7 + ES Modules，开发体验极佳
-- 🔒 **HTTPS 开发环境** - 开发环境自动配置 HTTPS，解决跨域问题
-- 📦 **外部依赖优化** - React、Ant Design 等通过 CDN 加载，减小包体积
-- 🌐 **CDN 部署支持** - 支持版本化 CDN 部署，便于多版本管理
+新增页面时，在 `src/pages` 下添加 `.tsx` 文件即可。例如 `src/pages/customer/index.tsx` 会生成 `/customer` 路由。
 
 ## 快速开始
 
-### 环境前置
+### 环境要求
 
-执行 `rabetbase run` 相关命令前，请先确保本机已安装 Node.js 20+ 与 `rabetbase` CLI。
-
-> 说明：本项目 `package.json` 不内置 `rabetbase` 依赖，README 中的 `rabetbase run` 为全局 CLI 调用。
+- Node.js 20+
+- 已安装 `rabetbase` CLI；需要拉取真实 API 配置时还需要完成登录
 
 ```bash
 npm install -g @lovrabet/rabetbase-cli
-# 或
-bun install -g @lovrabet/rabetbase-cli
-
 rabetbase --help
 ```
 
-### 安装依赖
+模板本身不内置 `rabetbase` 依赖，`rabetbase run start` 等命令依赖全局 CLI。
+
+### 通过模板创建项目
+
+把 `YOUR_APP_CODE` 替换为当前应用的 AppCode。
 
 ```bash
-npm install
-```
-
-研发态本地脚本统一通过 `rabetbase run` 执行。
-
-### 开发模式
-
-```bash
+rabetbase project create my-sub-app --appcode YOUR_APP_CODE
+cd my-sub-app
 rabetbase run start
 ```
 
-应用将在 `https://dev.lovrabet.com:5173` 启动（配置了HTTPS证书）
-
-> 💡 **说明**：`https://dev.lovrabet.com:${port}` 中 port 不限于 5173 端口，任意端口号都支持跨域。可以通过环境变量 `PORT` 自定义端口号。
-
-### 微前端核心配置
-
-项目包含完整的微前端配置 (`vite.config.ts`)：
-
-- **icestark 集成**: 通过 `vite-plugin-index-html` 实现微前端打包
-- **外部依赖**: React、ReactDOM、Ant Design、dayjs 通过 CDN 加载，减小包体积
-- **ES Modules 输出**: 支持主应用动态加载，Tree Shaking 友好
-- **HTTPS 支持**: 开发环境自动获取 HTTPS 证书，解决跨域问题
-- **路径别名**: `@` 指向 `src` 目录
-- **约定式路由**: 使用 `vite-plugin-pages` 实现基于文件系统的自动路由生成
-- **CDN 部署**: 支持版本化 CDN 部署（通过 `CDN_DOMAIN` 环境变量配置）
-
-### 构建生产版本
+如果是直接克隆本仓库调试模板源码，需要先安装依赖：
 
 ```bash
-rabetbase run build
+npm install
+rabetbase run start
 ```
 
-### 预览生产版本
+本地服务默认打开：
+
+```text
+https://dev.lovrabet.com:5173
+```
+
+需要换端口时可执行 `PORT=3000 rabetbase run start`。
+
+### 拉取 SDK 配置
+
+`project create` 传入 AppCode 时，CLI 会尝试自动生成 `src/api/api.ts`。如果创建时没有传 AppCode，需要先在项目内补充 AppCode，再拉取 API 配置：
 
 ```bash
-rabetbase run preview
+rabetbase config set appcode YOUR_APP_CODE
+rabetbase api pull
 ```
 
-## 开发指南
+如果你是直接克隆模板源码，且当前目录还没有 `.rabetbase.json`，先执行：
 
-### SDK 集成使用
+```bash
+rabetbase project init --appcode YOUR_APP_CODE
+rabetbase api pull
+```
 
-项目展示了如何正确集成和使用 @lovrabet/sdk：
-
-1. **SDK 配置文件** (`src/api/api.ts`)：
-   - 通过 Rabetbase CLI 自动生成
-   - 包含应用代码和模型配置
-   - 自动注册到 SDK 的配置管理器
-
-2. **客户端实例** (`src/api/client.ts`)：
-   - 导入配置文件执行注册
-   - 使用 `createClient()` 创建客户端实例
-   - 导出供整个应用使用
-
-3. **SDK 调用示例** (`src/pages/sdk-demo/index.tsx`)：
-   - 动态获取可用的数据模型列表
-   - 展示 `filter()` 查询数据（支持分页、排序、筛选）
-   - 展示 `getOne()` 获取单条记录
-   - 展示 `create()` 创建新数据
-   - 展示 `update()` 更新数据
-   - 展示 `delete()` 删除数据
-   - 包含完整的错误处理和加载状态
-
-**典型使用模式**：
+项目统一从 `src/api/client.ts` 导出 SDK 客户端：
 
 ```typescript
 import { lovrabetClient } from "@/api/client";
 
-// 获取可用的数据模型列表
 const models = lovrabetClient.getModelList();
-
-// 使用 filter 查询数据（推荐）
-const data = await lovrabetClient.models.Requirements.filter({
+const data = await lovrabetClient.models.requirements.filter({
   currentPage: 1,
   pageSize: 20,
-  orderBy: "createdAt",
-  orderDirection: "desc",
 });
-
-// 获取单条记录
-const item = await lovrabetClient.models.Requirements.getOne("record-id");
-
-// 创建新数据
-const newItem = await lovrabetClient.models.Requirements.create({
-  title: "需求标题",
-  description: "需求描述",
-});
-
-// 更新数据
-await lovrabetClient.models.Requirements.update("record-id", {
-  title: "更新后的标题",
-});
-
-// 删除数据
-await lovrabetClient.models.Requirements.delete("record-id");
 ```
 
-### 微前端集成要点
+模型别名来自生成后的 `src/api/api.ts`，实际使用前请以该文件为准。
 
-1. **入口文件配置** (`src/main.tsx`)：
-   - 导出 `mount` 和 `unmount` 生命周期函数
-   - 使用 `isInIcestark()` 判断运行环境
-   - 支持接收主应用传递的 `customProps`
+## 开发说明
 
-2. **自动路由配置** (`src/router/index.tsx`)：
-   - 使用 `vite-plugin-pages` 实现基于文件系统的约定式路由
-   - 使用 `getBasename()` 获取动态 basename
-   - 支持微应用内部路由跳转和嵌套路由
+### 本地脚本
 
-3. **构建配置** (`vite.config.ts`)：
-   - 使用 `vite-plugin-pages` 实现自动路由生成
-   - 使用 `vite-plugin-index-html` 插件支持微前端打包
-   - 配置 ES modules 输出格式，支持 Tree Shaking
-   - 外部化公共依赖减小包体积，CDN 友好
-   - HTTPS 开发环境，解决跨域问题
+仓库脚本统一通过 CLI 运行：
 
-### 约定式路由使用指南
+```bash
+rabetbase run start
+rabetbase run build
+rabetbase run preview
+```
 
-基于 `vite-plugin-pages` 的文件系统路由，支持以下约定：
+底层脚本定义在 `package.json`，目前对应 Vite 的 `start`、`build`、`preview`。
 
-**当前路由映射**：
+### 微前端入口
 
-- `src/pages/index.tsx` → `/` （首页 - 项目概述和二开说明）
-- `src/pages/intro/index.tsx` → `/intro` （介绍页）
-- `src/pages/sdk-demo/index.tsx` → `/sdk-demo` （SDK 调用演示）
-- `src/pages/workbench/index.tsx` → `/workbench` （工作台）
-- `src/pages/dashboard/index.tsx` → `/dashboard` （数据看板）
-- `src/pages/data-screen/index.tsx` → `/data-screen` （数据大屏）
+`src/main.tsx` 同时支持独立运行和嵌入运行：
 
-**路由规则**：
+- 独立运行时，`isInIcestark()` 为 false，应用渲染到 `#root`；
+- 被 Lovrabet 主应用加载时，导出 `mount` / `unmount` 生命周期；
+- React root 会缓存到容器上，避免重复创建 root。
 
-- 文件路由：`src/pages/about.tsx` → `/about`
-- 目录路由：`src/pages/user/index.tsx` → `/user`
-- 嵌套路由：`src/pages/user/profile.tsx` → `/user/profile`
-- 动态路由：`src/pages/user/[id].tsx` → `/user/:id`
-- 索引路由：`src/pages/index.tsx` → `/`（根路径）
+`src/router/index.tsx` 会读取 icestark 的 `getBasename()`，因此同一份构建产物可以适配 Lovrabet 页面配置中的 basename。
 
-**布局系统**：
-
-- 所有页面都包裹在 `MainLayout` 中（在 `src/router/index.tsx` 中配置）
-- 在微前端环境中，`MainLayout` 会自动隐藏，只渲染页面内容
-- 独立运行时，显示完整的布局（侧边栏、头部、面包屑等）
-
-**新增页面**：
-只需在 `src/pages/` 目录下创建 `.tsx` 文件或目录，路由会自动生成，无需手动配置。
-
-### 样式规范
-
-- 优先使用 Ant Design 组件
-- 自定义样式使用 CSS 或 styled-components
-- 响应式设计支持移动端
-
-## 部署
-
-### 构建生产版本
+### 构建产物
 
 ```bash
 rabetbase run build
 ```
 
-构建产物会输出到 `dist/` 目录（或根据 `CDN_DOMAIN` 环境变量输出到版本化目录）。
+默认产物：
 
-### CDN 部署
-
-项目支持两种部署方式：
-
-#### 方式一：标准部署
-
-```bash
-rabetbase run build
-# 将 dist/ 目录内容上传到您的 CDN
+```text
+dist/assets/main.js
+dist/assets/main.css
 ```
 
-#### 方式二：版本化 CDN 部署
+需要版本化 CDN 路径时：
 
 ```bash
-CDN_DOMAIN=https://your-cdn.com rabetbase run build
-# 构建产物会输出到 dist/sub-app-react-demo/1.0.0/
-# 便于多版本管理和回滚
+CDN_DOMAIN=https://your-cdn.com/ rabetbase run build
 ```
 
-### 部署平台
+构建目录会变成 `dist/<package-name>/<version>/`，Vite `base` 也会指向对应 CDN 地址。
 
-项目使用 Vite 构建，可以部署到任何静态文件服务器：
+## 接入 Lovrabet 主应用
 
-- **CDN 服务**：阿里云 OSS、腾讯云 COS、AWS S3 等
-- **静态托管**：Vercel、Netlify、GitHub Pages
-- **自建服务器**：Nginx、Apache 等
+构建产物上传到 CDN 或静态资源服务器后，在 Lovrabet 应用中配置页面：
 
-### 主应用集成
+```text
+页面名称：SDK Demo
+路由路径：/sdk-demo
+微应用唯一标识：sub-app-react-demo
+资源加载方式：import
+资源加载列表：
+  https://your-cdn.com/path/to/assets/main.js
+  https://your-cdn.com/path/to/assets/main.css
+```
 
-构建完成后，需要在 Lovrabet 主应用中配置页面：
+注意事项：
 
-1. 访问页面配置：`https://app.lovrabet.com/app/{appCode}/pages/`
-2. 配置路由路径（必须与代码中的路由一致）
-3. 选择资源加载方式：`import`（Vite 项目必须选择此方式）
-4. 配置资源加载列表：
-   - `https://your-cdn.com/path/to/assets/main.js`
-   - `https://your-cdn.com/path/to/assets/main.css`
+- 路由路径必须和 `src/pages` 生成的路由一致。
+- Vite 构建产物必须选择 `import` 加载方式。
+- 同一个微前端的多个 Lovrabet 页面可以复用同一组 JS/CSS 资源。
+- 如果页面内部还有子路由，保留 `getBasename()` 适配逻辑。
 
-详细步骤请参考 [快速开始指南](./docs/quick-start.md)。
+## 常见任务
 
-## 开发注意事项
+### 新增页面
 
-### 环境要求
+```text
+src/pages/customer/index.tsx  ->  /customer
+src/pages/customer/[id].tsx   ->  /customer/:id
+```
 
-- Node.js >= 16
-- npm >= 7 或 yarn >= 1.22 或 pnpm >= 7
+如果独立运行时也要在左侧菜单展示该页面，需要同步修改 `src/layouts/MainLayout.tsx`。
 
-### 常见问题
+### 调用 Lovrabet 数据
 
-1. **端口被占用**：修改 `.env` 文件中的 `PORT` 环境变量，或使用 `PORT=3000 rabetbase run start`
-2. **HTTPS 证书获取失败**：检查网络连接，确保能访问 `https://g.yuntooai.com/cert/lovrabet-dev.json`
-3. **路由不生效**：确保页面文件在 `src/pages/` 目录下，且文件扩展名为 `.tsx`
-4. **SDK 调用失败**：检查 `src/api/api.ts` 是否正确配置，确保已通过 Rabetbase CLI 生成
+优先使用 `src/api/client.ts` 导出的 SDK 客户端。只有 SDK 未覆盖的自定义运行态请求，才使用 `src/utils/api.ts` 自行封装。
 
-### 代码规范
+### 嵌入时隐藏本地布局
 
-- 使用 TypeScript 编写代码
-- 遵循 ESLint 和 Prettier 配置
-- 组件使用函数式组件 + Hooks
-- 优先使用 Ant Design 组件
+`MainLayout` 已经在 icestark 环境下只返回 `<Outlet />`，因此嵌入 Lovrabet 主应用后不会重复显示本地侧边栏和顶部栏。
 
-## 文档链接
+## 常见问题
 
-- [快速开始指南](./docs/quick-start.md) - 详细的接入和开发指南
-- [API 变更指南](./docs/API_RULE_CHANGE.md) - API 地址规则变更说明
-- [更新记录](./CHANGELOG.md) - 项目更新历史
+1. 端口被占用：执行 `PORT=3000 rabetbase run start`。
+2. HTTPS 证书获取失败：检查是否能访问 `https://g.yuntooai.com/cert/lovrabet-dev.json`。
+3. 路由不生效：确认页面位于 `src/pages` 下，并使用 `.tsx` 后缀。
+4. SDK 调用失败：执行 `rabetbase api pull`，并检查 `src/api/api.ts` 是否包含正确 AppCode 和模型别名。
+5. 嵌入后页面空白：确认 Lovrabet 页面使用 `import` 加载，并指向构建后的 `main.js` 与 `main.css`。
 
-## 相关资源
+## 更多文档
 
-- [Lovrabet 开放平台](https://open.lovrabet.com)
-- [CLI 前端脚手架文档](https://open.lovrabet.com/docs/lovrabet-cli/)
-- [TypeScript SDK 文档](https://open.lovrabet.com/docs/category/lovrabet-node-sdk)
-- [OpenAPI 文档](https://open.lovrabet.com/docs/category/openapi)
+- [Rabetbase CLI 文库首页](https://qizhiyuntu.feishu.cn/wiki/EaApwb1Wpi2j0ykAkhNcya0ZnEh)
+- [系统页面开发：用 SDK 完成业务页面](https://qizhiyuntu.feishu.cn/wiki/XCdWwnN7ViYOc0knRu8c411uneh)
+- [TypeScript SDK 文档](https://qizhiyuntu.feishu.cn/wiki/B1PLw34AwiDtNmkCAlCcO3T2ngh)
+- [快速开始](./docs/quick-start.md)
+- [API 规则变更说明](./docs/API_RULE_CHANGE.md)
+- [更新记录](./CHANGELOG.md)

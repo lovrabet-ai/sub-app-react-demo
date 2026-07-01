@@ -1,526 +1,245 @@
-# Lovrabet子应用接入指南 - React 18 + Vite 实操版
+# Rabetbase React 子应用快速开始
 
-> 🎯 **目标**：通过实际操作完成React项目接入Lovrabet平台  
-> 📦 **官方代码**：https://github.com/lovrabet-ai/sub-app-react-demo  
-> ⏱️ **预计时间**：20min可以走通从本地开发到线上部署的完成流程，看到自定义页面在平台中的渲染效果
+本文面向通过 `rabetbase project create` 初始化出来的 React 微前端项目，也适用于直接克隆本模板源码进行本地调试。
 
----
+目标是在 20 分钟内完成：
 
-## 🚀 场景一：Hello World 实操（10min）
+1. 启动本地开发环境；
+2. 确认当前模板内置页面；
+3. 拉取 Lovrabet SDK 模型配置；
+4. 构建产物并接入 Lovrabet 主应用；
+5. 理解如何继续二次开发。
 
-**目标**：下载官方代码，本地运行验证，构建部署，集成到主应用
+## 1. 环境准备
 
-### Step 1: 下载GitHub仓库
+请先确认本机具备：
+
+- Node.js 20+
+- `rabetbase` CLI
+- 需要访问真实数据时，已完成 `rabetbase auth login`
 
 ```bash
-# 推荐使用SSH（需要配置GitHub SSH密钥）
-git clone git@github.com:lovrabet-ai/sub-app-react-demo.git
+npm install -g @lovrabet/rabetbase-cli
+rabetbase --help
+```
 
-# 或使用HTTPS（适合快速体验）
-# git clone https://github.com/lovrabet-ai/sub-app-react-demo.git
+如果需要拉取 API 配置：
 
+```bash
+rabetbase auth login
+```
+
+## 2. 创建或打开项目
+
+### 方式 A：通过 CLI 创建新项目
+
+```bash
+rabetbase project create my-sub-app --appcode app-xxxx
+cd my-sub-app
+```
+
+说明：
+
+- `--appcode` 可省略；省略后在创建好的项目目录内执行 `rabetbase config set appcode app-xxxx`。
+- 有 AppCode 时，CLI 会尝试自动拉取 `src/api/api.ts`。
+- 如果自动拉取失败，后续手动执行 `rabetbase api pull` 即可。
+
+### 方式 B：直接调试模板源码
+
+```bash
 cd sub-app-react-demo
-git checkout main
+npm install
 ```
 
-### Step 2: 本地安装和运行
+## 3. 本地启动
 
 ```bash
-# 安装依赖
-npm i
-
-# 本地运行查看效果
 rabetbase run start
 ```
 
-**本地验证**：
-
-- 浏览器打开 https://dev.lovrabet.com:5173/hello-world
-- 确认Hello World页面正常显示
-- 检查控制台无报错信息
-
-![本地终端运行](https://i.yuntooai.com/u/AZjq66VncACe2C_z8m9_Qg.png)
-
-### Step 3: 构建产物
-
-```bash
-# 构建微前端产物
-rabetbase run build
-```
-
-**构建验证**：
-
-- 检查 `dist/` 目录生成
-- 确认存在 `dist/assets/main.js` 文件（ES modules格式）
-- 确认存在 `dist/assets/main.css` 样式文件
-
-本地构建成功
-![本地构建产物](https://i.yuntooai.com/u/AZjq8hJFcACYdK1TnupxaA.png)
-
-本地构建后生成的产物
-![本地构建后生成的产物](https://i.yuntooai.com/u/AZjrffaucACvb0HJGELOAQ.png)
-
-### Step 4: 上传构建产物到CDN
-
-#### 选项A：使用业务方已有CDN
-
-```bash
-# 将 dist/ 目录内容上传到您的CDN
-# 例如：https://your-cdn.com/sub-app-react-demo/
-```
-
-#### 选项B：使用Lovrabet临时CDN服务
-
-```bash
-# 联系Lovrabet的技术支持 @风月 获取临时CDN上传地址，仅用于功能体验，3天后CDN链接会失效
-```
-
-**CDN验证**：
-
-- 确认JS文件可访问：
-  - 🔧 **您的CDN格式**：`https://your-cdn.com/sub-app-react-demo/dist/assets/main.js`
-  - 📌 **演示环境示例**：`https://g.yuntooai.com/dist/sub-app-react-demo/202508271755/main.js`
-- 确认CSS文件可访问：
-  - 🔧 **您的CDN格式**：`https://your-cdn.com/sub-app-react-demo/dist/assets/main.css`
-  - 📌 **演示环境示例**：`https://g.yuntooai.com/dist/sub-app-react-demo/202508271755/main.css`
-
-> 💡 **说明**：`your-cdn.com` 需替换为您实际的CDN域名
-
-### Step 5: 到Lovrabet主应用中集成Hello World页面
-
-在Lovrabet平台配置页面：
+默认访问地址：
 
 ```text
-页面配置：
-├── 页面名称: Hello World Demo              # 🔧 可自定义：菜单中显示的名称
-├── 路由路径: /hello-world                  # ⚠️ 必须与 src/router/index.tsx 中的 path 保持一致
-├── 微应用唯一标识: react-hello-world       # 🔧 可自定义：用于区分不同微应用
-├── 资源加载方式: import                    # ⚡ 固定值：Vite项目必须选择import
-└── 资源加载列表:                          # 🔧 替换为您的CDN地址
-  ├── https://your-cdn.com/sub-app-react-demo/dist/assets/main.js
-  └── https://your-cdn.com/sub-app-react-demo/dist/assets/main.css
+https://dev.lovrabet.com:5173
 ```
 
-> ⚠️ **重要提示**：路由路径必须与代码中定义的路径完全对应，否则页面无法正确加载
-
-**集成验证**：
-
-- 主应用菜单出现"Hello World Demo"
-- 点击菜单能正常显示页面
-- 页面功能与本地运行效果一致
-
-#### 5.1 新增页面
-
-访问菜单配置链接：https://app.lovrabet.com/app/app-f4c03acb/pages/
-![](https://i.yuntooai.com/u/AZjrKSOvcACyPcNb4irCUA.png)
-
-#### 5.2 配置路由
-
-![hello-world页面集成到主应用中](https://i.yuntooai.com/u/AZjq-EX5cACZF-TKk4EvTw.png)
-
-### step 6：验证页面运行效果
-
-**✅ 场景一完成标志**：主应用中能正常访问Hello World页面
-
-https://app-f4c03acb.app.lovrabet.com/hello-world
-helloworld运行时页面: https://app-f4c03acb.app.lovrabet.com/hello-world
-![helloworld运行时页面](https://i.yuntooai.com/u/AZjq_pSDcACOdA8Me_CFFQ.png)
-
----
-
-## 📊 场景二：真实API数据请求与图表展示（10min）
-
-**目标**：体验调用真实业务接口、处理跨域请求、展示动态图表的完整功能
-
-### Step 1: 更新图表页面代码
+如需切换端口：
 
 ```bash
-# 项目已包含 ChartFetch.tsx 页面
-# 使用真实 API：https://runtime.lovrabet.com/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList
-
-cat src/pages/ChartFetch.tsx
+PORT=3000 rabetbase run start
 ```
 
-[https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33](https://github.com/lovrabet-ai/sub-app-react-demo/blob/26f5dd3981ed5ad955dc3949501e308678438fb7/src/pages/ChartFetch.tsx#L33)
+当前模板内置页面如下：
 
-注意：
+| 页面     | 路由           | 说明                                                 |
+| -------- | -------------- | ---------------------------------------------------- |
+| 首页     | `/`            | Prompt 开发入口、项目状态、Agent 场景示例和 MCP 配置 |
+| SDK 演示 | `/sdk-demo`    | 展示模型列表、查询、新增、更新、删除等 SDK 调用方式  |
+| 工作台   | `/workbench`   | 常见工作台页面示例                                   |
+| 数据看板 | `/dashboard`   | 指标和图表展示示例                                   |
+| 数据大屏 | `/data-screen` | 全屏数据展示示例                                     |
 
-- API地址的结构说明：https://runtime.lovrabet.com/${type}/runtime/${tenentCode}/${appCode}/${datasetCode}/getList
-- 请将接口地址换成业务有权限的接口地址，就能运行看到自己负责业务的接口数据了，有权限的api地址请查看 https://app.lovrabet.com/app/${appCode}/admin/dataset，直接复制接口链接就能通过浏览器console控制验证接口请求的调用是否成功；
+> 旧文档中提到的 `/hello-world`、`/chart-fetch`、`/intro` 已不是当前模板页面。请以 `src/pages` 目录为准。
 
-### Step 2: 本地运行验证
-
-```bash
-# 项目已安装echarts依赖
-rabetbase run start
-```
-
-**本地验证**：
-
-- 浏览器访问 https://dev.lovrabet.com:5173/chart-fetch
-- 确认饼图显示客户状态分布（活跃、正常、流失）
-
-### Step 3: 构建更新的产物
-
-```bash
-# 重新构建包含图表功能的版本
-rabetbase run build
-```
-
-**构建验证**：
-
-- `dist/assets/main.js` 包含echarts
-- `dist/assets/main.css` 样式文件更新
-- 注意：React、Ant Design已外部化，体积较小
-
-### Step 4: 重新上传到CDN
-
-```bash
-# 将更新后的 dist/ 内容重新上传
-# 覆盖之前的文件或使用新的路径
-```
-
-### Step 5: 到Lovrabet主应用中集成ChartFetch页面
-
-**页面2：数据图表入口**
+日常开发时，推荐在 Claude Code、Cursor、Codex 等 Agent 环境中直接描述目标，例如：
 
 ```text
-页面配置：
-├── 页面名称: 数据图表                      # 🔧 可自定义：菜单中显示的名称
-├── 路由路径: /chart-fetch                  # ⚠️ 必须与 src/router/index.tsx 中的 path 保持一致
-├── 资源加载方式: import                    # ⚡ 固定值：Vite项目必须选择import
-└── 资源加载列表:                          # 🔧 替换为您的CDN地址（与Hello World共享同一构建产物）
-  ├── https://your-cdn.com/sub-app-react-demo/dist/assets/main.js
-  └── https://your-cdn.com/sub-app-react-demo/dist/assets/main.css
+请基于当前 Lovrabet 数据模型新增一个客户跟进工作台页面。
+页面需要包含筛选区、列表、详情抽屉和新增表单。
+数据读写请使用项目里的 @lovrabet/sdk 客户端。
 ```
 
-#### 5.1 配置
+Agent 会根据项目中的 `rabetbase` 能力完成模型同步、页面开发、构建检查和主应用接入建议。
 
-访问链接：https://app.lovrabet.com/app/app-f4c03acb/preview
-![chart-fetch页面集成到主应用中](https://i.yuntooai.com/u/AZjq9nKvcACEawJpHIM4Gg.png)
+## 4. 拉取 SDK 模型配置
 
-**集成验证**：
+如果项目是通过 `rabetbase project create` 创建的，且 `src/api/api.ts` 还不是你的应用配置，执行：
 
-- 主应用此时又多了一个菜单项，总计出现了2个菜单
-- "Hello World"菜单 → 显示Hello World页面
-- "数据图表"菜单 → 显示图表页面，数据正常加载
-
-**✅ 场景二完成标志**：两个菜单都能正常工作，图表数据正常显示
-
-![](https://i.yuntooai.com/u/AZjrAvi8cACGVAKkuXXkkQ.png)
-
----
-
-## 🔧 场景三：改造已有项目（20min）
-
-**目标**：将您现有的React项目改造为微前端，直接请求真实的业务接口，实现无缝集成到Lovrabet平台
-
-### 改造已有项目流程
-
-1. **分析现有项目** → 确定改造范围和接口依赖
-2. **修改入口文件** → 添加微前端生命周期函数
-3. **配置构建工具** → 修改vite.config.js支持ES modules
-4. **封装API调用** → 统一请求方式，直接调用真实接口
-5. **本地开发测试** → 验证功能完整性
-6. **构建部署** → 生成ES modules格式产物
-7. **平台配置** → 配置多个页面入口
-8. **生产验证** → 确保集成效果符合预期
-
-### 官方配置参数详解
-
-根据Lovrabet官方文档，配置页面时需要理解以下关键参数：
-
-#### 1. 路由路径 (path)
-
-```text
-说明：应用实际访问时链接URL中的path部分
-格式：https://${appcode}.app.lovrabet.com/${pagePath}
-
-⚠️ 重要：路由路径必须与 src/router/index.tsx 中定义的路径完全一致
-
-示例对应关系：
+```bash
+rabetbase config set appcode app-xxxx
+rabetbase api pull
 ```
+
+如果你是直接克隆模板源码，且当前目录还没有 `.rabetbase.json`，执行：
+
+```bash
+rabetbase project init --appcode app-xxxx
+rabetbase api pull
+```
+
+拉取后重点检查：
+
+- `src/api/api.ts` 中的 AppCode 是否正确；
+- `models` 是否包含你需要的数据模型；
+- 每个模型的 `alias` 是否符合代码中的调用方式。
+
+业务页面中统一从 `src/api/client.ts` 引入客户端：
 
 ```typescript
-// src/router/index.tsx 中的配置
-{
-  path: "hello-world",  // <- 这里定义的路径
-  element: <HelloWorld />,
-}
+import { lovrabetClient } from "@/api/client";
 
-// 平台配置中的路由路径
-路由路径: /hello-world   // <- 必须保持一致（加上/前缀）
-```
+const models = lovrabetClient.getModelList();
 
-```text
-实际访问链接示例：
-  - 配置"/hello-world" → https://app-f4c03acb.app.lovrabet.com/hello-world
-  - 配置"/chart-fetch" → https://app-f4c03acb.app.lovrabet.com/chart-fetch
-
-其中：
-  - 🔧 appcode: 您的应用编码（创建应用时生成，如：app-f4c03acb）
-  - ⚠️ pagePath: 必须与代码中的路由配置一致
-
-要求：路径需要在整个应用中唯一
-```
-
-#### 2. 微应用唯一标识
-
-```text
-说明：标记页面所属的源码微应用，多个页面可能属于同一个源码微应用
-默认：如不填写，则实际运行时会将"路由路径（path）"作为应用标识
-
-🔧 建议：使用有意义的名称，如：react-hello-world、customer-management 等
-```
-
-#### 3. Basename
-
-```text
-说明：指定微应用接收的basename，微应用包含前端路由的场景下需要使用
-默认：如不填写，则默认"路由路径（path）"即作为basename
-
-💡 提示：本示例项目已自动处理 basename，通常无需手动配置
-```
-
-#### 4. 资源加载方式
-
-```text
-可选值：
-  - script（默认）：通过HTML <script /> 标签加载，适用于Angular CLI和Vue CLI
-  - fetch：通过window.fetch 加载并缓存脚本资源，沙箱模式下使用
-  - import：加载ES modules类型微应用
-
-⚡ 重要：Vite构建的项目必须选择 import
-```
-
-### Step 1: 改造现有项目结构
-
-#### 1.1 修改入口文件
-
-```jsx
-// src/main.jsx - 改造为微前端入口
-import React from "react";
-import { createRoot } from "react-dom/client";
-import { isInIcestark } from "@ice/stark-app";
-import { ConfigProvider } from "antd";
-import zhCN from "antd/locale/zh_CN";
-import App from "./router"; // 注意：App实际上是路由组件
-import "./style.css";
-
-// 判断是否在微前端环境中运行
-if (!isInIcestark()) {
-  // 获取 index.html 中定义的根容器元素（id="root"）
-  const container = document.getElementById("root");
-  if (container) {
-    const root = createRoot(container);
-    root.render(
-      <ConfigProvider locale={zhCN}>
-        <App />
-      </ConfigProvider>,
-    );
-  }
-}
-
-// 关键：暴露 mount 供主应用加载时调用
-export function mount({ container, customProps }) {
-  const root = createRoot(container);
-  root.render(
-    <React.StrictMode>
-      <ConfigProvider locale={zhCN}>
-        <App {...customProps} />
-      </ConfigProvider>
-    </React.StrictMode>,
-  );
-  return root;
-}
-
-// 关键：暴露 unmount 供主应用卸载时调用
-export function unmount({ container }) {
-  // React 18 中不再需要手动卸载，但为了兼容性保留
-  const root = container._reactRoot;
-  if (root) {
-    root.unmount();
-  }
-}
-```
-
-#### 1.2 配置Vite构建
-
-```javascript
-// vite.config.ts - 微前端构建配置
-import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react";
-import htmlPlugin from "vite-plugin-index-html";
-import pluginExternal from "vite-plugin-external";
-
-export default defineConfig(async ({ mode }) => {
-  const env = loadEnv(mode, process.cwd());
-  const PORT = Number(env.VITE_APP_PORT) || 5173;
-
-  return {
-    plugins: [
-      react(),
-      // 关键配置：提供 vite lib 打包 + html plugin 能力
-      htmlPlugin({
-        input: "src/main.tsx",
-        preserveEntrySignatures: "exports-only",
-      }),
-      // 外部化依赖，减小打包体积
-      pluginExternal({
-        externals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-          antd: "antd",
-          dayjs: "dayjs",
-        },
-      }),
-    ],
-
-    // 开发服务器配置
-    server: {
-      port: PORT,
-      host: "dev.lovrabet.com",
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-      },
-    },
-
-    // 生产构建配置 - ES modules格式
-    build: {
-      outDir: "dist",
-      target: "esnext",
-      rollupOptions: {
-        output: {
-          format: "es",
-          entryFileNames: "assets/[name].js",
-          assetFileNames: "assets/[name].css",
-        },
-      },
-    },
-  };
+const result = await lovrabetClient.models.requirements.filter({
+  currentPage: 1,
+  pageSize: 20,
 });
 ```
 
-### Step 2: API请求封装（核心配置）
+实际模型名以 `src/api/api.ts` 生成结果为准。
 
-**🔑 关键点：直接请求真实接口的跨域问题必须配置 `credentials: 'include'` 来携带Cookie**
+## 5. 新增页面
 
-```javascript
-// 简单封装 apiRequest - 这是最简单有效的实现
-const apiRequest = async (path, options = {}) => {
-  const response = await fetch(`https://runtime.lovrabet.com${path}`, {
-    credentials: "include", // 关键配置：跨域请求携带Cookie
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
-  });
-  return response.json();
-};
+模板使用 `vite-plugin-pages`，无需手写路由表。
 
-// 使用示例
-const fetchUserData = async () => {
-  try {
-    const data = await apiRequest(
-      "/dbapi/runtime/yuntoo/app-f4c03acb/6c6c94a6ef064fe898cfa895fe5a38f5/getList",
-      {
-        method: "POST",
-        body: JSON.stringify({ pageSize: 10, currentPage: 1 }),
-      },
-    );
-
-    if (data.success) {
-      console.log("数据获取成功:", data.data);
-    }
-  } catch (error) {
-    console.error("请求失败:", error);
-  }
-};
+```text
+src/pages/customer/index.tsx  ->  /customer
+src/pages/customer/[id].tsx   ->  /customer/:id
+src/pages/report/month.tsx    ->  /report/month
 ```
 
-### Step 3: 路由配置
+新增页面后：
 
-```jsx
-// src/router/index.jsx - 路由配置文件
-import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router";
-import { getBasename } from "@ice/stark-app";
-import MainLayout from "../layouts/MainLayout";
-import HelloWorld from "../pages/HelloWorld";
-import ChartFetch from "../pages/ChartFetch";
+1. 本地访问对应路由确认渲染正常；
+2. 如果独立运行时需要左侧菜单入口，修改 `src/layouts/MainLayout.tsx`；
+3. 如果要在 Lovrabet 主应用中挂菜单，发布后在页面配置里使用同一个路由路径。
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <MainLayout />,
-      children: [
-        {
-          index: true,
-          element: <HelloWorld />,
-        },
-        {
-          path: "hello-world",
-          element: <HelloWorld />,
-        },
-        {
-          path: "chart-fetch",
-          element: <ChartFetch />,
-        },
-      ],
-    },
-  ],
-  {
-    // 可选：通过getBasename()获取到微应用运行时的basename并传入
-    basename: getBasename() || "/",
-  },
-);
+## 6. 构建产物
 
-console.log("MicroAppRouter:", {
-  routes: router.routes,
-  basename: router.basename,
-});
-
-const AppRouter: React.FC = () => {
-  return <RouterProvider router={router} />;
-};
-
-export default AppRouter;
+```bash
+rabetbase run build
 ```
 
-### Step 4: 本地开发、测试、集成到主应用
+默认产物：
 
-同场景一和场景二的操作
+```text
+dist/assets/main.js
+dist/assets/main.css
+```
 
-## 🛠️ 常见问题和解决方案
+如果你希望产物带版本目录并自动生成 CDN base：
 
-### 改造相关问题
+```bash
+CDN_DOMAIN=https://your-cdn.com/ rabetbase run build
+```
 
-**问题1：现有项目路由冲突**
-**解决**：
+构建后检查：
 
-- 使用正确的basename，确保在主应用中也是唯一的
-- 检查路由配置与平台配置的路径匹配
-- 使用相对路径而非绝对路径
+- `dist/` 目录已生成；
+- `main.js` 是 ES module 产物；
+- `main.css` 可被外部访问；
+- CDN 上的 JS/CSS URL 可以在浏览器中直接打开。
 
-**问题2：接口请求失败**
-**解决**：
+## 7. 接入 Lovrabet 主应用
 
-- 检查API地址配置是否正确
-- 验证接口的CORS配置
+在 Lovrabet 应用的页面配置中新增页面，示例：
 
-### 构建部署问题
+```text
+页面名称：SDK Demo
+路由路径：/sdk-demo
+微应用唯一标识：sub-app-react-demo
+资源加载方式：import
+资源加载列表：
+  https://your-cdn.com/path/to/assets/main.js
+  https://your-cdn.com/path/to/assets/main.css
+```
 
-**问题4：构建后资源加载失败**
-**解决**：
+配置规则：
 
-- 确保选择import加载方式
-- 检查CDN地址是否正确
-- 验证资源文件是否完整上传
+- `路由路径` 必须和 `src/pages` 生成的路由一致。
+- Vite 项目必须选择 `import` 加载方式。
+- 同一份构建产物可以挂多个页面，例如 `/sdk-demo`、`/dashboard`、`/data-screen`。
+- 多个页面属于同一个微前端时，建议使用同一个微应用唯一标识。
 
-**问题5：我的业务工程能不能独立运行，仅调用Lovrabet的api接口**
-**解决**：
+验证方式：
 
-- step1：子应用不挂载到主应用，也是支持独立运行的；
-- step2：联系Lovrabet技术 @fengyue 独立配置业务自有域名来解决cors跨域；
+1. 主应用菜单能看到新页面；
+2. 点击菜单后页面正常渲染；
+3. 浏览器控制台没有资源加载或跨域错误；
+4. SDK 页面能正常读取当前登录态有权限的数据。
+
+## 8. 改造已有 React 项目
+
+如果你不是从模板开始，而是要改造已有 React + Vite 项目，最少需要补齐：
+
+1. `@ice/stark-app` 依赖；
+2. `src/main.tsx` 中的 `mount` / `unmount` 导出；
+3. `src/router/index.tsx` 中的 `getBasename()`；
+4. Vite 构建产物使用 ES module；
+5. Lovrabet 页面配置中使用 `import` 加载方式；
+6. 需要调用平台数据时，引入 `@lovrabet/sdk` 并生成 `src/api/api.ts`。
+
+建议直接对照本模板的 `src/main.tsx`、`src/router/index.tsx`、`vite.config.ts` 修改，而不是从旧的 Hello World 示例复制代码。
+
+## 常见问题
+
+### 本地打不开 `https://dev.lovrabet.com:5173`
+
+先确认命令是否正常运行；如果端口冲突，换端口启动：
+
+```bash
+PORT=3000 rabetbase run start
+```
+
+### SDK 页面没有模型
+
+执行：
+
+```bash
+rabetbase api pull
+```
+
+然后检查 `src/api/api.ts` 是否生成了当前应用的模型配置。
+
+### 主应用里页面空白
+
+优先检查：
+
+- 页面资源是否选择 `import`；
+- JS/CSS URL 是否可访问；
+- 路由路径是否和 `src/pages` 生成路径一致；
+- CDN 是否返回了正确的 `Content-Type`。
+
+### 本地独立运行有侧边栏，嵌入主应用后没有侧边栏
+
+这是预期行为。`MainLayout` 会在 icestark 环境下只渲染页面内容，由 Lovrabet 主应用提供外层导航。

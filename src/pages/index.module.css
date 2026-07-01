@@ -1,0 +1,500 @@
+.homepage {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(4px, 1.5vw, 20px) 0 40px;
+  color: #1f2937;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 20px;
+}
+
+.heroCopy,
+.statusPanel,
+.sectionCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.heroCopy {
+  padding: 30px;
+}
+
+.statusPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+}
+
+.heroTitle {
+  margin: 14px 0 12px !important;
+  color: #111827 !important;
+  font-size: clamp(28px, 3vw, 42px) !important;
+  line-height: 1.12 !important;
+}
+
+.heroText {
+  max-width: 720px;
+  margin-bottom: 22px !important;
+  color: #4b5563;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.heroActions {
+  display: flex;
+}
+
+.surfaceRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.statusHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.statusHeader h2 {
+  margin: 4px 0 0 !important;
+  font-size: 22px !important;
+}
+
+.statusCode {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.statusCode strong {
+  color: #111827;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 18px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.statusGrid > div {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #edf2f7;
+  border-radius: 8px;
+}
+
+.statusGrid strong {
+  color: #1f2937;
+  font-size: 13px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.statusLinks {
+  display: grid;
+  gap: 10px;
+}
+
+.statusLinks :global(.ant-btn) {
+  justify-content: flex-start;
+}
+
+.setupAlert {
+  margin-bottom: 24px;
+  border-radius: 8px;
+}
+
+.alertBody {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+}
+
+.alertBody p {
+  margin-bottom: 0 !important;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.sectionHeader h2 {
+  margin: 4px 0 0 !important;
+  font-size: 24px !important;
+}
+
+.promptGrid,
+.pageGrid,
+.taskGrid,
+.docGrid,
+.bottomGrid {
+  display: grid;
+  gap: 16px;
+}
+
+.promptGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pageGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.taskGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.docGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bottomGrid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  margin-top: 28px;
+}
+
+.promptCard,
+.routeCard {
+  height: 100%;
+  border-radius: 8px;
+  border-color: #e5e7eb;
+}
+
+.promptCard :global(.ant-card-body),
+.routeCard :global(.ant-card-body),
+.sectionCard :global(.ant-card-body) {
+  height: 100%;
+}
+
+.promptCard :global(.ant-card-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cardHeading {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.cardHeading h3,
+.routeCard h3 {
+  margin: 0 0 8px !important;
+  color: #111827 !important;
+  font-size: 18px !important;
+}
+
+.cardHeading p,
+.routeCard p {
+  margin-bottom: 0 !important;
+  color: #4b5563;
+  line-height: 1.65;
+}
+
+.iconBox,
+.routeIcon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: #0958d9;
+  background: #eaf2ff;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tagRow :global(.ant-tag) {
+  margin-inline-end: 0;
+}
+
+.taskCard,
+.docCard {
+  display: grid;
+  min-width: 0;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.taskCard:hover,
+.docCard:hover {
+  color: inherit;
+  border-color: #91caff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  transform: translateY(-1px);
+}
+
+.taskCard:active,
+.docCard:active {
+  transform: translateY(0);
+}
+
+.taskCard {
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  padding: 18px;
+}
+
+.taskCard strong,
+.docCard strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #111827;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.taskCard span span,
+.docCard > span:not(.routeIcon) {
+  display: block;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.taskCard em,
+.docCard em {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: #0958d9;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.taskCard em {
+  grid-column: 2;
+  margin-top: 4px;
+}
+
+.docCard {
+  gap: 12px;
+  padding: 18px;
+}
+
+.commandList {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.commandList > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.inlineDocLink {
+  align-self: flex-start;
+  height: auto;
+  padding: 0;
+}
+
+.copyBlock {
+  display: grid;
+  gap: 8px;
+}
+
+.copyBlockCompact {
+  margin-top: auto;
+}
+
+.copyHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.copyButton {
+  flex: 0 0 auto;
+}
+
+.copyPre {
+  min-width: 0;
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  color: #e5e7eb;
+  background: #111827;
+  border-radius: 8px;
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.routeCard :global(.ant-card-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.routeIcon {
+  width: 42px;
+  height: 42px;
+}
+
+.routeLink {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: auto;
+  color: #0958d9;
+  font-weight: 500;
+}
+
+.routeLink:hover {
+  color: #1677ff;
+}
+
+.cardTitleLine {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+  color: #0958d9;
+}
+
+.cardTitleLine h2 {
+  margin: 0 !important;
+  color: #111827 !important;
+  font-size: 22px !important;
+}
+
+.checkList {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkList li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #374151;
+  line-height: 1.65;
+}
+
+.checkList svg {
+  flex: 0 0 auto;
+  margin-top: 4px;
+  color: #389e0d;
+}
+
+.mutedText {
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+@media (max-width: 1100px) {
+  .pageGrid,
+  .taskGrid,
+  .docGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .hero,
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .promptGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .homepage {
+    padding-bottom: 32px;
+  }
+
+  .heroCopy,
+  .statusPanel {
+    padding: 20px;
+  }
+
+  .heroActions,
+  .heroActions :global(.ant-space-item),
+  .heroActions :global(.ant-btn) {
+    width: 100%;
+  }
+
+  .sectionHeader,
+  .statusHeader,
+  .copyHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .statusGrid,
+  .pageGrid,
+  .taskGrid,
+  .docGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardHeading {
+    flex-direction: column;
+  }
+
+  .taskCard {
+    grid-template-columns: 1fr;
+  }
+
+  .taskCard em {
+    grid-column: auto;
+  }
+}
