@@ -13,6 +13,10 @@
 - 让 Agent 基于 `rabetbase` 能力刷新 SDK 模型配置；
 - 基于已有页面案例，用 Prompt 继续二次开发。
 
+## 开发规范
+
+开发者或 Agent 修改页面前，先阅读根目录 [`AGENTS.md`](./AGENTS.md)。平台能力和 CLI 命令以 `rabetbase` Skill/帮助为准；React、路由和微前端工程约定以本仓规范为准。
+
 ## 在线文库
 
 README 只说明模板本地运行方式。完整的 Agent 开发流程、Prompt 示例、SDK 使用方式和发布路径，以飞书文库为准。
