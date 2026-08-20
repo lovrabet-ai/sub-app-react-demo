@@ -19,25 +19,25 @@ import {
 const mockData = {
   statistics: [
     {
-      title: "今日访问",
+      title: "Today visits",
       value: "1,256",
       icon: <UserOutlined />,
       trend: "+12.5%",
     },
     {
-      title: "待处理订单",
+      title: "Pending orders",
       value: "89",
       icon: <ShoppingOutlined />,
       trend: "+8.3%",
     },
     {
-      title: "本月收入",
-      value: "¥89.6万",
+      title: "Monthly revenue",
+      value: "$896K",
       icon: <DollarOutlined />,
       trend: "+15.6%",
     },
     {
-      title: "完成率",
+      title: "Completion rate",
       value: "89.5%",
       icon: <TrophyOutlined />,
       trend: "+3.2%",
@@ -46,69 +46,69 @@ const mockData = {
   quickActions: [
     {
       key: "/sdk-demo",
-      title: "SDK 演示",
-      desc: "查看 SDK 使用示例",
+      title: "SDK demo",
+      desc: "See SDK usage examples",
       icon: <ApiOutlined />,
     },
     {
       key: "/dashboard",
-      title: "数据看板",
-      desc: "查看业务数据统计",
+      title: "Dashboard",
+      desc: "View business metrics",
       icon: <DashboardOutlined />,
     },
     {
       key: "/data-screen",
-      title: "数据大屏",
-      desc: "可视化数据展示",
+      title: "Data screen",
+      desc: "Visual data display",
       icon: <BarChartOutlined />,
     },
     {
       key: "https://open.lovrabet.com",
-      title: "查看文档",
-      desc: "访问完整文档",
+      title: "Docs",
+      desc: "Open the full documentation",
       icon: <FileTextOutlined />,
       external: true,
     },
   ],
   recentAccess: [
-    { name: "SDK 演示", path: "/sdk-demo", time: "2 小时前" },
-    { name: "数据看板", path: "/dashboard", time: "5 小时前" },
-    { name: "数据大屏", path: "/data-screen", time: "1 天前" },
+    { name: "SDK demo", path: "/sdk-demo", time: "2 hours ago" },
+    { name: "Dashboard", path: "/dashboard", time: "5 hours ago" },
+    { name: "Data screen", path: "/data-screen", time: "1 day ago" },
   ],
   todos: [
     {
-      title: "完成 SDK 集成文档",
-      priority: "高",
+      title: "Finish SDK integration docs",
+      priority: "High",
       status: "pending",
       date: "2025-01-15",
     },
     {
-      title: "优化数据大屏性能",
-      priority: "中",
+      title: "Improve data-screen performance",
+      priority: "Medium",
       status: "progress",
       date: "2025-01-20",
     },
     {
-      title: "更新 API 文档",
-      priority: "低",
+      title: "Update API docs",
+      priority: "Low",
       status: "pending",
       date: "2025-01-25",
     },
   ],
   announcements: [
     {
-      title: "SDK v1.1.22 版本发布",
-      content: "新增 filter 接口支持，支持复杂条件查询",
+      title: "SDK v1.1.22 released",
+      content: "Added filter API support for complex queries",
       time: "2025-01-10",
     },
     {
-      title: "CLI v1.1.15 版本更新",
-      content: "优化菜单同步功能，支持中文菜单名",
+      title: "CLI v1.1.15 update",
+      content: "Improved menu sync, including non-ASCII menu names",
       time: "2025-01-08",
     },
     {
-      title: "文档中心更新",
-      content: "新增 API 使用指南和最佳实践",
+      title: "Docs center update",
+      content: "Added API guides and best practices",
       time: "2025-01-05",
     },
   ],
@@ -126,7 +126,7 @@ const Workbench: React.FC = () => {
   };
 
   const getPriorityClass = (priority: string) => {
-    const map: Record<string, string> = { 高: "high", 中: "medium", 低: "low" };
+    const map: Record<string, string> = { High: "high", Medium: "medium", Low: "low" };
     return map[priority] || "low";
   };
 
@@ -135,8 +135,8 @@ const Workbench: React.FC = () => {
       <div className={styles.page}>
         {/* 欢迎区 */}
         <div className={styles.welcome}>
-          <h2>工作台</h2>
-          <p>欢迎回来，这里是您的开发工作台</p>
+          <h2>Workbench</h2>
+          <p>Welcome back. This is your development workbench.</p>
         </div>
 
         {/* 统计数据 - Bento Grid */}
@@ -145,7 +145,7 @@ const Workbench: React.FC = () => {
             <div key={i} className={styles.statCard}>
               <div className={styles.statLabel}>{item.title}</div>
               <div className={styles.statValue}>{item.value}</div>
-              <div className={styles.statTrend}>{item.trend} 较昨日</div>
+              <div className={styles.statTrend}>{item.trend} vs yesterday</div>
             </div>
           ))}
         </div>
@@ -153,7 +153,7 @@ const Workbench: React.FC = () => {
         <div className={styles.row}>
           {/* 快捷操作 */}
           <div className={styles.card}>
-            <div className={styles.cardHead}>快捷操作</div>
+            <div className={styles.cardHead}>Quick actions</div>
             <div className={styles.cardBody}>
               <div className={styles.actions}>
                 {mockData.quickActions.map((item) => (
@@ -177,7 +177,7 @@ const Workbench: React.FC = () => {
 
           {/* 最近访问 */}
           <div className={styles.card}>
-            <div className={styles.cardHead}>最近访问</div>
+            <div className={styles.cardHead}>Recent</div>
             <div className={styles.cardBody}>
               {mockData.recentAccess.map((item, i) => (
                 <div
@@ -201,7 +201,7 @@ const Workbench: React.FC = () => {
 
           {/* 待办事项 */}
           <div className={styles.card}>
-            <div className={styles.cardHead}>待办事项</div>
+            <div className={styles.cardHead}>To-do</div>
             <div className={styles.cardBody}>
               {mockData.todos.map((item, i) => (
                 <div key={i} className={styles.todoItem}>
@@ -214,7 +214,7 @@ const Workbench: React.FC = () => {
                       {item.priority}
                     </span>
                   </div>
-                  <div className={styles.todoDate}>截止：{item.date}</div>
+                  <div className={styles.todoDate}>Due: {item.date}</div>
                 </div>
               ))}
             </div>
@@ -222,7 +222,7 @@ const Workbench: React.FC = () => {
 
           {/* 系统公告 */}
           <div className={styles.card}>
-            <div className={styles.cardHead}>系统公告</div>
+            <div className={styles.cardHead}>Announcements</div>
             <div className={styles.cardBody}>
               {mockData.announcements.map((item, i) => (
                 <div key={i} className={styles.timelineItem}>

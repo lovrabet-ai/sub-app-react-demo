@@ -48,8 +48,8 @@ function CollapsibleCodeBlock({
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch (error) {
-      console.error("复制代码失败:", error);
-      message.error("复制代码失败");
+      console.error("Failed to copy code:", error);
+      message.error("Failed to copy code");
     }
   };
 
@@ -82,14 +82,14 @@ function CollapsibleCodeBlock({
             icon={copied ? <CheckOutlined /> : <CopyOutlined />}
             onClick={handleCopy}
           >
-            {copied ? "已复制" : "复制"}
+            {copied ? "Copied" : "Copy"}
           </Button>
           <Button
             size="small"
             icon={expanded ? <UpOutlined /> : <DownOutlined />}
             onClick={() => setExpanded((current) => !current)}
           >
-            {expanded ? "收起" : "展开"}
+            {expanded ? "Collapse" : "Expand"}
           </Button>
         </Space>
       </div>
@@ -132,7 +132,7 @@ export default function SdkDemo() {
   // 获取选中模型的信息（用于代码示例展示 alias）
   const selectedModelInfo = modelList.find((m) => m.value === selectedModel);
 
-  const filterCodeExample = `// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
+  const filterCodeExample = `// ========== Mode 1: standard dataset_code (recommended for AI/LLM) ==========
 const response = await lovrabetClient
   .models['${selectedModel || "dataset_xxx"}'].filter({
     currentPage: 1,
@@ -141,7 +141,7 @@ const response = await lovrabetClient
 ${
   selectedModelInfo?.alias
     ? `
-// ========== 方式二：人类友好的 alias 模式 ==========
+// ========== Mode 2: human-friendly alias ==========
 const response = await lovrabetClient
   .models.${selectedModelInfo.alias}.filter({
     currentPage: 1,
@@ -150,33 +150,33 @@ const response = await lovrabetClient
 `
     : ""
 }
-// ========== 完整查询示例（所有参数均为可选）==========
+// ========== Full query example (all params optional except paging) ==========
 const response = await lovrabetClient
   .models['${selectedModel || "dataset_xxx"}'].filter({
-    // where: 条件查询（可选）
+    // where: conditions (optional)
     // where: {
     //   age: { $gte: 18 },
     //   status: { $eq: 'active' }
     // },
 
-    // select: 字段选择（可选）
+    // select: fields (optional)
     // select: ['id', 'name', 'age'],
 
-    // orderBy: 排序（可选）
+    // orderBy: sort (optional)
     // orderBy: [{ createTime: 'desc' }],
 
-    // 分页参数（必需）
+    // paging (required)
     currentPage: 1,
     pageSize: 10
   });
 
-// 其他可用参数（仅示例，以实际字段为准）：
-// - where: 支持 $eq, $ne, $gte, $lte, $in, $contain, $startWith, $endWith 等操作符
-// - where: 支持 $and, $or 逻辑组合
-// - select: 数组形式，指定返回的字段
-// - orderBy: 数组形式，支持多字段排序 [{ field1: 'desc' }, { field2: 'asc' }]`;
+// Other params (examples only; use real fields):
+// - where: operators such as $eq, $ne, $gte, $lte, $in, $contain, $startWith, $endWith
+// - where: $and / $or combinations
+// - select: array of fields to return
+// - orderBy: multi-field sort, e.g. [{ field1: 'desc' }, { field2: 'asc' }]`;
 
-  const selectOptionsCodeExample = `// ========== 方式一：标准 dataset_code 模式（推荐 AI/LLM 使用）==========
+  const selectOptionsCodeExample = `// ========== Mode 1: standard dataset_code (recommended for AI/LLM) ==========
 const options = await lovrabetClient
   .models['${selectedModel || "dataset_xxx"}'].getSelectOptions({
     code: "${codeField || "id"}",
@@ -185,7 +185,7 @@ const options = await lovrabetClient
 ${
   selectedModelInfo?.alias
     ? `
-// ========== 方式二：人类友好的 alias 模式 ==========
+// ========== Mode 2: human-friendly alias ==========
 const options = await lovrabetClient
   .models.${selectedModelInfo.alias}.getSelectOptions({
     code: "${codeField || "id"}",
@@ -194,7 +194,7 @@ const options = await lovrabetClient
 `
     : ""
 }
-// 返回格式：[{ label: "显示文本", value: "选项值" }]`;
+// Return shape: [{ label: "display text", value: "option value" }]`;
 
   /**
    * 加载可用的数据模型列表
@@ -209,8 +209,8 @@ const options = await lovrabetClient
         setSelectedModel(models[0].value);
       }
     } catch (error) {
-      console.error("获取模型列表失败:", error);
-      message.error("获取模型列表失败");
+      console.error("Failed to load model list:", error);
+      message.error("Failed to load model list");
     }
   }, []);
 
@@ -219,7 +219,7 @@ const options = await lovrabetClient
    */
   const loadData = async () => {
     if (!selectedModel) {
-      message.warning("请先选择一个数据模型");
+      message.warning("Select a data model first");
       return;
     }
 
@@ -232,9 +232,9 @@ const options = await lovrabetClient
         pageSize: 10,
       });
 
-      processResponse(response, "查询成功！");
+      processResponse(response, "Query succeeded");
     } catch (error: any) {
-      handleError(error, "查询");
+      handleError(error, "Query");
     } finally {
       setLoading(false);
     }
@@ -250,8 +250,8 @@ const options = await lovrabetClient
 
       // 确保 tableData 是数组
       if (!Array.isArray(tableData)) {
-        console.error("返回的数据不是数组格式:", tableData);
-        message.error("返回数据格式错误，请检查 API 响应");
+        console.error("Returned data is not an array:", tableData);
+        message.error("Unexpected response shape. Check the API payload.");
         return;
       }
 
@@ -305,8 +305,8 @@ const options = await lovrabetClient
 
       message.success(successMessage);
     } catch (error: any) {
-      console.error("处理响应数据失败:", error);
-      message.error(`处理数据失败: ${error.message}`);
+      console.error("Failed to process response:", error);
+      message.error(`Failed to process data: ${error.message}`);
     }
   };
 
@@ -315,12 +315,12 @@ const options = await lovrabetClient
    */
   const loadSelectOptions = async () => {
     if (!selectedModel) {
-      message.warning("请先选择一个数据模型");
+      message.warning("Select a data model first");
       return;
     }
 
     if (!codeField || !labelField) {
-      message.warning("请输入 code 和 label 字段名");
+      message.warning("Enter both code and label field names");
       return;
     }
 
@@ -336,11 +336,11 @@ const options = await lovrabetClient
       });
 
       setSelectOptions(options);
-      message.success(`成功获取 ${options.length} 个下拉选项`);
-      console.log("下拉选项数据:", options);
+      message.success(`Loaded ${options.length} select options`);
+      console.log("Select options:", options);
     } catch (error: any) {
-      console.error("获取下拉选项失败:", error);
-      message.error(`获取下拉选项失败: ${error.message}`);
+      console.error("Failed to load select options:", error);
+      message.error(`Failed to load select options: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -350,8 +350,8 @@ const options = await lovrabetClient
    * 处理错误
    */
   const handleError = (error: any, action: string) => {
-    console.error(`${action}失败:`, error);
-    message.error(`${action}失败: ${error.message}`);
+    console.error(`${action} failed:`, error);
+    message.error(`${action} failed: ${error.message}`);
   };
 
   return (
@@ -359,22 +359,22 @@ const options = await lovrabetClient
       <div>
         {/* 标题 */}
         <Title level={2}>
-          <ApiOutlined /> Lovrabet SDK 简单演示
+          <ApiOutlined /> Lovrabet SDK demo
         </Title>
 
         <Paragraph style={{ color: "#666", marginBottom: 24 }}>
-          演示 Lovrabet SDK 的 <Text strong>filter</Text> 接口使用方法。filter
-          接口支持复杂条件查询、字段选择、多字段排序等功能。
+          Demo of the Lovrabet SDK <Text strong>filter</Text> API. Filter
+          supports complex conditions, field selection, and multi-field sort.
           <br />
-          <strong>注意：</strong>代码示例中的 "Requirements"
-          是假设已经存在的数据模型名称，实际使用时请根据下拉框中的可用模型进行选择。
+          <strong>Note:</strong> sample code may mention "Requirements"
+          as a placeholder model name. Pick a real model from the dropdown.
         </Paragraph>
 
         {/* 数据模型选择 */}
-        <Card title="选择数据模型" size="small" style={{ marginBottom: 16 }}>
+        <Card title="Select a data model" size="small" style={{ marginBottom: 16 }}>
           <Space>
             <Select
-              placeholder="选择要查询的数据模型"
+              placeholder="Choose a data model to query"
               style={{ width: 350 }}
               value={selectedModel}
               onChange={setSelectedModel}
@@ -389,14 +389,14 @@ const options = await lovrabetClient
               icon={<ApiOutlined />}
               disabled={!selectedModel}
             >
-              查询数据
+              Query data
             </Button>
           </Space>
         </Card>
 
         {/* 数据表格 */}
         {data.length > 0 && (
-          <Card title="数据结果" size="small" style={{ marginBottom: 16 }}>
+          <Card title="Results" size="small" style={{ marginBottom: 16 }}>
             <Table
               columns={columns}
               dataSource={data}
@@ -409,9 +409,9 @@ const options = await lovrabetClient
         )}
 
         {/* 代码示例 */}
-        <Card title="代码示例" size="small" style={{ marginBottom: 16 }}>
+        <Card title="Code sample" size="small" style={{ marginBottom: 16 }}>
           <CollapsibleCodeBlock
-            title="filter 查询代码"
+            title="filter query code"
             code={filterCodeExample}
             accent
             defaultExpanded
@@ -419,18 +419,18 @@ const options = await lovrabetClient
         </Card>
 
         {/* 获取下拉选项 */}
-        <Card title="📋 获取下拉选项" size="small" style={{ marginBottom: 16 }}>
+        <Card title="Select options" size="small" style={{ marginBottom: 16 }}>
           <Space direction="vertical" style={{ width: "100%" }}>
             <div style={{ color: "#666" }}>
-              用于获取数据表的下拉选项数据，适用于 Select、Radio、Checkbox
-              等表单组件（仅 WebAPI 模式支持）
+              Load dropdown options from a data table for Select, Radio, or Checkbox.
+              WebAPI mode only.
             </div>
 
             {/* 显示可用字段 */}
             {columns.length > 0 && (
               <div style={{ marginBottom: 8 }}>
                 <span style={{ color: "#666", marginRight: 8 }}>
-                  可用字段（点击快速填入）：
+                  Available fields (click to fill):
                 </span>
                 <Space wrap size={[4, 4]}>
                   {columns.map((column: any) => (
@@ -442,16 +442,16 @@ const options = await lovrabetClient
                         if (!codeField) {
                           setCodeField(column.dataIndex);
                           message.success(
-                            `已填入 Code 字段: ${column.dataIndex}`,
+                            `Filled code field: ${column.dataIndex}`,
                           );
                         } else if (!labelField) {
                           setLabelField(column.dataIndex);
                           message.success(
-                            `已填入 Label 字段: ${column.dataIndex}`,
+                            `Filled label field: ${column.dataIndex}`,
                           );
                         } else {
                           message.info(
-                            "Code 和 Label 已填写，如需更换请先清空",
+                            "Code and label are already set. Clear them first to change.",
                           );
                         }
                       }}
@@ -464,17 +464,17 @@ const options = await lovrabetClient
             )}
 
             <Space wrap>
-              <span>Code 字段：</span>
+              <span>Code field:</span>
               <Input
-                placeholder="用作选项值的字段名"
+                placeholder="Field used as the option value"
                 value={codeField}
                 onChange={(e) => setCodeField(e.target.value)}
                 style={{ width: 200 }}
                 allowClear
               />
-              <span>Label 字段：</span>
+              <span>Label field:</span>
               <Input
-                placeholder="用作显示文本的字段名"
+                placeholder="Field used as the display text"
                 value={labelField}
                 onChange={(e) => setLabelField(e.target.value)}
                 style={{ width: 200 }}
@@ -487,12 +487,12 @@ const options = await lovrabetClient
                 icon={<ApiOutlined />}
                 disabled={!selectedModel || !codeField || !labelField}
               >
-                获取选项
+                Load options
               </Button>
             </Space>
 
             <CollapsibleCodeBlock
-              title="getSelectOptions 代码"
+              title="getSelectOptions code"
               code={selectOptionsCodeExample}
               defaultExpanded
             />
@@ -502,11 +502,11 @@ const options = await lovrabetClient
         {/* 下拉选项结果 */}
         {selectOptions.length > 0 && (
           <Card
-            title={`下拉选项结果（共 ${selectOptions.length} 个）`}
+            title={`Select options (${selectOptions.length})`}
             size="small"
           >
             <CollapsibleCodeBlock
-              title="下拉选项 JSON"
+              title="Select options JSON"
               code={JSON.stringify(selectOptions, null, 2)}
               defaultExpanded
               maxHeight={400}
@@ -518,7 +518,7 @@ const options = await lovrabetClient
         <Card size="small" style={{ marginTop: 24, background: "#f5f5f5" }}>
           <Paragraph style={{ margin: 0, textAlign: "center" }}>
             <Text type="secondary">
-              技术开发文档指引：{" "}
+              Developer docs:{" "}
               <a
                 href="https://qizhiyuntu.feishu.cn/wiki/CMfxw6l2li01EVkBTcBcshD3nSe"
                 target="_blank"

@@ -19,32 +19,32 @@ const { Title } = Typography;
 const Dashboard: React.FC = () => {
   // 模拟数据
   const topCardsData = [
-    { title: "个人销售成交额", value: 120565, color: "#5B8FF9", unit: "" },
-    { title: "成交订单数", value: 352100, color: "#FF6B6B", unit: "" },
-    { title: "分销商收入", value: 596850, color: "#FFB800", unit: "" },
-    { title: "个人销售成交额", value: 7982991, color: "#5AD8A6", unit: "" },
-    { title: "分销商收入", value: 27890.0, color: "#999", unit: "" },
+    { title: "Personal sales amount", value: 120565, color: "#5B8FF9", unit: "" },
+    { title: "Closed orders", value: 352100, color: "#FF6B6B", unit: "" },
+    { title: "Distributor revenue", value: 596850, color: "#FFB800", unit: "" },
+    { title: "Personal sales amount", value: 7982991, color: "#5AD8A6", unit: "" },
+    { title: "Distributor revenue", value: 27890.0, color: "#999", unit: "" },
   ];
 
-  // 市场占率折线图配置
+  // Market share折线图配置
   const marketShareOption = {
     title: {
-      text: "市场占率",
+      text: "Market share",
       left: 20,
       top: 10,
       textStyle: { fontSize: 16, fontWeight: "bold" },
     },
     tooltip: { trigger: "axis" },
-    legend: { data: ["商场一", "商场二"], right: 20, top: 10 },
+    legend: { data: ["Store A", "Store B"], right: 20, top: 10 },
     grid: { left: 40, right: 40, bottom: 40, top: 60 },
     xAxis: {
       type: "category",
-      data: ["数据1", "数据2", "数据3", "数据4", "数据5", "数据6"],
+      data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"],
     },
     yAxis: { type: "value" },
     series: [
       {
-        name: "商场一",
+        name: "Store A",
         type: "line",
         data: [620, 750, 900, 620, 450, 400],
         smooth: true,
@@ -52,7 +52,7 @@ const Dashboard: React.FC = () => {
         areaStyle: { color: "rgba(91, 143, 249, 0.1)" },
       },
       {
-        name: "商场二",
+        name: "Store B",
         type: "line",
         data: [650, 600, 400, 800, 300, 250],
         smooth: true,
@@ -62,31 +62,31 @@ const Dashboard: React.FC = () => {
     ],
   };
 
-  // 市场数据柱状图配置
+  // Market data柱状图配置
   const marketDataOption = {
     title: {
-      text: "市场数据",
+      text: "Market data",
       left: 20,
       top: 10,
       textStyle: { fontSize: 16, fontWeight: "bold" },
     },
     tooltip: { trigger: "axis" },
-    legend: { data: ["商场一", "商场二"], right: 20, top: 10 },
+    legend: { data: ["Store A", "Store B"], right: 20, top: 10 },
     grid: { left: 40, right: 40, bottom: 40, top: 60 },
     xAxis: {
       type: "category",
-      data: ["数据1", "数据2", "数据3", "数据4", "数据5", "数据6"],
+      data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"],
     },
     yAxis: { type: "value" },
     series: [
       {
-        name: "商场一",
+        name: "Store A",
         type: "bar",
         data: [400, 500, 900, 200, 300, 600],
         itemStyle: { color: "#5B8FF9" },
       },
       {
-        name: "商场二",
+        name: "Store B",
         type: "bar",
         data: [300, 800, 400, 500, 400, 500],
         itemStyle: { color: "#5AD8A6" },
@@ -94,10 +94,10 @@ const Dashboard: React.FC = () => {
     ],
   };
 
-  // 客户转换漏斗图配置
+  // Customer conversion funnel图配置
   const funnelOption = {
     title: {
-      text: "客户转换漏斗",
+      text: "Customer conversion funnel",
       left: "center",
       top: 10,
       textStyle: { fontSize: 16, fontWeight: "bold" },
@@ -105,28 +105,28 @@ const Dashboard: React.FC = () => {
     tooltip: { trigger: "item", formatter: "{a} <br/>{b} : {c}%" },
     series: [
       {
-        name: "客户转换",
+        name: "Conversion",
         type: "funnel",
         left: "10%",
         top: "60",
         width: "80%",
         height: "60%",
         data: [
-          { value: 10, name: "商场二", itemStyle: { color: "#5AD8A6" } },
-          { value: 10, name: "商场一", itemStyle: { color: "#5B8FF9" } },
-          { value: 10, name: "商场三", itemStyle: { color: "#FFB800" } },
-          { value: 10, name: "商场四", itemStyle: { color: "#FF6B6B" } },
-          { value: 10, name: "商场五", itemStyle: { color: "#9270CA" } },
+          { value: 10, name: "Store B", itemStyle: { color: "#5AD8A6" } },
+          { value: 10, name: "Store A", itemStyle: { color: "#5B8FF9" } },
+          { value: 10, name: "Store C", itemStyle: { color: "#FFB800" } },
+          { value: 10, name: "Store D", itemStyle: { color: "#FF6B6B" } },
+          { value: 10, name: "Store E", itemStyle: { color: "#9270CA" } },
         ],
         label: { show: true, position: "inside" },
       },
     ],
   };
 
-  // 客户分布饼图配置
+  // Customer distribution饼图配置
   const pieOption = {
     title: {
-      text: "客户分布",
+      text: "Customer distribution",
       left: "center",
       top: 10,
       textStyle: { fontSize: 16, fontWeight: "bold" },
@@ -135,25 +135,25 @@ const Dashboard: React.FC = () => {
     legend: { orient: "vertical", right: 20, top: "middle" },
     series: [
       {
-        name: "客户分布",
+        name: "Customer distribution",
         type: "pie",
         radius: ["50%", "70%"],
         center: ["40%", "60%"],
         data: [
-          { value: 20, name: "商场二", itemStyle: { color: "#5B8FF9" } },
-          { value: 20, name: "商场一", itemStyle: { color: "#FF6B6B" } },
-          { value: 20, name: "商场三", itemStyle: { color: "#FFB800" } },
-          { value: 30, name: "商场四", itemStyle: { color: "#5AD8A6" } },
-          { value: 10, name: "商场五", itemStyle: { color: "#9270CA" } },
+          { value: 20, name: "Store B", itemStyle: { color: "#5B8FF9" } },
+          { value: 20, name: "Store A", itemStyle: { color: "#FF6B6B" } },
+          { value: 20, name: "Store C", itemStyle: { color: "#FFB800" } },
+          { value: 30, name: "Store D", itemStyle: { color: "#5AD8A6" } },
+          { value: 10, name: "Store E", itemStyle: { color: "#9270CA" } },
         ],
       },
     ],
   };
 
-  // 市场趋势面积图配置
+  // Market trend面积图配置
   const trendOption = {
     title: {
-      text: "市场趋势",
+      text: "Market trend",
       left: 20,
       top: 10,
       textStyle: { fontSize: 16, fontWeight: "bold" },
@@ -162,7 +162,7 @@ const Dashboard: React.FC = () => {
     grid: { left: 40, right: 40, bottom: 40, top: 60 },
     xAxis: {
       type: "category",
-      data: ["数据1", "数据2", "数据3", "数据4", "数据5", "数据6"],
+      data: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"],
     },
     yAxis: { type: "value" },
     series: [
@@ -188,79 +188,79 @@ const Dashboard: React.FC = () => {
     ],
   };
 
-  // 销售明细表格数据
+  // Sales details表格数据
   const salesDetailData = [
     {
       key: "1",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "2",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "43122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "3",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "4",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "5",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "6",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "7",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
     {
       key: "8",
-      name: "用户满意度",
+      name: "User satisfaction",
       branch: "45122",
-      city: "广州",
-      status: "已装",
+      city: "Guangzhou",
+      status: "Installed",
     },
   ];
 
   const salesColumns = [
-    { title: "分销商用户名", dataIndex: "name", key: "name" },
-    { title: "分销商名称", dataIndex: "branch", key: "branch" },
-    { title: "分销商等级", dataIndex: "city", key: "city" },
-    { title: "覆盖地域", dataIndex: "status", key: "status" },
+    { title: "Distributor username", dataIndex: "name", key: "name" },
+    { title: "Distributor name", dataIndex: "branch", key: "branch" },
+    { title: "Distributor tier", dataIndex: "city", key: "city" },
+    { title: "Coverage", dataIndex: "status", key: "status" },
   ];
 
   return (
     <DemoPageContainer>
       {/* 顶部提示信息 */}
       <Alert
-        message="Dashboard 展示页面"
-        description="本页面为静态页面，用于展示 Dashboard 数据可视化效果，未使用任何 API 接口"
+        message="Dashboard preview"
+        description="This page is static mock data for visualization. It does not call any API."
         type="info"
         showIcon
         style={{ marginBottom: "16px" }}
@@ -277,7 +277,7 @@ const Dashboard: React.FC = () => {
             }}
           >
             <Statistic
-              title="个人销售成交额"
+              title="Personal sales amount"
               value={120565}
               valueStyle={{ color: "#5B8FF9", fontSize: "20px" }}
             />
@@ -292,7 +292,7 @@ const Dashboard: React.FC = () => {
             }}
           >
             <Statistic
-              title="成交订单数"
+              title="Closed orders"
               value={352100}
               valueStyle={{ color: "#FF6B6B", fontSize: "20px" }}
             />
@@ -307,7 +307,7 @@ const Dashboard: React.FC = () => {
             }}
           >
             <Statistic
-              title="分销商收入"
+              title="Distributor revenue"
               value={596850}
               valueStyle={{ color: "#FFB800", fontSize: "20px" }}
             />
@@ -322,7 +322,7 @@ const Dashboard: React.FC = () => {
             }}
           >
             <Statistic
-              title="个人销售成交额"
+              title="Personal sales amount"
               value={7982991}
               valueStyle={{ color: "#5AD8A6", fontSize: "20px" }}
             />
@@ -337,7 +337,7 @@ const Dashboard: React.FC = () => {
             }}
           >
             <Statistic
-              title="分销商收入"
+              title="Distributor revenue"
               value={27890.0}
               valueStyle={{ color: "#999", fontSize: "24px" }}
               suffix={<ArrowUpOutlined style={{ color: "#52C41A" }} />}
@@ -388,7 +388,7 @@ const Dashboard: React.FC = () => {
                   color: "#333",
                 }}
               >
-                个人销售额
+                Personal sales
               </div>
               <Statistic
                 value={352100}
@@ -411,7 +411,7 @@ const Dashboard: React.FC = () => {
               <div
                 style={{ marginTop: "8px", color: "#999", fontSize: "12px" }}
               >
-                目标完成：4,825,000
+                Target: 4,825,000
               </div>
             </div>
             <div
@@ -430,7 +430,7 @@ const Dashboard: React.FC = () => {
                   color: "#333",
                 }}
               >
-                本月目标销售额
+                Monthly sales target
               </div>
               <Statistic
                 value={7982991}
@@ -453,7 +453,7 @@ const Dashboard: React.FC = () => {
               <div
                 style={{ marginTop: "8px", color: "#999", fontSize: "12px" }}
               >
-                目标完成：33,555,000
+                Target: 33,555,000
               </div>
             </div>
           </div>
@@ -533,10 +533,10 @@ const Dashboard: React.FC = () => {
               <span
                 style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}
               >
-                销售明细
+                Sales details
               </span>
               <div style={{ fontSize: "12px", color: "#999" }}>
-                1-20 共 41 条 &lt; &gt;
+                1-20 of 41 &lt; &gt;
               </div>
             </div>
             <div style={{ height: "280px", overflow: "hidden" }}>

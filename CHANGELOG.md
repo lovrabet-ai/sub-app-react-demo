@@ -1,4 +1,10 @@
-# 更新记录
+# Changelog
+
+## 2026-08-20
+
+### Default UI copy is English
+
+Template chrome, sample pages, Ant Design locale, README, and quick start now default to English. Generated `src/api/api.ts` model names still come from the platform app.
 
 ## 2026-06-30
 

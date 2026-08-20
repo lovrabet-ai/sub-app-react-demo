@@ -26,11 +26,11 @@ const { Header, Sider, Content } = Layout;
 
 // 路由配置，用于生成面包屑
 const routeConfig = [
-  { path: "/", title: "首页" },
-  { path: "/workbench", title: "工作台" },
-  { path: "/dashboard", title: "数据看板" },
-  { path: "/sdk-demo", title: "SDK 演示" },
-  { path: "/data-screen", title: "数据大屏" },
+  { path: "/", title: "Home" },
+  { path: "/workbench", title: "Workbench" },
+  { path: "/dashboard", title: "Dashboard" },
+  { path: "/sdk-demo", title: "SDK demo" },
+  { path: "/data-screen", title: "Data screen" },
 ];
 
 const MainLayout: React.FC = () => {
@@ -46,32 +46,32 @@ const MainLayout: React.FC = () => {
     {
       key: "/",
       icon: <HomeOutlined />,
-      label: "首页",
+      label: "Home",
     },
     {
       key: "/sdk-demo",
       icon: <ApiOutlined />,
-      label: "SDK 演示",
+      label: "SDK demo",
     },
     {
       key: "page-examples",
       icon: <FileTextOutlined />,
-      label: "页面案例",
+      label: "Page examples",
       children: [
         {
           key: "/workbench",
           icon: <DashboardOutlined />,
-          label: "工作台",
+          label: "Workbench",
         },
         {
           key: "/dashboard",
           icon: <DashboardOutlined />,
-          label: "数据看板",
+          label: "Dashboard",
         },
         {
           key: "/data-screen",
           icon: <BarChartOutlined />,
-          label: "数据大屏",
+          label: "Data screen",
         },
       ],
     },
@@ -100,7 +100,7 @@ const MainLayout: React.FC = () => {
 
   // 生成面包屑
   const getBreadcrumbItems = () => {
-    const items: any[] = [{ title: "首页" }];
+    const items: any[] = [{ title: "Home" }];
     const currentRoute = routeConfig.find((r) => r.path === location.pathname);
     if (currentRoute && currentRoute.path !== "/") {
       items.push({ title: currentRoute.title });
@@ -112,19 +112,19 @@ const MainLayout: React.FC = () => {
   const userMenuItems: MenuProps["items"] = [
     {
       key: "profile",
-      label: "个人中心",
+      label: "Profile",
       icon: <UserOutlined />,
     },
     {
       key: "settings",
-      label: "系统设置",
+      label: "Settings",
     },
     {
       type: "divider",
     },
     {
       key: "logout",
-      label: "退出登录",
+      label: "Sign out",
       danger: true,
     },
   ];
@@ -238,7 +238,7 @@ const MainLayout: React.FC = () => {
                   height: 32,
                 }}
               >
-                显示菜单
+                Show menu
               </Button>
             )}
             {/* 面包屑导航 */}
@@ -285,7 +285,7 @@ const MainLayout: React.FC = () => {
                   icon={<UserOutlined />}
                   style={{ background: "#1890ff" }}
                 />
-                <span style={{ fontSize: 14 }}>管理员</span>
+                <span style={{ fontSize: 14 }}>Admin</span>
               </Space>
             </Dropdown>
           </div>

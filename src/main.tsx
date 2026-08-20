@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { isInIcestark } from "@ice/stark-app";
 import { ConfigProvider } from "antd";
-import zhCN from "antd/locale/zh_CN";
+import enUS from "antd/locale/en_US";
 import App from "./router";
 import "./style.css";
 
@@ -12,7 +12,7 @@ if (!isInIcestark()) {
   if (container) {
     const root = createRoot(container);
     root.render(
-      <ConfigProvider locale={zhCN}>
+      <ConfigProvider locale={enUS}>
         <App />
       </ConfigProvider>,
     );
@@ -34,7 +34,7 @@ export function mount({
   }
 
   root.render(
-    <ConfigProvider locale={zhCN}>
+    <ConfigProvider locale={enUS}>
       <App {...customProps} />
     </ConfigProvider>,
   );

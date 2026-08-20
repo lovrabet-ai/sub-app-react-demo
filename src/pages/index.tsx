@@ -1,5 +1,5 @@
 /**
- * Title: 子应用启动台
+ * Title: Sub-app launch pad
  */
 import React from "react";
 import { Link } from "react-router-dom";
@@ -46,7 +46,7 @@ function CopyableCode({ code, label, compact = false }: CopyableCodeProps) {
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error("复制失败:", err);
+      console.error("Copy failed:", err);
     }
   };
 
@@ -64,7 +64,7 @@ function CopyableCode({ code, label, compact = false }: CopyableCodeProps) {
           onClick={handleCopy}
           className={styles.copyButton}
         >
-          {copied ? "已复制" : "复制"}
+          {copied ? "Copied" : "Copy"}
         </Button>
       </div>
       <pre className={styles.copyPre}>
@@ -111,7 +111,7 @@ function HomePage() {
           setAppCode(code);
         }
       } catch (err) {
-        console.error("加载 api.ts 失败:", err);
+        console.error("Failed to load api.ts:", err);
       } finally {
         setLoading(false);
       }
@@ -122,30 +122,30 @@ function HomePage() {
 
   const isConfigured = !loading && appCode !== null && appCode !== "NOT-SET";
   const displayAppCode = isConfigured ? appCode : "your-app-code";
-  const statusLabel = loading ? "读取中" : isConfigured ? "已配置" : "待配置";
+  const statusLabel = loading ? "Loading" : isConfigured ? "Ready" : "Needs setup";
 
-  const setupPrompt = `请帮我检查当前 Lovrabet React 子应用的项目配置。
-确认 AppCode、.rabetbase.json、SDK 模型文件和 src/api/client.ts 是否完整。
-如果缺少配置，请按当前项目情况补齐，并告诉我可以用于页面开发的数据模型。`;
+  const setupPrompt = `Please check the current Lovrabet React sub-app project setup.
+Confirm that AppCode, .rabetbase.json, SDK model files, and src/api/client.ts are complete.
+If anything is missing, fill it in for this project and tell me which data models I can use for page development.`;
 
   const agentSurfaces = ["Claude Code", "Cursor", "Codex"];
 
   const docLinks = [
     {
-      title: "Rabetbase CLI 文库",
-      description: "从上手路径进入完整研发能力目录。",
+      title: "Rabetbase CLI docs",
+      description: "Start from onboarding and open the full developer catalog.",
       url: feishuDocs.root,
       icon: <BookOutlined />,
     },
     {
-      title: "系统页面开发",
-      description: "用 SDK 开发列表页、详情页、表单和看板。",
+      title: "System page development",
+      description: "Build list, detail, form, and dashboard pages with the SDK.",
       url: feishuDocs.systemPageSdk,
       icon: <CodeOutlined />,
     },
     {
       title: "TypeScript SDK",
-      description: "查看模型客户端、数据读写和类型使用方式。",
+      description: "See model clients, data reads/writes, and TypeScript usage.",
       url: feishuDocs.sdk,
       icon: <ApiOutlined />,
     },
@@ -153,44 +153,44 @@ function HomePage() {
 
   const taskGuides = [
     {
-      title: "刚创建项目",
-      description: "确认项目结构、AppCode、SDK 模型和本地启动方式。",
-      action: "查看入门与上手",
+      title: "Just created the project",
+      description: "Confirm project structure, AppCode, SDK models, and local start.",
+      action: "Open onboarding",
       url: feishuDocs.onboarding,
       icon: <RocketOutlined />,
     },
     {
-      title: "开发客户列表页",
-      description: "让 Agent 基于数据模型生成筛选、表格、详情和表单。",
-      action: "查看页面开发",
+      title: "Build a customer list page",
+      description: "Have the agent generate filters, a table, details, and forms from models.",
+      action: "Open page development",
       url: feishuDocs.systemPageSdk,
       icon: <CodeOutlined />,
     },
     {
-      title: "调用 SDK 读写数据",
-      description: "确认模型别名、字段类型、filter、getOne 和写入接口。",
-      action: "查看 SDK 文档",
+      title: "Read and write with the SDK",
+      description: "Confirm model aliases, field types, filter, getOne, and write APIs.",
+      action: "Open SDK docs",
       url: feishuDocs.sdk,
       icon: <ApiOutlined />,
     },
     {
-      title: "做统计和看板",
-      description: "把客户活跃度、跟进转化和销售机会做成指标视图。",
-      action: "查看核心能力",
+      title: "Build stats and dashboards",
+      description: "Turn customer activity, follow-up conversion, and opportunities into metrics.",
+      action: "Open core capabilities",
       url: feishuDocs.core,
       icon: <BarChartOutlined />,
     },
     {
-      title: "封装服务端逻辑",
-      description: "把稳定的写入、校验或聚合操作沉淀成可复用能力。",
-      action: "查看核心能力",
+      title: "Extract server-side logic",
+      description: "Turn stable writes, validation, or aggregation into reusable capabilities.",
+      action: "Open core capabilities",
       url: feishuDocs.core,
       icon: <DeploymentUnitOutlined />,
     },
     {
-      title: "构建并发布",
-      description: "检查构建产物、页面配置、菜单、路由和主应用接入。",
-      action: "查看发布路径",
+      title: "Build and publish",
+      description: "Check build artifacts, page config, menus, routes, and host-app integration.",
+      action: "Open the publish path",
       url: feishuDocs.core,
       icon: <CloudUploadOutlined />,
     },
@@ -198,11 +198,11 @@ function HomePage() {
 
   const promptCards = [
     {
-      title: "检查项目上下文",
+      title: "Inspect project context",
       description:
-        "让 Agent 识别 AppCode、项目配置和 SDK 模型，后续开发不再手动查接口。",
+        "Have the agent identify AppCode, project config, and SDK models so later work does not look up APIs by hand.",
       icon: <SettingOutlined />,
-      tags: ["项目配置", "模型同步"],
+      tags: ["Project setup", "Model sync"],
       prompt: setupPrompt,
       commands: [
         "rabetbase project init",
@@ -210,35 +210,35 @@ function HomePage() {
         "rabetbase api pull",
       ],
       docUrl: feishuDocs.onboarding,
-      docLabel: "入门与上手",
+      docLabel: "Onboarding",
     },
     {
-      title: "开发客户列表页",
+      title: "Build a customer list page",
       description:
-        "用真实 CRM 场景描述页面目标，让 Agent 生成列表、筛选和详情交互。",
+        "Describe a real CRM page and have the agent generate the list, filters, and detail interactions.",
       icon: <PlayCircleOutlined />,
-      tags: ["页面开发", "SDK 接入"],
-      prompt: `请在当前 React 子应用里开发一个客户列表页。
-页面需要支持按客户名称、负责人、客户等级和最近跟进时间筛选。
-列表展示客户名称、联系人、负责人、客户等级、最近跟进时间和状态。
-点击客户后打开详情抽屉，详情数据和列表数据都使用 @lovrabet/sdk。`,
+      tags: ["Page development", "SDK"],
+      prompt: `Please build a customer list page in this React sub-app.
+The page should filter by customer name, owner, customer tier, and last follow-up time.
+The table should show customer name, contact, owner, customer tier, last follow-up time, and status.
+Clicking a customer opens a detail drawer. Use @lovrabet/sdk for both list and detail data.`,
       commands: [
         "rabetbase api pull",
         "rabetbase dataset list",
         "rabetbase dataset detail",
       ],
       docUrl: feishuDocs.systemPageSdk,
-      docLabel: "系统页面开发",
+      docLabel: "System page development",
     },
     {
-      title: "接入客户编辑表单",
-      description: "在列表页基础上补齐新增、编辑和字段校验，形成完整业务闭环。",
+      title: "Add a customer edit form",
+      description: "Add create, edit, and field validation on top of the list page to close the loop.",
       icon: <CodeOutlined />,
-      tags: ["表单开发", "写入校验"],
-      prompt: `请给客户列表页增加新增客户和编辑客户能力。
-先确认客户模型里可写字段、必填字段和选项字段。
-表单需要包含客户名称、联系人、联系电话、客户等级、负责人和备注。
-提交后使用 @lovrabet/sdk 写入数据，并刷新列表。`,
+      tags: ["Forms", "Write validation"],
+      prompt: `Please add create-customer and edit-customer to the customer list page.
+First confirm writable, required, and option fields on the customer model.
+The form should include customer name, contact, phone, customer tier, owner, and notes.
+Submit with @lovrabet/sdk and refresh the list.`,
       commands: [
         "rabetbase dataset detail",
         "rabetbase dataset operations",
@@ -248,79 +248,79 @@ function HomePage() {
       docLabel: "TypeScript SDK",
     },
     {
-      title: "改造销售看板",
-      description: "把示例看板变成客户活跃度、跟进转化和销售机会分析页。",
+      title: "Turn the dashboard into sales analytics",
+      description: "Replace the sample dashboard with customer activity, follow-up conversion, and opportunity metrics.",
       icon: <DashboardOutlined />,
-      tags: ["二次开发", "统计看板"],
-      prompt: `请把 /dashboard 改造成销售客户看板。
-先读取当前 SDK 模型配置，确认客户、跟进记录和销售机会可用字段。
-页面展示客户总数、本周新增客户、待跟进客户、销售机会金额和最近跟进列表。
-不要写死模拟接口，优先使用项目里的 SDK 客户端。`,
+      tags: ["Customization", "Analytics"],
+      prompt: `Please turn /dashboard into a sales customer dashboard.
+First read the current SDK model config and confirm usable fields on customers, follow-ups, and opportunities.
+Show total customers, new customers this week, customers pending follow-up, opportunity amount, and a recent follow-up list.
+Do not hardcode mock APIs. Prefer the project's SDK client.`,
       commands: [
         "rabetbase api pull",
         "rabetbase dataset detail",
         "rabetbase run build",
       ],
       docUrl: feishuDocs.systemPageSdk,
-      docLabel: "系统页面开发",
+      docLabel: "System page development",
     },
     {
-      title: "发布接入主应用",
+      title: "Publish into the host app",
       description:
-        "让 Agent 检查构建产物、Lovrabet 主应用接入方式、菜单和路由配置。",
+        "Have the agent check build artifacts, Lovrabet host-app integration, menus, and routes.",
       icon: <DeploymentUnitOutlined />,
-      tags: ["构建检查", "主应用接入"],
-      prompt: `请检查这个 React 子应用是否可以接入 Lovrabet 主应用。
-确认构建产物、页面路由、basename、菜单同步和 import 加载配置。
-如果发现缺口，请直接修复或列出需要我确认的项。`,
+      tags: ["Build check", "Host app"],
+      prompt: `Please check whether this React sub-app can be loaded into the Lovrabet host app.
+Confirm build artifacts, page routes, basename, menu sync, and import loading config.
+If anything is missing, fix it or list the items I need to confirm.`,
       commands: [
         "rabetbase run build",
         "rabetbase run preview",
         "rabetbase menu sync",
       ],
       docUrl: feishuDocs.core,
-      docLabel: "核心研发能力",
+      docLabel: "Core capabilities",
     },
   ];
 
   const pageEntries = [
     {
-      title: "SDK 演示",
+      title: "SDK demo",
       path: "/sdk-demo",
       description:
-        "集中验证 filter、getOne、create、update、delete 等 SDK 调用。",
+        "Exercise filter, getOne, create, update, and delete SDK calls in one place.",
       icon: <ApiOutlined />,
       tags: ["SDK", "API"],
     },
     {
-      title: "工作台",
+      title: "Workbench",
       path: "/workbench",
-      description: "面向日常运营的概览页结构，适合扩展成业务人员首页。",
+      description: "An operations overview layout that can grow into a business home page.",
       icon: <DashboardOutlined />,
-      tags: ["运营", "概览"],
+      tags: ["Operations", "Overview"],
     },
     {
-      title: "数据看板",
+      title: "Dashboard",
       path: "/dashboard",
-      description: "用图表和指标卡展示业务数据，适合作为管理驾驶舱起点。",
+      description: "Charts and metric cards for business data, a starting point for a management cockpit.",
       icon: <DatabaseOutlined />,
-      tags: ["图表", "指标"],
+      tags: ["Charts", "Metrics"],
     },
     {
-      title: "数据大屏",
+      title: "Data screen",
       path: "/data-screen",
-      description: "全屏展示型页面示例，适合投屏、会议室和实时监控场景。",
+      description: "A full-screen display example for projection, meeting rooms, and live monitoring.",
       icon: <BarChartOutlined />,
-      tags: ["大屏", "实时"],
+      tags: ["Display", "Realtime"],
     },
   ];
 
   const integrationSteps = [
-    "让 Agent 确认当前项目上下文里已有 AppCode。",
-    "让 Agent 刷新 SDK 类型，保持本地模型与平台数据模型一致。",
-    "让 Agent 构建并检查可发布到 CDN 的静态产物。",
-    "在 Lovrabet 主应用新增或更新页面，选择 import 接入方式。",
-    "让 Agent 核对菜单、路由、basename 和主应用访问路径。",
+    "Have the agent confirm AppCode is already in the current project context.",
+    "Have the agent refresh SDK types so local models match the platform.",
+    "Have the agent build and check static artifacts that can be published to CDN.",
+    "Create or update a page in the Lovrabet host app using the import loading mode.",
+    "Have the agent verify menus, routes, basename, and the host-app URL.",
   ];
 
   return (
@@ -331,11 +331,11 @@ function HomePage() {
             Agent-first Rabetbase Template
           </Tag>
           <Title level={1} className={styles.heroTitle}>
-            用 Agent 开发 Lovrabet React 子应用
+            Build Lovrabet React sub-apps with an agent
           </Title>
           <Paragraph className={styles.heroText}>
-            这是可运行的 React 微前端模板。描述页面目标，Agent
-            会读取项目上下文、调用 SDK、改页面并完成构建检查。
+            This is a runnable React micro-frontend template. Describe the page goal; the agent
+            reads project context, calls the SDK, edits pages, and runs build checks.
           </Paragraph>
           <div className={styles.surfaceRow}>
             {agentSurfaces.map((name) => (
@@ -345,7 +345,7 @@ function HomePage() {
           <Space size={12} wrap className={styles.heroActions}>
             <Link to="/sdk-demo">
               <Button type="primary" icon={<ApiOutlined />}>
-                查看 SDK 演示
+                Open the SDK demo
               </Button>
             </Link>
             <Button
@@ -354,7 +354,7 @@ function HomePage() {
               rel="noopener noreferrer"
               icon={<BookOutlined />}
             >
-              页面开发文档
+              Page development docs
             </Button>
             <Button
               href={feishuDocs.sdk}
@@ -362,7 +362,7 @@ function HomePage() {
               rel="noopener noreferrer"
               icon={<LinkOutlined />}
             >
-              SDK 文档
+              SDK docs
             </Button>
             {isConfigured && appCode && (
               <Button
@@ -370,7 +370,7 @@ function HomePage() {
                 target="_blank"
                 icon={<AppstoreOutlined />}
               >
-                应用配置后台
+                App admin
               </Button>
             )}
           </Space>
@@ -379,8 +379,8 @@ function HomePage() {
         <aside className={styles.statusPanel}>
           <div className={styles.statusHeader}>
             <div>
-              <Text type="secondary">项目状态</Text>
-              <Title level={2}>项目上下文</Title>
+              <Text type="secondary">Project status</Text>
+              <Title level={2}>Project context</Title>
             </div>
             <Tag
               color={
@@ -392,24 +392,24 @@ function HomePage() {
           </div>
           <div className={styles.statusCode}>
             <Text type="secondary">AppCode</Text>
-            <strong>{loading ? "读取中" : displayAppCode}</strong>
+            <strong>{loading ? "Loading" : displayAppCode}</strong>
           </div>
           <div className={styles.statusGrid}>
             <div>
-              <Text type="secondary">API 文件</Text>
+              <Text type="secondary">API file</Text>
               <strong>src/api/api.ts</strong>
             </div>
             <div>
-              <Text type="secondary">路由模式</Text>
-              <strong>src/pages 自动路由</strong>
+              <Text type="secondary">Routing</Text>
+              <strong>src/pages file-based routes</strong>
             </div>
             <div>
-              <Text type="secondary">SDK 客户端</Text>
+              <Text type="secondary">SDK client</Text>
               <strong>src/api/client.ts</strong>
             </div>
             <div>
-              <Text type="secondary">推荐下一步</Text>
-              <strong>开发客户列表页</strong>
+              <Text type="secondary">Suggested next step</Text>
+              <strong>Build a customer list page</strong>
             </div>
           </div>
           <div className={styles.statusLinks}>
@@ -420,7 +420,7 @@ function HomePage() {
               rel="noopener noreferrer"
               icon={<BookOutlined />}
             >
-              系统页面开发文档
+              System page development docs
             </Button>
             <Button
               block
@@ -429,7 +429,7 @@ function HomePage() {
               rel="noopener noreferrer"
               icon={<LinkOutlined />}
             >
-              Rabetbase 文库首页
+              Rabetbase docs home
             </Button>
           </div>
         </aside>
@@ -441,16 +441,16 @@ function HomePage() {
           showIcon
           icon={<WarningOutlined />}
           className={styles.setupAlert}
-          message="项目尚未配置 AppCode"
+          message="AppCode is not configured yet"
           description={
             <div className={styles.alertBody}>
               <Paragraph>
-                直接把下面这段话发给 Claude Code、Cursor 或 Codex。Agent
-                会根据项目情况补齐配置并刷新 SDK 模型。
+                Paste the prompt below into Claude Code, Cursor, or Codex. The agent
+                will complete setup for this project and refresh SDK models.
               </Paragraph>
               <CopyableCode
                 code={setupPrompt}
-                label="可直接输入的 Prompt"
+                label="Prompt you can paste"
                 compact
               />
             </div>
@@ -461,8 +461,8 @@ function HomePage() {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <div>
-            <Text type="secondary">飞书文库导航</Text>
-            <Title level={2}>按任务选择下一步</Title>
+            <Text type="secondary">Feishu wiki</Text>
+            <Title level={2}>Pick the next task</Title>
           </div>
         </div>
         <div className={styles.taskGrid}>
@@ -490,8 +490,8 @@ function HomePage() {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <div>
-            <Text type="secondary">在线文库</Text>
-            <Title level={2}>常用入口</Title>
+            <Text type="secondary">Docs</Text>
+            <Title level={2}>Common entry points</Title>
           </div>
         </div>
         <div className={styles.docGrid}>
@@ -507,7 +507,7 @@ function HomePage() {
               <strong>{item.title}</strong>
               <span>{item.description}</span>
               <em>
-                打开文档 <ArrowRightOutlined />
+                Open docs <ArrowRightOutlined />
               </em>
             </a>
           ))}
@@ -517,8 +517,8 @@ function HomePage() {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <div>
-            <Text type="secondary">AI 开发方式</Text>
-            <Title level={2}>直接输入这些 Prompt</Title>
+            <Text type="secondary">AI workflow</Text>
+            <Title level={2}>Paste these prompts</Title>
           </div>
           <Button
             href={feishuDocs.systemPageSdk}
@@ -526,7 +526,7 @@ function HomePage() {
             rel="noopener noreferrer"
             icon={<ToolOutlined />}
           >
-            查看页面开发文档
+            Open page development docs
           </Button>
         </div>
         <div className={styles.promptGrid}>
@@ -545,7 +545,7 @@ function HomePage() {
                 ))}
               </div>
               <div className={styles.commandList}>
-                <Text type="secondary">AI 可能调用</Text>
+                <Text type="secondary">The agent may run</Text>
                 <div>
                   {item.commands.map((command) => (
                     <Text code key={command}>
@@ -556,7 +556,7 @@ function HomePage() {
               </div>
               <CopyableCode
                 code={item.prompt}
-                label="可直接输入的 Prompt"
+                label="Prompt you can paste"
                 compact
               />
               <Button
@@ -576,8 +576,8 @@ function HomePage() {
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
           <div>
-            <Text type="secondary">页面示例</Text>
-            <Title level={2}>内置页面入口</Title>
+            <Text type="secondary">Sample pages</Text>
+            <Title level={2}>Built-in page entry points</Title>
           </div>
         </div>
         <div className={styles.pageGrid}>
@@ -592,7 +592,7 @@ function HomePage() {
                 ))}
               </div>
               <Link className={styles.routeLink} to={entry.path}>
-                打开页面 <ArrowRightOutlined />
+                Open page <ArrowRightOutlined />
               </Link>
             </Card>
           ))}
@@ -603,7 +603,7 @@ function HomePage() {
         <Card className={styles.sectionCard}>
           <div className={styles.cardTitleLine}>
             <CloudUploadOutlined />
-            <Title level={2}>接入主应用检查清单</Title>
+            <Title level={2}>Host-app integration checklist</Title>
           </div>
           <ol className={styles.checkList}>
             {integrationSteps.map((step) => (
@@ -618,18 +618,18 @@ function HomePage() {
         <Card className={styles.sectionCard}>
           <div className={styles.cardTitleLine}>
             <ToolOutlined />
-            <Title level={2}>Agent 开发提示</Title>
+            <Title level={2}>Agent development tips</Title>
           </div>
           <Paragraph className={styles.mutedText}>
-            日常开发时，直接描述业务页面、数据来源、交互方式和验收标准。
-            Agent 会结合当前项目配置、SDK 模型和飞书文库完成实现。
+            For day-to-day work, describe the business page, data source, interactions, and acceptance criteria.
+            The agent will implement it using the current project config, SDK models, and Feishu docs.
           </Paragraph>
           <CopyableCode
-            code={`请基于当前 Lovrabet React 子应用开发客户列表页。
-先确认可用的客户数据模型和字段。
-页面需要包含筛选、表格、详情抽屉和新增表单。
-数据读写使用项目里的 @lovrabet/sdk，并在完成后运行构建检查。`}
-            label="推荐起步 Prompt"
+            code={`Please build a customer list page on this Lovrabet React sub-app.
+First confirm the available customer data model and fields.
+The page should include filters, a table, a detail drawer, and a create form.
+Use the project's @lovrabet/sdk for reads and writes, then run a build check.`}
+            label="Recommended starter prompt"
             compact
           />
         </Card>

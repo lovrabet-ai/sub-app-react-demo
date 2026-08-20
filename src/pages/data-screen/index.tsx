@@ -18,31 +18,31 @@ const mockData = {
   // 顶部统计卡片
   statistics: [
     {
-      title: "总用户数",
+      title: "Total users",
       value: 125680,
       prefix: <UserOutlined />,
-      suffix: "人",
+      suffix: "",
       trend: { value: 12.5, isUp: true },
       color: "#1890ff",
     },
     {
-      title: "今日订单",
+      title: "Orders today",
       value: 3521,
       prefix: <ShoppingOutlined />,
-      suffix: "单",
+      suffix: "",
       trend: { value: 8.3, isUp: true },
       color: "#52c41a",
     },
     {
-      title: "总销售额",
+      title: "Total sales",
       value: 8965234,
       prefix: <DollarOutlined />,
-      suffix: "元",
+      suffix: "",
       trend: { value: 15.6, isUp: true },
       color: "#fa8c16",
     },
     {
-      title: "活跃度",
+      title: "Activity",
       value: 89.5,
       prefix: <TrophyOutlined />,
       suffix: "%",
@@ -54,18 +54,18 @@ const mockData = {
   // 销售趋势数据
   salesTrend: {
     dates: [
-      "01月",
-      "02月",
-      "03月",
-      "04月",
-      "05月",
-      "06月",
-      "07月",
-      "08月",
-      "09月",
-      "10月",
-      "11月",
-      "12月",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ],
     values: [
       3200, 4500, 3800, 5200, 6100, 5800, 7200, 6800, 7900, 8500, 9200, 9800,
@@ -74,16 +74,16 @@ const mockData = {
 
   // 地区分布数据
   regionDistribution: [
-    { name: "华东", value: 35 },
-    { name: "华南", value: 28 },
-    { name: "华北", value: 22 },
-    { name: "西南", value: 10 },
-    { name: "西北", value: 5 },
+    { name: "East", value: 35 },
+    { name: "South", value: 28 },
+    { name: "North", value: 22 },
+    { name: "Southwest", value: 10 },
+    { name: "Northwest", value: 5 },
   ],
 
   // 产品分类数据
   productCategory: {
-    categories: ["电子产品", "服装", "食品", "家居", "美妆", "其他"],
+    categories: ["Electronics", "Apparel", "Food", "Home", "Beauty", "Other"],
     values: [3200, 2800, 2400, 1800, 1500, 1200],
   },
 
@@ -115,7 +115,7 @@ const DataScreen: React.FC = () => {
   const salesTrendOption = {
     backgroundColor: "transparent",
     title: {
-      text: "销售趋势",
+      text: "Sales trend",
       left: "center",
       top: 10,
       textStyle: {
@@ -151,7 +151,7 @@ const DataScreen: React.FC = () => {
     },
     series: [
       {
-        name: "销售额",
+        name: "Sales",
         type: "line",
         data: mockData.salesTrend.values,
         smooth: true,
@@ -178,7 +178,7 @@ const DataScreen: React.FC = () => {
   const regionPieOption = {
     backgroundColor: "transparent",
     title: {
-      text: "地区分布",
+      text: "Regional mix",
       left: "center",
       top: 10,
       textStyle: {
@@ -202,7 +202,7 @@ const DataScreen: React.FC = () => {
     },
     series: [
       {
-        name: "地区分布",
+        name: "Regional mix",
         type: "pie",
         radius: ["40%", "70%"],
         center: ["40%", "60%"],
@@ -240,7 +240,7 @@ const DataScreen: React.FC = () => {
   const productBarOption = {
     backgroundColor: "transparent",
     title: {
-      text: "产品分类销售",
+      text: "Sales by category",
       left: "center",
       top: 10,
       textStyle: {
@@ -276,7 +276,7 @@ const DataScreen: React.FC = () => {
     },
     series: [
       {
-        name: "销售额",
+        name: "Sales",
         type: "bar",
         data: mockData.productCategory.values,
         itemStyle: {
@@ -301,7 +301,7 @@ const DataScreen: React.FC = () => {
   const realtimeOrderOption = {
     backgroundColor: "transparent",
     title: {
-      text: "实时订单趋势",
+      text: "Live order trend",
       left: "center",
       top: 10,
       textStyle: {
@@ -337,7 +337,7 @@ const DataScreen: React.FC = () => {
     },
     series: [
       {
-        name: "订单数",
+        name: "Orders",
         type: "line",
         data: mockData.realtimeOrders.map((item) => item.count),
         smooth: true,
@@ -381,10 +381,10 @@ const DataScreen: React.FC = () => {
           }}
         >
           <Title level={2} style={{ color: "#fff", margin: 0 }}>
-            数据大屏
+            Data screen
           </Title>
           <div style={{ fontSize: 16, color: "#4a90e2" }}>
-            {currentTime.toLocaleString("zh-CN", {
+            {currentTime.toLocaleString("en-US", {
               year: "numeric",
               month: "2-digit",
               day: "2-digit",
@@ -445,7 +445,7 @@ const DataScreen: React.FC = () => {
                     {stat.trend.value}%
                   </span>
                   <span style={{ color: "#8c8c8c", marginLeft: 8 }}>
-                    较上月
+                    vs last month
                   </span>
                 </div>
               </Card>

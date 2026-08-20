@@ -1,119 +1,119 @@
-# Rabetbase React 子应用快速开始
+# Rabetbase React sub-app quick start
 
-本文面向通过 `rabetbase project create` 初始化出来的 React 微前端项目，也适用于直接克隆本模板源码进行本地调试。
+This guide is for React micro-frontend projects created with `rabetbase project create`, and for cloning this template source to debug locally.
 
-目标是在 20 分钟内完成：
+In about 20 minutes you should be able to:
 
-1. 启动本地开发环境；
-2. 确认当前模板内置页面；
-3. 拉取 Lovrabet SDK 模型配置；
-4. 构建产物并接入 Lovrabet 主应用；
-5. 理解如何继续二次开发。
+1. start the local dev server;
+2. confirm the built-in template pages;
+3. pull Lovrabet SDK model config;
+4. build artifacts and load them into the Lovrabet host app;
+5. know how to continue customizing the app.
 
-## 1. 环境准备
+## 1. Prerequisites
 
-请先确认本机具备：
+Confirm you have:
 
 - Node.js 20+
-- `rabetbase` CLI
-- 需要访问真实数据时，已完成 `rabetbase auth login`
+- the `rabetbase` CLI
+- `rabetbase auth login` completed when you need live data
 
 ```bash
 npm install -g @lovrabet/rabetbase-cli
 rabetbase --help
 ```
 
-如果需要拉取 API 配置：
+To pull API config:
 
 ```bash
 rabetbase auth login
 ```
 
-## 2. 创建或打开项目
+## 2. Create or open a project
 
-### 方式 A：通过 CLI 创建新项目
+### Option A: create a new project with the CLI
 
 ```bash
 rabetbase project create my-sub-app --appcode app-xxxx
 cd my-sub-app
 ```
 
-说明：
+Notes:
 
-- `--appcode` 可省略；省略后在创建好的项目目录内执行 `rabetbase config set appcode app-xxxx`。
-- 有 AppCode 时，CLI 会尝试自动拉取 `src/api/api.ts`。
-- 如果自动拉取失败，后续手动执行 `rabetbase api pull` 即可。
+- `--appcode` is optional. If omitted, run `rabetbase config set appcode app-xxxx` inside the new project.
+- With an AppCode, the CLI tries to pull `src/api/api.ts` automatically.
+- If that pull fails, run `rabetbase api pull` later.
 
-### 方式 B：直接调试模板源码
+### Option B: debug the template source directly
 
 ```bash
 cd sub-app-react-demo
 npm install
 ```
 
-## 3. 本地启动
+## 3. Start locally
 
 ```bash
 rabetbase run start
 ```
 
-默认访问地址：
+Default URL:
 
 ```text
 https://dev.lovrabet.com:5173
 ```
 
-如需切换端口：
+To change the port:
 
 ```bash
 PORT=3000 rabetbase run start
 ```
 
-当前模板内置页面如下：
+Built-in pages:
 
-| 页面     | 路由           | 说明                                                 |
-| -------- | -------------- | ---------------------------------------------------- |
-| 首页     | `/`            | Prompt 开发入口、项目状态、Agent 场景示例和 MCP 配置 |
-| SDK 演示 | `/sdk-demo`    | 展示模型列表、查询、新增、更新、删除等 SDK 调用方式  |
-| 工作台   | `/workbench`   | 常见工作台页面示例                                   |
-| 数据看板 | `/dashboard`   | 指标和图表展示示例                                   |
-| 数据大屏 | `/data-screen` | 全屏数据展示示例                                     |
+| Page       | Route          | Purpose                                              |
+| ---------- | -------------- | ---------------------------------------------------- |
+| Home       | `/`            | Prompt entry, project status, and agent scenarios    |
+| SDK demo   | `/sdk-demo`    | Model list and SDK query samples                     |
+| Workbench  | `/workbench`   | Typical workbench layout                             |
+| Dashboard  | `/dashboard`   | Metrics and charts                                   |
+| Data screen| `/data-screen` | Full-screen display sample                           |
 
-> 旧文档中提到的 `/hello-world`、`/chart-fetch`、`/intro` 已不是当前模板页面。请以 `src/pages` 目录为准。
+> Older docs mentioned `/hello-world`, `/chart-fetch`, and `/intro`. Those are not current template pages. Use `src/pages`.
 
-日常开发时，推荐在 Claude Code、Cursor、Codex 等 Agent 环境中直接描述目标，例如：
+For day-to-day work, describe the goal in Claude Code, Cursor, or Codex, for example:
 
 ```text
-请基于当前 Lovrabet 数据模型新增一个客户跟进工作台页面。
-页面需要包含筛选区、列表、详情抽屉和新增表单。
-数据读写请使用项目里的 @lovrabet/sdk 客户端。
+Please add a customer follow-up workbench page based on the current Lovrabet data models.
+The page should include a filter area, a list, a detail drawer, and a create form.
+Use the project's @lovrabet/sdk client for reads and writes.
 ```
 
-Agent 会根据项目中的 `rabetbase` 能力完成模型同步、页面开发、构建检查和主应用接入建议。
+The agent will use `rabetbase` in the project for model sync, page development, build checks, and host-app integration advice.
 
-## 4. 拉取 SDK 模型配置
+## 4. Pull SDK model config
 
-如果项目是通过 `rabetbase project create` 创建的，且 `src/api/api.ts` 还不是你的应用配置，执行：
+If the project was created with `rabetbase project create` and `src/api/api.ts` is not yet your app config:
 
 ```bash
 rabetbase config set appcode app-xxxx
 rabetbase api pull
 ```
 
-如果你是直接克隆模板源码，且当前目录还没有 `.rabetbase.json`，执行：
+If you cloned the template source and there is no `.rabetbase.json` yet:
 
 ```bash
 rabetbase project init --appcode app-xxxx
 rabetbase api pull
 ```
 
-拉取后重点检查：
+After the pull, check:
 
-- `src/api/api.ts` 中的 AppCode 是否正确；
-- `models` 是否包含你需要的数据模型；
-- 每个模型的 `alias` 是否符合代码中的调用方式。
+- AppCode in `src/api/api.ts` is correct;
+- `models` includes the datasets you need;
+- each model's `alias` matches how you call it in code.
 
-业务页面中统一从 `src/api/client.ts` 引入客户端：
+Import the client from `src/api/client.ts` in business pages:
 
 ```typescript
 import { lovrabetClient } from "@/api/client";
@@ -126,11 +126,11 @@ const result = await lovrabetClient.models.requirements.filter({
 });
 ```
 
-实际模型名以 `src/api/api.ts` 生成结果为准。
+Use the generated names in `src/api/api.ts` as the source of truth.
 
-## 5. 新增页面
+## 5. Add a page
 
-模板使用 `vite-plugin-pages`，无需手写路由表。
+The template uses `vite-plugin-pages`. You do not write a route table by hand.
 
 ```text
 src/pages/customer/index.tsx  ->  /customer
@@ -138,108 +138,108 @@ src/pages/customer/[id].tsx   ->  /customer/:id
 src/pages/report/month.tsx    ->  /report/month
 ```
 
-新增页面后：
+After adding a page:
 
-1. 本地访问对应路由确认渲染正常；
-2. 如果独立运行时需要左侧菜单入口，修改 `src/layouts/MainLayout.tsx`；
-3. 如果要在 Lovrabet 主应用中挂菜单，发布后在页面配置里使用同一个路由路径。
+1. open the matching local route and confirm it renders;
+2. if standalone mode needs a left-menu entry, edit `src/layouts/MainLayout.tsx`;
+3. to hang a menu in the Lovrabet host app, use the same route in page config after publish.
 
-## 6. 构建产物
+## 6. Build artifacts
 
 ```bash
 rabetbase run build
 ```
 
-默认产物：
+Default output:
 
 ```text
 dist/assets/main.js
 dist/assets/main.css
 ```
 
-如果你希望产物带版本目录并自动生成 CDN base：
+Versioned output with a generated CDN base:
 
 ```bash
 CDN_DOMAIN=https://your-cdn.com/ rabetbase run build
 ```
 
-构建后检查：
+After the build, confirm:
 
-- `dist/` 目录已生成；
-- `main.js` 是 ES module 产物；
-- `main.css` 可被外部访问；
-- CDN 上的 JS/CSS URL 可以在浏览器中直接打开。
+- `dist/` exists;
+- `main.js` is an ES module;
+- `main.css` is reachable;
+- the CDN JS/CSS URLs open in a browser.
 
-## 7. 接入 Lovrabet 主应用
+## 7. Load into the Lovrabet host app
 
-在 Lovrabet 应用的页面配置中新增页面，示例：
+Add a page in Lovrabet page config, for example:
 
 ```text
-页面名称：SDK Demo
-路由路径：/sdk-demo
-微应用唯一标识：sub-app-react-demo
-资源加载方式：import
-资源加载列表：
+Page name: SDK Demo
+Route: /sdk-demo
+Micro-app id: sub-app-react-demo
+Load mode: import
+Assets:
   https://your-cdn.com/path/to/assets/main.js
   https://your-cdn.com/path/to/assets/main.css
 ```
 
-配置规则：
+Rules:
 
-- `路由路径` 必须和 `src/pages` 生成的路由一致。
-- Vite 项目必须选择 `import` 加载方式。
-- 同一份构建产物可以挂多个页面，例如 `/sdk-demo`、`/dashboard`、`/data-screen`。
-- 多个页面属于同一个微前端时，建议使用同一个微应用唯一标识。
+- The route must match the route generated from `src/pages`.
+- Vite projects must use the `import` load mode.
+- One build can back multiple pages, such as `/sdk-demo`, `/dashboard`, and `/data-screen`.
+- Pages in the same micro-frontend should share the same micro-app id.
 
-验证方式：
+Verify:
 
-1. 主应用菜单能看到新页面；
-2. 点击菜单后页面正常渲染；
-3. 浏览器控制台没有资源加载或跨域错误；
-4. SDK 页面能正常读取当前登录态有权限的数据。
+1. the host-app menu shows the new page;
+2. clicking the menu renders the page;
+3. the browser console has no asset-load or CORS errors;
+4. the SDK page can read data the current login is allowed to see.
 
-## 8. 改造已有 React 项目
+## 8. Convert an existing React project
 
-如果你不是从模板开始，而是要改造已有 React + Vite 项目，最少需要补齐：
+If you are not starting from this template, a React + Vite app at least needs:
 
-1. `@ice/stark-app` 依赖；
-2. `src/main.tsx` 中的 `mount` / `unmount` 导出；
-3. `src/router/index.tsx` 中的 `getBasename()`；
-4. Vite 构建产物使用 ES module；
-5. Lovrabet 页面配置中使用 `import` 加载方式；
-6. 需要调用平台数据时，引入 `@lovrabet/sdk` 并生成 `src/api/api.ts`。
+1. the `@ice/stark-app` dependency;
+2. `mount` / `unmount` exports in `src/main.tsx`;
+3. `getBasename()` in `src/router/index.tsx`;
+4. an ES-module Vite build;
+5. `import` load mode in Lovrabet page config;
+6. `@lovrabet/sdk` plus generated `src/api/api.ts` when calling platform data.
 
-建议直接对照本模板的 `src/main.tsx`、`src/router/index.tsx`、`vite.config.ts` 修改，而不是从旧的 Hello World 示例复制代码。
+Copy from this template's `src/main.tsx`, `src/router/index.tsx`, and `vite.config.ts`. Do not copy old Hello World samples.
 
-## 常见问题
+## FAQ
 
-### 本地打不开 `https://dev.lovrabet.com:5173`
+### `https://dev.lovrabet.com:5173` does not open locally
 
-先确认命令是否正常运行；如果端口冲突，换端口启动：
+Confirm the command is running. If the port is taken:
 
 ```bash
 PORT=3000 rabetbase run start
 ```
 
-### SDK 页面没有模型
+### The SDK page has no models
 
-执行：
+Run:
 
 ```bash
 rabetbase api pull
 ```
 
-然后检查 `src/api/api.ts` 是否生成了当前应用的模型配置。
+Then check that `src/api/api.ts` contains the current app's model config.
 
-### 主应用里页面空白
+### The page is blank in the host app
 
-优先检查：
+Check first:
 
-- 页面资源是否选择 `import`；
-- JS/CSS URL 是否可访问；
-- 路由路径是否和 `src/pages` 生成路径一致；
-- CDN 是否返回了正确的 `Content-Type`。
+- page assets use `import`;
+- the JS/CSS URLs are reachable;
+- the route matches the path generated from `src/pages`;
+- CDN returns the correct `Content-Type`.
 
-### 本地独立运行有侧边栏，嵌入主应用后没有侧边栏
+### Standalone mode has a sidebar; the embedded host app does not
 
-这是预期行为。`MainLayout` 会在 icestark 环境下只渲染页面内容，由 Lovrabet 主应用提供外层导航。
+This is expected. In icestark, `MainLayout` renders page content only. The Lovrabet host app provides the outer navigation.
