@@ -205,7 +205,7 @@ If anything is missing, fill it in for this project and tell me which data model
       tags: ["Project setup", "Model sync"],
       prompt: setupPrompt,
       commands: [
-        "rabetbase project init",
+        "rabetbase workspace init",
         "rabetbase config get",
         "rabetbase api pull",
       ],

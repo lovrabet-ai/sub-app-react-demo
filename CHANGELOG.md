@@ -16,7 +16,7 @@ Template chrome, sample pages, Ant Design locale, README, and quick start now de
 
 - 移除旧 `/hello-world`、`/chart-fetch`、`/intro` 实操路径，改为当前 `src/pages` 自动路由页面。
 - 统一本地启动、构建、预览命令为 `rabetbase run start/build/preview`。
-- 补充 `rabetbase project create`、`rabetbase config set appcode`、`rabetbase project init`、`rabetbase api pull` 的使用时机。
+- 补充 `rabetbase project create`、`rabetbase config set appcode`、`rabetbase workspace init`、`rabetbase api pull` 的使用时机。
 - 补充 SDK 配置、微前端接入、CDN 产物和 Lovrabet 主应用页面配置说明。
 - 重做首页为 Prompt 开发入口，展示 AppCode 状态、Agent 场景示例、内置页面入口、主应用接入检查清单和 MCP 配置。
 

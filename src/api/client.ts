@@ -9,12 +9,16 @@
 
 import { createClient, CONFIG_NAMES } from "@lovrabet/sdk";
 import "./api"; // 导入配置文件，执行 registerModels() 注册
+import { LOVRABET_SDK_CONFIG } from "./sdk-config";
 
 /**
  * 主要的客户端实例
  * 使用配置名称 'CONFIG_NAMES.DEFAULT' 创建客户端
  */
-export const lovrabetClient = createClient();
+export const lovrabetClient = createClient({
+  apiConfigName: CONFIG_NAMES.DEFAULT,
+  ...LOVRABET_SDK_CONFIG,
+});
 
 /**
  * 使用示例：

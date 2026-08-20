@@ -103,7 +103,7 @@ rabetbase api pull
 If you cloned the template source and there is no `.rabetbase.json` yet:
 
 ```bash
-rabetbase project init --appcode app-xxxx
+rabetbase workspace init --appcode app-xxxx
 rabetbase api pull
 ```
 
