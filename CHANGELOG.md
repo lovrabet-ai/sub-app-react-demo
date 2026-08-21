@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5.0 - 2026-08-21
+
+### Changed
+
+- Align the project-template version with Rabetbase CLI 2.5.0.
+- Clarify that `rabetbase api pull` preserves existing TypeScript and that Agents merge returned model facts into existing API files.
+- Remove stale SDK authentication and model-access examples from the browser client scaffold.
+
 ## 2026-08-20
 
 ### Default UI copy is English

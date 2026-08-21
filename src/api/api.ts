@@ -3,7 +3,7 @@
  * Created: 2026-01-16T10:07:17.932Z
  *
  * 这个文件包含了项目的模型配置，并自动注册到 SDK 中
- * CLI 工具会自动维护这个文件，通常不需要手动修改
+ * CLI 仅在文件缺失时写入脚手架；已有文件由 Agent 按 pull 返回的 models 更新
  */
 
 import { registerModels, CONFIG_NAMES, type ModelsConfig } from "@lovrabet/sdk";
@@ -15,8 +15,8 @@ export const LOVRABET_APP_CODE = "app-c4c89304";
  * 使用数组格式，每个模型包含 datasetCode、tableName、name 和可选的 alias
  *
  * 访问方式：
- * - 标准访问：client.models.dataset_[datasetCode]
- * - 别名访问：client.models.[alias]（如果配置了 alias）
+ * - 标准访问：client.models[`dataset_${datasetCode}`]（动态）或 client.models.dataset_<datasetCode 字面量>
+ * - 别名访问：client.models[alias] 或 client.models.<别名>（如果配置了 alias）
  */
 export const LOVRABET_MODELS_CONFIG: ModelsConfig = {
   appCode: LOVRABET_APP_CODE,

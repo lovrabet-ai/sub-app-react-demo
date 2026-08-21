@@ -13,7 +13,6 @@ import { LOVRABET_SDK_CONFIG } from "./sdk-config";
 
 /**
  * 主要的客户端实例
- * 使用配置名称 'CONFIG_NAMES.DEFAULT' 创建客户端
  */
 export const lovrabetClient = createClient({
   apiConfigName: CONFIG_NAMES.DEFAULT,
@@ -26,43 +25,15 @@ export const lovrabetClient = createClient({
  * // 在组件中使用
  * import { lovrabetClient } from '@/api/client';
  *
- * // 获取数据列表
- * const data = await lovrabetClient.models.datasetF83c23.getList({
- *   currentPage: 1,
- *   pageSize: 20
- * });
+ * // 查看当前可用模型
+ * const models = lovrabetClient.getModelList();
  *
- * // 获取单条记录
- * const record = await lovrabetClient.models.datasetF83c23.getOne('123');
+ * // 运行 `rabetbase api pull` 后，按生成的模型别名调用：
+ * // const data = await lovrabetClient.models.requirements.filter({
+ * //   currentPage: 1,
+ * //   pageSize: 20
+ * // });
  *
- * // 创建新记录
- * const newRecord = await lovrabetClient.models.datasetF83c23.create({
- *   // 记录数据
- * });
- */
-
-/**
- * 其他创建客户端的方式（根据需要选择）：
- *
- * 1. 使用默认配置（无参数调用）：
- * export const lovrabetClient = createClient();
- *
- * 2. 使用其他已注册的配置：
- * export const devClient = createClient('dev');
- * export const prodClient = createClient('prod');
- *
- * 3. 直接传入配置对象：
- * import { LOVRABET_MODELS_CONFIG } from './api';
- * export const lovrabetClient = createClient(LOVRABET_MODELS_CONFIG);
- *
- * 4. 通过 ClientConfig 指定配置名和其他选项：
- * export const lovrabetClient = createClient({
- *   apiConfigName: 'default',
- *   token: 'custom-token',
- *   env: 'daily'
- * });
- *
- * 5. 多项目支持示例：
- * export const projectAClient = createClient('project-a');
- * export const projectBClient = createClient('project-b');
+ * 浏览器子应用默认走登录态 Cookie，无需在此文件写入 accessKey / token；
+ * 需要服务端 accessKey / OpenAPI token 的用法见 SDK 文档与 skill guides。
  */
