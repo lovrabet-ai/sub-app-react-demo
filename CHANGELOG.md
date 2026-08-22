@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- Select the matching HTTPS development hostname and certificate for ID and Mainland China projects from `.rabetbase.json` during local development and preview.
+
 ## 2.5.0 - 2026-08-21
 
 ### Changed

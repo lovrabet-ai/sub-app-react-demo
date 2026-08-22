@@ -110,10 +110,11 @@ npm install
 rabetbase run start
 ```
 
-The local server opens:
+The local server hostname follows the `region` in `.rabetbase.json`:
 
 ```text
-https://dev.lovrabet.com:5173
+cn (or omitted): https://dev.lovrabet.com:5173
+id:              https://dev.lovrabet.id:5173
 ```
 
 To change the port: `PORT=3000 rabetbase run start`.

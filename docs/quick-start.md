@@ -57,10 +57,11 @@ npm install
 rabetbase run start
 ```
 
-Default URL:
+The local hostname follows the `region` in `.rabetbase.json`:
 
 ```text
-https://dev.lovrabet.com:5173
+cn (or omitted): https://dev.lovrabet.com:5173
+id:              https://dev.lovrabet.id:5173
 ```
 
 To change the port:
@@ -213,9 +214,9 @@ Copy from this template's `src/main.tsx`, `src/router/index.tsx`, and `vite.conf
 
 ## FAQ
 
-### `https://dev.lovrabet.com:5173` does not open locally
+### The local development URL does not open
 
-Confirm the command is running. If the port is taken:
+Confirm the command is running and that you are using the hostname for the configured region. If the port is taken:
 
 ```bash
 PORT=3000 rabetbase run start

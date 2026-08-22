@@ -6,6 +6,7 @@ import htmlPlugin from "vite-plugin-index-html";
 import pluginExternal from "vite-plugin-external";
 import Pages from "vite-plugin-pages";
 import pkgJson from "./package.json";
+import { resolveDevServerRouting } from "./vite.region";
 
 const version = pkgJson.version;
 const appName = pkgJson.name.split("/").pop();
@@ -19,10 +20,10 @@ export default defineConfig(async ({ mode }) => {
   const isCdn = !isDev && Boolean(process.env.CDN_DOMAIN);
   const outDir = isCdn ? `dist/${appName}/${version}` : "dist";
   const base = isCdn ? `${process.env.CDN_DOMAIN}${outDir}/` : "/";
+  const devServer = resolveDevServerRouting(__dirname);
 
-  // 获取 https 证书配置
   const httpsConfig = await (
-    await fetch("https://g.yuntooai.com/cert/lovrabet-dev.json")
+    await fetch(devServer.certificateUrl)
   ).json();
 
   return {
@@ -55,18 +56,18 @@ export default defineConfig(async ({ mode }) => {
       },
     },
     // 可选配置：提供https自签名证书及跨域访问能力
-    // 因为接口域名为 runtime.lovrabet.com 存在跨域，服务端配置了允许 dev.lovrabet.com 的跨域请求，从而实现本地开发能够正常请求接口
+    // The local hostname follows the project's official region: ID uses .id, Mainland China uses .com.
     // 这些配置不是必须的，你也可以使用 proxy 等任意手段自行处理跨域问题
     server: isDev
       ? {
           port,
-          open: `https://dev.lovrabet.com:${port}`,
+          open: `https://${devServer.hostname}:${port}`,
           strictPort: true,
           host: "0.0.0.0",
           https: httpsConfig,
           hmr: {
-            host: "dev.lovrabet.com",
-            port: 5173,
+            host: devServer.hostname,
+            port,
             protocol: "wss",
           },
           headers: {
@@ -81,7 +82,7 @@ export default defineConfig(async ({ mode }) => {
     // preview 模式也使用 https
     preview: {
       port: 4173,
-      open: `https://dev.lovrabet.com:4173`,
+      open: `https://${devServer.hostname}:4173`,
       strictPort: true,
       host: "0.0.0.0",
       https: httpsConfig,
